@@ -3,6 +3,11 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 ## Home Electrification Calculator
 Built for HeatSpring workshop - demonstrates AI-assisted development with Rewiring America APIs.
 
+**Features:**
+- Annual cost savings calculator
+- Health impact metrics
+- County-level visualizations
+
 ## Getting Started
 
 First, run the development server:

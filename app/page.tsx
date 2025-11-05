@@ -1,65 +1,122 @@
-import Image from "next/image";
+'use client';
+
+import { useState } from 'react';
+import axios from 'axios';
 
 export default function Home() {
+  const [address, setAddress] = useState('');
+  const [currentFuel, setCurrentFuel] = useState('natural_gas');
+  const [savings, setSavings] = useState('');
+  const [hidden, setHidden] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+    setHidden(true);
+
+    try {
+      const response = await axios.get('/api/savings', {
+        params: {
+          address,
+          heating_fuel: currentFuel
+        }
+      });
+
+      setSavings(response.data.savings);
+      setHidden(false);
+    } catch (err: any) {
+      setError(err.response?.data?.error || 'Failed to calculate savings');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const onFuelChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCurrentFuel(e.target.value);
+    setHidden(true);
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="min-h-screen bg-gray-50">
+      <div id="titlebar" className="bg-blue-600 text-white py-8 text-center">
+        <h1 className="text-4xl font-bold">Electrification Nation</h1>
+        <h2 className="text-xl mt-2">Your Heat Pump People</h2>
+      </div>
+
+      <div className="max-w-2xl mx-auto p-8">
+        <div className="mb-8 text-gray-700">
+          We're here to help you save money by electrifying your home. Enter your address and select the fuel you
+          currently use to heat your home and we'll tell you how much you can save by having us install a heat pump!
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+
+        <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow">
+          <label className="block mb-4">
+            <p className="text-gray-700 font-medium mb-2">Address:</p>
+            <input
+              type="text"
+              value={address}
+              onChange={(e) => {
+                setAddress(e.target.value);
+                setHidden(true);
+              }}
+              className="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              required
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+          </label>
+
+          <fieldset className="mb-4">
+            <legend className="text-gray-700 font-medium mb-2">Current Heating Fuel:</legend>
+            <div className="space-y-2">
+              {[
+                { value: 'fuel_oil', label: 'Fuel Oil' },
+                { value: 'natural_gas', label: 'Natural Gas' },
+                { value: 'propane', label: 'Propane' },
+                { value: 'electricity', label: 'Electricity' }
+              ].map((fuel) => (
+                <label key={fuel.value} className="flex items-center">
+                  <input
+                    type="radio"
+                    name="fuel"
+                    value={fuel.value}
+                    checked={currentFuel === fuel.value}
+                    onChange={onFuelChange}
+                    className="mr-2"
+                  />
+                  <span className="text-gray-700">{fuel.label}</span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded disabled:bg-gray-400 disabled:cursor-not-allowed"
           >
-            Documentation
-          </a>
-        </div>
-      </main>
+            {loading ? 'Calculating...' : 'OK'}
+          </button>
+        </form>
+
+        {error && (
+          <div className="mt-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
+            {error}
+          </div>
+        )}
+
+        {!hidden && (
+          <div className="mt-6 bg-green-50 border border-green-200 p-6 rounded-lg">
+            <p className="text-lg mb-2">
+              Expected annual savings: <span className="text-2xl font-bold text-green-600">{savings}</span>
+            </p>
+            <p className="text-gray-600">
+              Call us at 1-800-LEC-TRIC to get your job started today!
+            </p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

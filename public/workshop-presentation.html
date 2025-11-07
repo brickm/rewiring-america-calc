@@ -24,7 +24,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 40px 40px 120px 40px;
+            padding: 40px;
+            gap: 20px;
         }
 
         .slide {
@@ -171,13 +172,7 @@
         }
 
         .controls {
-            position: fixed;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 16px;
-            z-index: 1000;
+            display: none;
         }
 
         .back-home {
@@ -188,16 +183,14 @@
         }
 
         .slide-nav {
-            position: fixed;
-            top: 20px;
-            right: 20px;
             background: white;
             border: 3px solid black;
             box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 1);
             padding: 12px;
-            max-height: 80vh;
+            width: 280px;
+            max-height: 700px;
             overflow-y: auto;
-            z-index: 1001;
+            flex-shrink: 0;
         }
 
         .slide-nav-item {
@@ -320,7 +313,18 @@
     </style>
 </head>
 <body>
+    <a href="/" class="back-home">
+        <button style="font-size: 14px; padding: 10px 16px;">← HOME</button>
+    </a>
+
     <div class="slide-container">
+        <div class="slide-nav" id="slideNav">
+            <!-- Will be populated by JavaScript -->
+        </div>
+
+        <div style="flex: 1; display: flex; align-items: center; justify-content: center; max-width: 1200px;">
+            <div style="width: 100%; position: relative;">
+
         <!-- Slide 1: Title -->
         <div class="slide active">
             <h1>FROM VISION TO REALITY</h1>
@@ -730,26 +734,14 @@ Returns:
             </div>
             <div class="slide-number">16</div>
         </div>
-    </div>
 
-    <a href="/" class="back-home">
-        <button style="font-size: 14px; padding: 10px 16px;">← Home</button>
-    </a>
-
-    <div class="slide-nav" id="slideNav">
-        <!-- Will be populated by JavaScript -->
-    </div>
-
-    <div class="controls">
-        <button id="prevBtn" onclick="changeSlide(-1)">← Previous</button>
-        <button id="nextBtn" onclick="changeSlide(1)">Next →</button>
+            </div>
+        </div>
     </div>
 
     <script>
         let currentSlide = 0;
         const slides = document.querySelectorAll('.slide');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
         const slideNav = document.getElementById('slideNav');
 
         const slideNames = [
@@ -788,22 +780,14 @@ Returns:
 
             slides[currentSlide].classList.add('active');
             document.querySelectorAll('.slide-nav-item')[currentSlide].classList.add('active');
-
-            // Update button states
-            prevBtn.disabled = currentSlide === 0;
-            nextBtn.disabled = currentSlide === slides.length - 1;
-        }
-
-        function changeSlide(direction) {
-            showSlide(currentSlide + direction);
         }
 
         // Keyboard navigation
         document.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowLeft' && currentSlide > 0) {
-                changeSlide(-1);
+                showSlide(currentSlide - 1);
             } else if (e.key === 'ArrowRight' && currentSlide < slides.length - 1) {
-                changeSlide(1);
+                showSlide(currentSlide + 1);
             }
         });
 

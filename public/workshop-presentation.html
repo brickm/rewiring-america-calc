@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building Climate Tools with AI - Workshop Presentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: #e8e4dc;
+            color: #1a1a1a;
+            overflow: hidden;
+        }
+
+        .slide-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 40px 120px 40px;
+        }
+
+        .slide {
+            display: none;
+            width: 100%;
+            max-width: 1200px;
+            height: 100%;
+            max-height: 700px;
+            background: white;
+            border: 3px solid black;
+            box-shadow: 12px 12px 0px 0px rgba(0, 0, 0, 1);
+            padding: 50px;
+            position: relative;
+            overflow-y: auto;
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-family: "SF Mono", "Monaco", "Inconsolata", "Fira Mono", monospace;
+            font-size: 64px;
+            font-weight: 400;
+            line-height: 1.1;
+            letter-spacing: -1px;
+            margin-bottom: 24px;
+            text-transform: uppercase;
+        }
+
+        h2 {
+            font-family: "SF Mono", "Monaco", "Inconsolata", "Fira Mono", monospace;
+            font-size: 48px;
+            font-weight: 400;
+            line-height: 1.1;
+            letter-spacing: -1px;
+            margin-bottom: 32px;
+            text-transform: uppercase;
+        }
+
+        h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        p {
+            font-size: 20px;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        ul {
+            list-style: none;
+            margin-bottom: 24px;
+        }
+
+        li {
+            font-size: 20px;
+            line-height: 1.8;
+            padding-left: 32px;
+            position: relative;
+            margin-bottom: 12px;
+        }
+
+        li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #4da6ff;
+            font-weight: bold;
+        }
+
+        .highlight {
+            background: #ffd900;
+            padding: 4px 8px;
+            border: 2px solid black;
+        }
+
+        .card {
+            background: white;
+            border: 3px solid black;
+            padding: 24px;
+            margin-bottom: 16px;
+            box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 1);
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            flex: 1;
+        }
+
+        .three-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 24px;
+            flex: 1;
+        }
+
+        .two-by-two {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .tech-icon {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 12px;
+        }
+
+        .slide-number {
+            position: absolute;
+            bottom: 24px;
+            right: 24px;
+            font-family: "SF Mono", "Monaco", monospace;
+            font-size: 16px;
+            color: #666;
+        }
+
+        .controls {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 16px;
+            z-index: 1000;
+        }
+
+        button {
+            background: #4da6ff;
+            color: white;
+            border: 3px solid black;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            text-transform: uppercase;
+            cursor: pointer;
+            box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 1);
+            transition: all 0.2s;
+        }
+
+        button:hover {
+            background: #3d96ef;
+            box-shadow: 6px 6px 0px 0px rgba(0, 0, 0, 1);
+        }
+
+        button:active {
+            transform: translate(2px, 2px);
+            box-shadow: none;
+        }
+
+        button:disabled {
+            background: #d0ccc4;
+            color: #666;
+            cursor: not-allowed;
+        }
+
+        code {
+            background: #1a1a1a;
+            color: #4da6ff;
+            padding: 2px 6px;
+            font-family: "SF Mono", monospace;
+            font-size: 16px;
+        }
+
+        pre {
+            background: #1a1a1a;
+            color: #4da6ff;
+            padding: 24px;
+            border: 3px solid black;
+            font-family: "SF Mono", monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+
+        .warning {
+            background: #ffd900;
+            border: 3px solid black;
+            padding: 20px;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .timeline-time {
+            font-family: "SF Mono", monospace;
+            font-size: 18px;
+            font-weight: 600;
+            color: #4da6ff;
+            min-width: 80px;
+        }
+
+        .timeline-content {
+            flex: 1;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 24px;
+            border: 3px solid black;
+            background: #ffd900;
+        }
+
+        .stat-number {
+            font-family: "SF Mono", monospace;
+            font-size: 56px;
+            font-weight: 400;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <h1>FROM VISION TO REALITY</h1>
+            <h2 style="color: #4da6ff; margin-bottom: 48px;">Building Climate Tools with AI</h2>
+            <p style="font-size: 24px; margin-bottom: 32px;">A 75-minute workshop on AI-assisted development for climate solutions</p>
+            <div style="margin-top: auto;">
+                <p style="font-size: 18px; color: #666;">No coding experience necessary</p>
+            </div>
+            <div class="slide-number">1</div>
+        </div>
+
+        <!-- Slide 2: What We're Building -->
+        <div class="slide">
+            <h2>What We're Building Today</h2>
+            <div style="flex: 1;">
+                <p style="font-size: 24px; margin-bottom: 32px;">An interactive <span class="highlight">Home Electrification Impact Calculator</span></p>
+                <ul style="font-size: 22px;">
+                    <li>Annual cost savings estimates</li>
+                    <li>Indoor air quality improvements</li>
+                    <li>Carbon footprint reductions</li>
+                    <li>County-level health impact maps</li>
+                </ul>
+                <div class="card" style="margin-top: 32px;">
+                    <p style="font-size: 18px; margin-bottom: 0;"><strong>From concept → deployed web app in 75 minutes</strong></p>
+                </div>
+            </div>
+            <div class="slide-number">2</div>
+        </div>
+
+        <!-- Slide 3: Who This Is For -->
+        <div class="slide">
+            <h2>Who Should Attend</h2>
+            <div class="two-col">
+                <div>
+                    <h3>Professionals</h3>
+                    <ul>
+                        <li>Climate advocates</li>
+                        <li>Policy makers</li>
+                        <li>Clean energy contractors</li>
+                        <li>Program administrators</li>
+                        <li>Educators</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Anyone Curious About</h3>
+                    <ul>
+                        <li>AI-assisted development</li>
+                        <li>Building climate tools</li>
+                        <li>Modern web workflows</li>
+                        <li>No-code/low-code solutions</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="warning">
+                ⚠️ No coding background required!
+            </div>
+            <div class="slide-number">3</div>
+        </div>
+
+        <!-- Slide 4: Workshop Structure -->
+        <div class="slide">
+            <h2>Workshop Timeline</h2>
+            <div style="flex: 1;">
+                <div class="timeline-item">
+                    <div class="timeline-time">10 min</div>
+                    <div class="timeline-content">
+                        <h3>Introduction</h3>
+                        <p>Claude Code setup & Rewiring America API overview</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">15 min</div>
+                    <div class="timeline-content">
+                        <h3>Foundation</h3>
+                        <p>Extending the basic React demo with visual home model</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">25 min</div>
+                    <div class="timeline-content">
+                        <h3>Core Features</h3>
+                        <p>Adding Health Impact API integration & interactive elements</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">20 min</div>
+                    <div class="timeline-content">
+                        <h3>Polish & Deploy</h3>
+                        <p>Maps, git workflow, Vercel deployment</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">5 min</div>
+                    <div class="timeline-content">
+                        <h3>Live Demo</h3>
+                        <p>Make a change, commit, watch it go live</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-number">4</div>
+        </div>
+
+        <!-- Slide 5: Technology Stack -->
+        <div class="slide">
+            <h2>Technologies We'll Use</h2>
+            <div class="two-by-two" style="flex: 1;">
+                <div class="card">
+                    <img src="https://www.anthropic.com/_next/image?url=%2Fimages%2Ficons%2Fclaude-avatar.png&w=128&q=75" alt="Claude" class="tech-icon" style="width: 48px; height: 48px; object-fit: contain;">
+                    <h3>Claude Code</h3>
+                    <p style="font-size: 16px;">AI coding assistant that helps you build without traditional coding</p>
+                </div>
+                <div class="card">
+                    <img src="https://nextjs.org/static/favicon/favicon-32x32.png" alt="Next.js" class="tech-icon" style="width: 48px; height: 48px; object-fit: contain;">
+                    <h3>Next.js</h3>
+                    <p style="font-size: 16px;">Modern React web framework</p>
+                </div>
+                <div class="card">
+                    <img src="https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png" alt="GitHub" class="tech-icon" style="width: 48px; height: 48px; object-fit: contain;">
+                    <h3>GitHub</h3>
+                    <p style="font-size: 16px;">Version control for tracking changes</p>
+                </div>
+                <div class="card">
+                    <img src="https://assets.vercel.com/image/upload/front/favicon/vercel/180x180.png" alt="Vercel" class="tech-icon" style="width: 48px; height: 48px; object-fit: contain;">
+                    <h3>Vercel</h3>
+                    <p style="font-size: 16px;">Deployment platform (auto-deploy from git)</p>
+                </div>
+                <div class="card">
+                    <svg class="tech-icon" viewBox="0 0 256 154" style="width: 48px; height: 48px;"><defs><linearGradient x1="-2.778%" y1="32%" x2="100%" y2="67.556%" id="a"><stop stop-color="#2298BD" offset="0%"/><stop stop-color="#0ED7B5" offset="100%"/></linearGradient></defs><path d="M128 0C93.867 0 72.533 17.067 64 51.2 76.8 34.133 91.733 27.733 108.8 32c9.737 2.434 16.697 9.499 24.401 17.318C145.751 62.057 160.275 76.8 192 76.8c34.133 0 55.467-17.067 64-51.2-12.8 17.067-27.733 23.467-44.8 19.2-9.737-2.434-16.697-9.499-24.401-17.318C174.249 14.743 159.725 0 128 0ZM64 76.8C29.867 76.8 8.533 93.867 0 128c12.8-17.067 27.733-23.467 44.8-19.2 9.737 2.434 16.697 9.499 24.401 17.318C81.751 138.857 96.275 153.6 128 153.6c34.133 0 55.467-17.067 64-51.2-12.8 17.067-27.733 23.467-44.8 19.2-9.737-2.434-16.697-9.499-24.401-17.318C110.249 91.543 95.725 76.8 64 76.8Z" fill="url(#a)"/></svg>
+                    <h3>Tailwind CSS</h3>
+                    <p style="font-size: 16px;">Styling framework for design</p>
+                </div>
+                <div class="card">
+                    <svg class="tech-icon" viewBox="0 0 256 230" style="width: 48px; height: 48px;"><path d="M128.001 0C57.317 0 0 37.006 0 82.573c0 27.426 19.214 51.426 48.286 65.286-3.568 14.856-11.426 31.712-11.426 31.712s35.714-7.138 53.426-25.712c10.284 2.854 21.426 4.284 32.714 4.284 70.714 0 128-37.006 128-82.57C251.001 37.006 198.715 0 128.001 0Zm0 140c-38.856 0-70.286-25.712-70.286-57.428S89.145 25.143 128.001 25.143s70.286 25.712 70.286 57.429-31.43 57.428-70.286 57.428Z" fill="#00A98F"/></svg>
+                    <h3>Rewiring America API</h3>
+                    <p style="font-size: 16px;">Energy savings & health impact data</p>
+                </div>
+            </div>
+            <div class="slide-number">5</div>
+        </div>
+
+        <!-- Slide 6: Prerequisites -->
+        <div class="slide">
+            <h2>Before We Start</h2>
+            <div style="flex: 1;">
+                <h3>Required Accounts (Free)</h3>
+                <ul>
+                    <li>GitHub account → <code>github.com/signup</code></li>
+                    <li>Vercel account → <code>vercel.com/signup</code></li>
+                    <li>Rewiring America API key → <code>docs.rewiringamerica.org/signin</code></li>
+                </ul>
+                <h3 style="margin-top: 32px;">Required Software</h3>
+                <ul>
+                    <li>Node.js 20+ → <code>nodejs.org</code></li>
+                    <li>Git → <code>git-scm.com</code></li>
+                </ul>
+                <div class="warning" style="margin-top: 32px;">
+                    📝 Make sure these are set up before the workshop starts!
+                </div>
+            </div>
+            <div class="slide-number">6</div>
+        </div>
+
+        <!-- Slide 7: Setup Commands -->
+        <div class="slide">
+            <h2>Quick Start Commands</h2>
+            <div style="flex: 1;">
+                <h3>Create Application</h3>
+                <pre>npx create-next-app@latest rewiring-america-calc \
+  --typescript --tailwind --app --use-npm
+
+cd rewiring-america-calc
+npm install axios</pre>
+
+                <h3>Connect to GitHub</h3>
+                <pre>git remote add origin https://github.com/USERNAME/REPO.git
+git branch -M main
+git push -u origin main</pre>
+
+                <h3>Environment Variables (.env.local)</h3>
+                <pre>REWIRING_AMERICA_API_KEY=your_key_here
+NEXT_PUBLIC_API_BASE_URL=http://localhost:3000</pre>
+            </div>
+            <div class="slide-number">7</div>
+        </div>
+
+        <!-- Slide 8: Development Workflow -->
+        <div class="slide">
+            <h2>The Development Cycle</h2>
+            <div class="two-by-two" style="flex: 1;">
+                <div class="card">
+                    <h3 style="color: #4da6ff;">1. Build Features</h3>
+                    <pre style="margin: 0; font-size: 13px;">npm run dev
+# Visit http://localhost:3000</pre>
+                </div>
+                <div class="card">
+                    <h3 style="color: #4da6ff;">2. Test Build</h3>
+                    <pre style="margin: 0; font-size: 13px;">npm run build</pre>
+                </div>
+                <div class="card">
+                    <h3 style="color: #4da6ff;">3. Commit Changes</h3>
+                    <pre style="margin: 0; font-size: 13px;">git add .
+git commit -m "message"
+git push origin main</pre>
+                </div>
+                <div class="card">
+                    <h3 style="color: #4da6ff;">4. Auto-Deploy</h3>
+                    <p style="margin: 0; font-size: 16px;">Vercel detects push → builds → deploys (60 sec)</p>
+                </div>
+            </div>
+            <div class="slide-number">8</div>
+        </div>
+
+        <!-- Slide 9: API Overview -->
+        <div class="slide">
+            <h2>Rewiring America API</h2>
+            <div class="two-col">
+                <div>
+                    <h3>Energy Savings API</h3>
+                    <p>Calculate cost savings for electrification upgrades</p>
+                    <pre style="font-size: 12px;">GET /api/v1/rem/address
+
+Params:
+  address
+  heating_fuel
+  upgrade
+
+Returns:
+  annual_savings
+  estimate_type</pre>
+                </div>
+                <div>
+                    <h3>Health Impacts API</h3>
+                    <p>County-level mortality reduction from electrification</p>
+                    <pre style="font-size: 12px;">POST /api/v2/etools/
+     health-impacts
+
+Params:
+  state_fips
+  county_fips
+
+Returns:
+  mortality_reduction
+  air_quality_metrics</pre>
+                </div>
+            </div>
+            <div class="slide-number">9</div>
+        </div>
+
+        <!-- Slide 10: Critical Context -->
+        <div class="slide">
+            <h2>Critical Context: Health Benefits</h2>
+            <div style="flex: 1;">
+                <div class="warning" style="margin-bottom: 24px;">
+                    ⚠️ Important: Health benefits are REAL but MODEST compared to other interventions
+                </div>
+                <h3>Cost-Effectiveness Comparison</h3>
+                <ul style="font-size: 18px;">
+                    <li>Substance use treatment: <strong>$10K-25K per life saved</strong></li>
+                    <li>Violence intervention: <strong>$20K-50K per life saved</strong></li>
+                    <li>Food assistance: <strong>$30K-100K per life saved</strong></li>
+                    <li>Rental assistance: <strong>$50K-150K per life saved</strong></li>
+                    <li>Home electrification: <strong>$200K-600K per life saved</strong></li>
+                </ul>
+                <div class="card" style="margin-top: 24px;">
+                    <p style="margin: 0; font-size: 18px;"><strong>Primary case for electrification:</strong> Climate mitigation + energy cost savings. Health benefits are welcome co-benefits, not primary justification.</p>
+                </div>
+            </div>
+            <div class="slide-number">10</div>
+        </div>
+
+        <!-- Slide 11: Equity Considerations -->
+        <div class="slide">
+            <h2>Equity in Electrification Policy</h2>
+            <div class="two-col">
+                <div>
+                    <h3>Who Benefits Most?</h3>
+                    <div class="card">
+                        <p><strong>Homeowners</strong></p>
+                        <p style="font-size: 16px;">More likely white, middle/upper class</p>
+                    </div>
+                    <div class="card">
+                        <p><strong>Those with upfront capital</strong></p>
+                        <p style="font-size: 16px;">Can afford installations even with rebates</p>
+                    </div>
+                    <div class="card">
+                        <p><strong>Stable housing</strong></p>
+                        <p style="font-size: 16px;">Not facing eviction or instability</p>
+                    </div>
+                </div>
+                <div>
+                    <h3>Equity-Centered Priorities</h3>
+                    <ul style="font-size: 18px;">
+                        <li>Multi-family buildings (high aggregate impact)</li>
+                        <li>Environmental justice areas (worst baseline air quality)</li>
+                        <li>Lower-income housing types (mobile homes, small units)</li>
+                        <li>Total community impact, not just per-household metrics</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="slide-number">11</div>
+        </div>
+
+        <!-- Slide 12: Honest Framing -->
+        <div class="slide">
+            <h2>Recommended Framing</h2>
+            <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+                <div style="background: #1a1a1a; color: white; padding: 32px; border: 3px solid black; margin-bottom: 32px;">
+                    <p style="font-size: 22px; line-height: 1.6; margin: 0;">
+                        "This tool quantifies <strong style="color: #4da6ff;">health co-benefits</strong> of residential electrification. These benefits are real—cleaner air, fewer deaths—but <strong style="color: #ffd900;">modest in scale</strong> compared to other public health interventions. The primary case for electrification is <strong style="color: #4da6ff;">climate change mitigation</strong> and <strong style="color: #4da6ff;">energy cost reduction</strong>. This helps policymakers understand the full picture."
+                    </p>
+                </div>
+                <p style="font-size: 20px; text-align: center; color: #666;">This respects audience intelligence and avoids overselling the health angle.</p>
+            </div>
+            <div class="slide-number">12</div>
+        </div>
+
+        <!-- Slide 13: What You'll Learn -->
+        <div class="slide">
+            <h2>What You'll Learn Today</h2>
+            <div class="two-col">
+                <div>
+                    <h3>Technical Skills</h3>
+                    <ul>
+                        <li>AI-assisted development with Claude Code</li>
+                        <li>Working with climate APIs</li>
+                        <li>Building interactive visualizations</li>
+                        <li>Git version control basics</li>
+                        <li>Modern deployment workflows</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Conceptual Understanding</h3>
+                    <ul>
+                        <li>How AI democratizes development</li>
+                        <li>Component-based architecture</li>
+                        <li>API integration patterns</li>
+                        <li>Honest policy communication</li>
+                        <li>Equity-centered design</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="slide-number">13</div>
+        </div>
+
+        <!-- Slide 14: Outcomes -->
+        <div class="slide">
+            <h2>Workshop Outcomes</h2>
+            <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+                <div class="three-col" style="margin-bottom: 32px;">
+                    <div class="stat">
+                        <div class="stat-number">1</div>
+                        <div class="stat-label">Live Application</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">75</div>
+                        <div class="stat-label">Minutes</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">0</div>
+                        <div class="stat-label">Prior Experience Needed</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>You'll Have</h3>
+                    <ul style="font-size: 18px;">
+                        <li>A working web application deployed to the internet</li>
+                        <li>Understanding of AI-assisted development workflows</li>
+                        <li>Knowledge of climate data APIs and their limitations</li>
+                        <li>Skills to build your own tools for climate action</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="slide-number">14</div>
+        </div>
+
+        <!-- Slide 15: Troubleshooting -->
+        <div class="slide">
+            <h2 style="margin-bottom: 24px;">Common Issues & Fixes</h2>
+            <div style="flex: 1;">
+                <div class="card" style="margin-bottom: 12px;">
+                    <h3 style="font-size: 18px;">Cannot find module axios</h3>
+                    <pre style="margin: 0; font-size: 13px;">npm install axios</pre>
+                </div>
+                <div class="card" style="margin-bottom: 12px;">
+                    <h3 style="font-size: 18px;">Missing API key</h3>
+                    <p style="margin: 0; font-size: 15px;">Check <code>.env.local</code> exists and restart dev server</p>
+                </div>
+                <div class="card" style="margin-bottom: 12px;">
+                    <h3 style="font-size: 18px;">Port 3000 already in use</h3>
+                    <pre style="margin: 0; font-size: 13px;">npx kill-port 3000</pre>
+                </div>
+                <div class="card">
+                    <h3 style="font-size: 18px;">Vercel deployment fails</h3>
+                    <p style="margin: 0; font-size: 15px;">Verify environment variables in Vercel dashboard → Redeploy</p>
+                </div>
+            </div>
+            <div class="slide-number">15</div>
+        </div>
+
+        <!-- Slide 16: Let's Build! -->
+        <div class="slide">
+            <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+                <h1 style="font-size: 80px; margin-bottom: 32px;">LET'S BUILD!</h1>
+                <p style="font-size: 28px; margin-bottom: 48px;">From zero to deployed in 75 minutes</p>
+                <div style="background: #4da6ff; color: white; padding: 24px 48px; border: 3px solid black; box-shadow: 8px 8px 0px 0px rgba(0,0,0,1); font-size: 24px; font-weight: 600; text-transform: uppercase;">
+                    Workshop Starts Now →
+                </div>
+            </div>
+            <div class="slide-number">16</div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button id="prevBtn" onclick="changeSlide(-1)">← Previous</button>
+        <button id="nextBtn" onclick="changeSlide(1)">Next →</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + slides.length) % slides.length;
+            slides[currentSlide].classList.add('active');
+
+            // Update button states
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === slides.length - 1;
+        }
+
+        function changeSlide(direction) {
+            showSlide(currentSlide + direction);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft' && currentSlide > 0) {
+                changeSlide(-1);
+            } else if (e.key === 'ArrowRight' && currentSlide < slides.length - 1) {
+                changeSlide(1);
+            }
+        });
+
+        // Initialize
+        showSlide(0);
+    </script>
+</body>
+</html>

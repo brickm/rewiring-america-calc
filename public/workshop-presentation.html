@@ -22,10 +22,10 @@
             width: 100vw;
             height: 100vh;
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             justify-content: center;
             padding: 40px;
-            gap: 20px;
+            gap: 40px;
         }
 
         .slide {
@@ -36,7 +36,7 @@
             max-height: 700px;
             background: white;
             border: 3px solid black;
-            box-shadow: 12px 12px 0px 0px rgba(0, 0, 0, 1);
+            box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 1);
             padding: 50px;
             position: relative;
             overflow-y: auto;
@@ -177,8 +177,8 @@
 
         .back-home {
             position: fixed;
-            top: 20px;
-            left: 20px;
+            top: 40px;
+            left: 40px;
             z-index: 1001;
         }
 
@@ -245,19 +245,21 @@
 
         code {
             background: #1a1a1a;
-            color: #4da6ff;
+            color: #ffd900;
             padding: 2px 6px;
             font-family: "SF Mono", monospace;
             font-size: 16px;
+            font-weight: 600;
         }
 
         pre {
             background: #1a1a1a;
-            color: #4da6ff;
-            padding: 24px;
+            color: #ffd900;
+            padding: 20px;
             border: 3px solid black;
             font-family: "SF Mono", monospace;
-            font-size: 14px;
+            font-size: 16px;
+            font-weight: 600;
             overflow-x: auto;
             margin-bottom: 16px;
             line-height: 1.6;
@@ -314,7 +316,7 @@
 </head>
 <body>
     <a href="/" class="back-home">
-        <button style="font-size: 14px; padding: 10px 16px;">← HOME</button>
+        <button style="font-size: 14px; padding: 10px 16px; background: #4da6ff; color: white; border: 3px solid black; box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 1); cursor: pointer; font-weight: 600; text-transform: uppercase;">← HOME</button>
     </a>
 
     <div class="slide-container">
@@ -336,7 +338,50 @@
             <div class="slide-number">1</div>
         </div>
 
-        <!-- Slide 2: What We're Building -->
+        <!-- Slide 2: Workshop Timeline -->
+        <div class="slide">
+            <h2>Workshop Timeline</h2>
+            <div style="flex: 1;">
+                <div class="timeline-item">
+                    <div class="timeline-time">10 min</div>
+                    <div class="timeline-content">
+                        <h3>Introduction</h3>
+                        <p>Claude Code setup & Rewiring America API overview</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">15 min</div>
+                    <div class="timeline-content">
+                        <h3>Foundation</h3>
+                        <p>Extending the basic React demo with visual home model</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">25 min</div>
+                    <div class="timeline-content">
+                        <h3>Core Features</h3>
+                        <p>Adding Health Impact API integration & interactive elements</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">20 min</div>
+                    <div class="timeline-content">
+                        <h3>Polish & Deploy</h3>
+                        <p>Maps, git workflow, Vercel deployment</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">5 min</div>
+                    <div class="timeline-content">
+                        <h3>Live Demo</h3>
+                        <p>Make a change, commit, watch it go live</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-number">2</div>
+        </div>
+
+        <!-- Slide 3: What We're Building -->
         <div class="slide">
             <h2>What We're Building Today</h2>
             <div style="flex: 1;">
@@ -412,91 +457,17 @@
             <div class="slide-number">4</div>
         </div>
 
-        <!-- Slide 5: Outcomes -->
-        <div class="slide">
-            <h2>Workshop Outcomes</h2>
-            <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
-                <div class="three-col" style="margin-bottom: 32px;">
-                    <div class="stat">
-                        <div class="stat-number">1</div>
-                        <div class="stat-label">Live Application</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-number">75</div>
-                        <div class="stat-label">Minutes</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-number">0</div>
-                        <div class="stat-label">Prior Experience Needed</div>
-                    </div>
-                </div>
-                <div class="card">
-                    <h3>You'll Have</h3>
-                    <ul style="font-size: 18px;">
-                        <li>A working web application deployed to the internet</li>
-                        <li>Understanding of AI-assisted development workflows</li>
-                        <li>Knowledge of climate data APIs and their limitations</li>
-                        <li>Skills to build your own tools for climate action</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="slide-number">5</div>
-        </div>
-
-        <!-- Slide 6: Workshop Timeline -->
-        <div class="slide">
-            <h2>Workshop Timeline</h2>
-            <div style="flex: 1;">
-                <div class="timeline-item">
-                    <div class="timeline-time">10 min</div>
-                    <div class="timeline-content">
-                        <h3>Introduction</h3>
-                        <p>Claude Code setup & Rewiring America API overview</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-time">15 min</div>
-                    <div class="timeline-content">
-                        <h3>Foundation</h3>
-                        <p>Extending the basic React demo with visual home model</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-time">25 min</div>
-                    <div class="timeline-content">
-                        <h3>Core Features</h3>
-                        <p>Adding Health Impact API integration & interactive elements</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-time">20 min</div>
-                    <div class="timeline-content">
-                        <h3>Polish & Deploy</h3>
-                        <p>Maps, git workflow, Vercel deployment</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-time">5 min</div>
-                    <div class="timeline-content">
-                        <h3>Live Demo</h3>
-                        <p>Make a change, commit, watch it go live</p>
-                    </div>
-                </div>
-            </div>
-            <div class="slide-number">6</div>
-        </div>
-
-        <!-- Slide 7: Technology Stack -->
+        <!-- Slide 5: Technology Stack -->
         <div class="slide">
             <h2 style="margin-bottom: 20px;">Technologies We'll Use</h2>
             <div class="two-by-two" style="flex: 1;">
                 <div class="card-small">
-                    <svg class="tech-icon" viewBox="0 0 24 24" style="width: 40px; height: 40px;"><circle cx="12" cy="12" r="10" fill="#CC9B7A"/><circle cx="9" cy="10" r="1.5" fill="#000"/><circle cx="15" cy="10" r="1.5" fill="#000"/><path d="M8 14 Q12 17 16 14" stroke="#000" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+                    <img src="/claude-code.svg" alt="Claude Code" style="width: 80px; height: 40px; object-fit: contain; margin-bottom: 12px;">
                     <h3 style="font-size: 18px; margin-bottom: 8px;">Claude Code</h3>
                     <p style="font-size: 14px; margin: 0;">AI coding assistant</p>
                 </div>
                 <div class="card-small">
-                    <svg class="tech-icon" viewBox="0 0 180 180" style="width: 40px; height: 40px;"><mask id="a" mask-type="alpha"><circle cx="90" cy="90" r="90" fill="#000"/></mask><g mask="url(#a)"><circle cx="90" cy="90" r="90"/><path d="M149.508 157.52L69.142 54H54v71.97h12.114V69.384l73.885 95.461a90.304 90.304 0 009.509-7.325z" fill="url(#b)"/><path fill="url(#c)" d="M115 54h15v71.97h-15z"/></g><defs><linearGradient id="b" x1="109" x2="144.5" y1="116.5" y2="160.5" gradientUnits="userSpaceOnUse"><stop/><stop offset="1" stop-opacity="0"/></linearGradient><linearGradient id="c" x1="121" x2="120.799" y1="54" y2="106.875" gradientUnits="userSpaceOnUse"><stop/><stop offset="1" stop-opacity="0"/></linearGradient></defs></svg>
+                    <img src="/next.svg" alt="Next.js" style="width: 40px; height: 40px; object-fit: contain; margin-bottom: 12px;">
                     <h3 style="font-size: 18px; margin-bottom: 8px;">Next.js</h3>
                     <p style="font-size: 14px; margin: 0;">React web framework</p>
                 </div>
@@ -521,10 +492,10 @@
                     <p style="font-size: 14px; margin: 0;">Energy & health data</p>
                 </div>
             </div>
-            <div class="slide-number">7</div>
+            <div class="slide-number">5</div>
         </div>
 
-        <!-- Slide 8: Prerequisites -->
+        <!-- Slide 6: Prerequisites -->
         <div class="slide">
             <h2>Before We Start</h2>
             <div style="flex: 1;">
@@ -543,64 +514,64 @@
                     📝 Make sure these are set up before the workshop starts!
                 </div>
             </div>
-            <div class="slide-number">8</div>
+            <div class="slide-number">6</div>
         </div>
 
-        <!-- Slide 9: Setup Commands -->
+        <!-- Slide 7: Setup Commands -->
         <div class="slide">
             <h2 style="margin-bottom: 20px;">Quick Start Commands</h2>
             <div style="flex: 1;">
-                <h3 style="font-size: 18px; margin-bottom: 8px;">Create Application</h3>
-                <pre style="font-size: 12px; padding: 16px; margin-bottom: 12px;">npx create-next-app@latest rewiring-america-calc \
+                <h3 style="font-size: 20px; margin-bottom: 12px;">Create Application</h3>
+                <pre>npx create-next-app@latest rewiring-america-calc \
   --typescript --tailwind --app --use-npm
 cd rewiring-america-calc && npm install axios</pre>
 
-                <h3 style="font-size: 18px; margin-bottom: 8px;">Connect to GitHub</h3>
-                <pre style="font-size: 12px; padding: 16px; margin-bottom: 12px;">git remote add origin https://github.com/USERNAME/REPO.git
+                <h3 style="font-size: 20px; margin-bottom: 12px;">Connect to GitHub</h3>
+                <pre>git remote add origin https://github.com/USERNAME/REPO.git
 git branch -M main && git push -u origin main</pre>
 
-                <h3 style="font-size: 18px; margin-bottom: 8px;">Environment Variables (.env.local)</h3>
-                <pre style="font-size: 12px; padding: 16px; margin-bottom: 0;">REWIRING_AMERICA_API_KEY=your_key_here
+                <h3 style="font-size: 20px; margin-bottom: 12px;">Environment Variables (.env.local)</h3>
+                <pre style="margin-bottom: 0;">REWIRING_AMERICA_API_KEY=your_key_here
 NEXT_PUBLIC_API_BASE_URL=http://localhost:3000</pre>
             </div>
-            <div class="slide-number">9</div>
+            <div class="slide-number">7</div>
         </div>
 
-        <!-- Slide 10: Development Workflow -->
+        <!-- Slide 8: Development Workflow -->
         <div class="slide">
             <h2>The Development Cycle</h2>
             <div class="two-by-two" style="flex: 1;">
                 <div class="card">
-                    <h3 style="color: #4da6ff;">1. Build Features</h3>
-                    <pre style="margin: 0; font-size: 13px;">npm run dev
+                    <h3 style="color: #4da6ff; font-size: 20px; margin-bottom: 12px;">1. Build Features</h3>
+                    <pre style="margin: 0;">npm run dev
 # Visit http://localhost:3000</pre>
                 </div>
                 <div class="card">
-                    <h3 style="color: #4da6ff;">2. Test Build</h3>
-                    <pre style="margin: 0; font-size: 13px;">npm run build</pre>
+                    <h3 style="color: #4da6ff; font-size: 20px; margin-bottom: 12px;">2. Test Build</h3>
+                    <pre style="margin: 0;">npm run build</pre>
                 </div>
                 <div class="card">
-                    <h3 style="color: #4da6ff;">3. Commit Changes</h3>
-                    <pre style="margin: 0; font-size: 13px;">git add .
+                    <h3 style="color: #4da6ff; font-size: 20px; margin-bottom: 12px;">3. Commit Changes</h3>
+                    <pre style="margin: 0;">git add .
 git commit -m "message"
 git push origin main</pre>
                 </div>
                 <div class="card">
-                    <h3 style="color: #4da6ff;">4. Auto-Deploy</h3>
-                    <p style="margin: 0; font-size: 16px;">Vercel detects push → builds → deploys (60 sec)</p>
+                    <h3 style="color: #4da6ff; font-size: 20px; margin-bottom: 12px;">4. Auto-Deploy</h3>
+                    <p style="margin: 0; font-size: 18px; font-weight: 600;">Vercel detects push → builds → deploys (60 sec)</p>
                 </div>
             </div>
-            <div class="slide-number">10</div>
+            <div class="slide-number">8</div>
         </div>
 
-        <!-- Slide 11: API Overview -->
+        <!-- Slide 9: API Overview -->
         <div class="slide">
             <h2>Rewiring America API</h2>
             <div class="two-col">
                 <div>
-                    <h3>Energy Savings API</h3>
-                    <p>Calculate cost savings for electrification upgrades</p>
-                    <pre style="font-size: 12px;">GET /api/v1/rem/address
+                    <h3 style="font-size: 22px;">Energy Savings API</h3>
+                    <p style="font-size: 16px;">Calculate cost savings for electrification upgrades</p>
+                    <pre>GET /api/v1/rem/address
 
 Params:
   address
@@ -612,9 +583,9 @@ Returns:
   estimate_type</pre>
                 </div>
                 <div>
-                    <h3>Health Impacts API</h3>
-                    <p>County-level mortality reduction from electrification</p>
-                    <pre style="font-size: 12px;">POST /api/v2/etools/
+                    <h3 style="font-size: 22px;">Health Impacts API</h3>
+                    <p style="font-size: 16px;">County-level mortality reduction from electrification</p>
+                    <pre>POST /api/v2/etools/
      health-impacts
 
 Params:
@@ -626,10 +597,10 @@ Returns:
   air_quality_metrics</pre>
                 </div>
             </div>
-            <div class="slide-number">11</div>
+            <div class="slide-number">9</div>
         </div>
 
-        <!-- Slide 12: Critical Context -->
+        <!-- Slide 10: Critical Context -->
         <div class="slide">
             <h2>Critical Context: Health Benefits</h2>
             <div style="flex: 1;">
@@ -648,10 +619,10 @@ Returns:
                     <p style="margin: 0; font-size: 18px;"><strong>Primary case for electrification:</strong> Climate mitigation + energy cost savings. Health benefits are welcome co-benefits, not primary justification.</p>
                 </div>
             </div>
-            <div class="slide-number">12</div>
+            <div class="slide-number">10</div>
         </div>
 
-        <!-- Slide 13: Equity Considerations -->
+        <!-- Slide 11: Equity Considerations -->
         <div class="slide">
             <h2>Equity in Electrification Policy</h2>
             <div class="two-col">
@@ -680,24 +651,10 @@ Returns:
                     </ul>
                 </div>
             </div>
-            <div class="slide-number">13</div>
+            <div class="slide-number">11</div>
         </div>
 
-        <!-- Slide 14: Honest Framing -->
-        <div class="slide">
-            <h2>Recommended Framing</h2>
-            <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
-                <div style="background: #1a1a1a; color: white; padding: 32px; border: 3px solid black; margin-bottom: 32px;">
-                    <p style="font-size: 22px; line-height: 1.6; margin: 0;">
-                        "This tool quantifies <strong style="color: #4da6ff;">health co-benefits</strong> of residential electrification. These benefits are real—cleaner air, fewer deaths—but <strong style="color: #ffd900;">modest in scale</strong> compared to other public health interventions. The primary case for electrification is <strong style="color: #4da6ff;">climate change mitigation</strong> and <strong style="color: #4da6ff;">energy cost reduction</strong>. This helps policymakers understand the full picture."
-                    </p>
-                </div>
-                <p style="font-size: 20px; text-align: center; color: #666;">This respects audience intelligence and avoids overselling the health angle.</p>
-            </div>
-            <div class="slide-number">14</div>
-        </div>
-
-        <!-- Slide 15: Troubleshooting -->
+        <!-- Slide 12: Troubleshooting -->
         <div class="slide">
             <h2 style="margin-bottom: 24px;">Common Issues & Fixes</h2>
             <div style="flex: 1;">
@@ -718,10 +675,10 @@ Returns:
                     <p style="margin: 0; font-size: 15px;">Verify environment variables in Vercel dashboard → Redeploy</p>
                 </div>
             </div>
-            <div class="slide-number">15</div>
+            <div class="slide-number">12</div>
         </div>
 
-        <!-- Slide 16: Let's Build! -->
+        <!-- Slide 13: Let's Build! -->
         <div class="slide">
             <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
                 <h1 style="font-size: 80px; margin-bottom: 32px;">LET'S BUILD!</h1>
@@ -732,7 +689,7 @@ Returns:
                     </div>
                 </a>
             </div>
-            <div class="slide-number">16</div>
+            <div class="slide-number">13</div>
         </div>
 
             </div>
@@ -746,11 +703,10 @@ Returns:
 
         const slideNames = [
             'Title',
+            'Workshop Timeline',
             'What We\'re Building',
             'Who Should Attend',
             'What You\'ll Learn',
-            'Outcomes',
-            'Workshop Timeline',
             'Technology Stack',
             'Prerequisites',
             'Setup Commands',
@@ -758,7 +714,6 @@ Returns:
             'Rewiring America API',
             'Critical Context',
             'Equity',
-            'Honest Framing',
             'Troubleshooting',
             'Let\'s Build!'
         ];

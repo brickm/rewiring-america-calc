@@ -38,21 +38,21 @@ export default function Home() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
           {/* Presentation Card */}
-          <a href="/workshop-presentation.html" target="_blank" rel="noopener noreferrer" className="block">
-            <Card variant="yellow" shadow="lg" className="p-8 h-full transition-all duration-200 hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)]">
-              <h2 className="text-[32px] md:text-[40px] font-mono font-normal leading-[1.1] tracking-tight text-[#1a1a1a] mb-4">
-                WORKSHOP PRESENTATION
-              </h2>
-              <p className="text-[#1a1a1a] text-lg mb-6 leading-relaxed">
-                View the full workshop slide deck covering AI-assisted development, climate tools, and deployment workflows.
-              </p>
-              <div className="mt-auto">
-                <span className="inline-block bg-[#1a1a1a] text-white px-6 py-3 border-[2px] border-black font-semibold uppercase text-sm">
+          <Card variant="yellow" shadow="lg" className="p-8 h-full">
+            <h2 className="text-[32px] md:text-[40px] font-mono font-normal leading-[1.1] tracking-tight text-[#1a1a1a] mb-4">
+              WORKSHOP PRESENTATION
+            </h2>
+            <p className="text-[#1a1a1a] text-lg mb-6 leading-relaxed">
+              View the full workshop slide deck covering AI-assisted development, climate tools, and deployment workflows.
+            </p>
+            <div className="mt-auto">
+              <a href="/workshop-presentation.html" className="inline-block">
+                <span className="inline-block bg-[#1a1a1a] hover:bg-[#4da6ff] text-white px-6 py-3 border-[2px] border-black font-semibold uppercase text-sm transition-colors duration-200">
                   View Slides →
                 </span>
-              </div>
-            </Card>
-          </a>
+              </a>
+            </div>
+          </Card>
 
           {/* Calculator Card */}
           <Card variant="white" shadow="lg" className="p-8 h-full">
@@ -62,23 +62,15 @@ export default function Home() {
             <p className="text-[#1a1a1a] text-lg mb-6 leading-relaxed">
               Calculate your annual savings by switching to a heat pump.
             </p>
-            <form onSubmit={handleSubmit}>
-              <div className="mb-6">
-                <AddressInput value={address} onChange={setAddress} />
-              </div>
-
-              <FuelSelector value={currentFuel} onChange={setCurrentFuel} />
-
-              <Button type="submit" isLoading={loading} className="w-full">
-                CALCULATE SAVINGS
-              </Button>
-            </form>
+            <div className="mt-auto">
+              <a href="/calculator">
+                <Button className="w-full">
+                  Calculate Savings →
+                </Button>
+              </a>
+            </div>
           </Card>
         </div>
-
-        {error && <ErrorMessage message={error} />}
-
-        {showResults && <SavingsResult savings={savings} />}
       </div>
     </div>
   );

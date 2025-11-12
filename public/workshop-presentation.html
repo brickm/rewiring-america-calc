@@ -312,6 +312,129 @@
             font-weight: 600;
             letter-spacing: 0.5px;
         }
+
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-content {
+            background: white;
+            border: 3px solid black;
+            box-shadow: 8px 8px 0px 0px rgba(0, 0, 0, 1);
+            padding: 40px;
+            max-width: 700px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                transform: translateY(-30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #1a1a1a;
+            color: white;
+            border: 2px solid black;
+            width: 36px;
+            height: 36px;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .modal-close:hover {
+            background: #ff4444;
+        }
+
+        .modal-title {
+            font-family: "SF Mono", "Monaco", "Inconsolata", "Fira Mono", monospace;
+            font-size: 36px;
+            font-weight: 400;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .modal-icon {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+        }
+
+        .card-small.clickable {
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .card-small.clickable:hover {
+            background: #f0f0f0;
+            transform: translateY(-2px);
+            box-shadow: 6px 6px 0px 0px rgba(0, 0, 0, 1);
+        }
+
+        /* Thumbnail styles */
+        .thumbnail-icon {
+            height: 40px;
+            width: auto;
+            margin-left: 16px;
+            border: 2px solid black;
+            cursor: pointer;
+            transition: all 0.2s;
+            vertical-align: middle;
+            display: inline-block;
+        }
+
+        .thumbnail-icon:hover {
+            transform: scale(1.1);
+            border-color: #4da6ff;
+            box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 1);
+        }
+
+        .modal-content img.workflow-image {
+            width: 100%;
+            height: auto;
+            border: 2px solid black;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -396,10 +519,10 @@
                     <p style="font-size: 18px; margin-bottom: 0;"><strong>From concept → deployed web app in 75 minutes</strong></p>
                 </div>
             </div>
-            <div class="slide-number">2</div>
+            <div class="slide-number">3</div>
         </div>
 
-        <!-- Slide 3: Who This Is For -->
+        <!-- Slide 4: Who This Is For -->
         <div class="slide">
             <h2>Who Should Attend</h2>
             <div class="two-col">
@@ -426,10 +549,10 @@
             <div class="warning">
                 ⚠️ No coding background required!
             </div>
-            <div class="slide-number">3</div>
+            <div class="slide-number">4</div>
         </div>
 
-        <!-- Slide 4: What You'll Learn -->
+        <!-- Slide 5: What You'll Learn -->
         <div class="slide">
             <h2>What You'll Learn Today</h2>
             <div class="two-col">
@@ -454,48 +577,48 @@
                     </ul>
                 </div>
             </div>
-            <div class="slide-number">4</div>
+            <div class="slide-number">5</div>
         </div>
 
-        <!-- Slide 5: Technology Stack -->
+        <!-- Slide 6: Technology Stack -->
         <div class="slide">
             <h2 style="margin-bottom: 20px;">Technologies We'll Use</h2>
             <div class="two-by-two" style="flex: 1;">
-                <div class="card-small">
+                <div class="card-small clickable" onclick="openModal('claude-code')">
                     <img src="/claude-code.svg" alt="Claude Code" style="width: 80px; height: 40px; object-fit: contain; margin-bottom: 12px;">
                     <h3 style="font-size: 18px; margin-bottom: 8px;">Claude Code</h3>
                     <p style="font-size: 14px; margin: 0;">AI coding assistant</p>
                 </div>
-                <div class="card-small">
+                <div class="card-small clickable" onclick="openModal('nextjs')">
                     <img src="/next.svg" alt="Next.js" style="width: 40px; height: 40px; object-fit: contain; margin-bottom: 12px;">
                     <h3 style="font-size: 18px; margin-bottom: 8px;">Next.js</h3>
                     <p style="font-size: 14px; margin: 0;">React web framework</p>
                 </div>
-                <div class="card-small">
+                <div class="card-small clickable" onclick="openModal('github')">
                     <svg class="tech-icon" viewBox="0 0 24 24" style="width: 40px; height: 40px;"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
                     <h3 style="font-size: 18px; margin-bottom: 8px;">GitHub</h3>
                     <p style="font-size: 14px; margin: 0;">Version control</p>
                 </div>
-                <div class="card-small">
+                <div class="card-small clickable" onclick="openModal('vercel')">
                     <svg class="tech-icon" viewBox="0 0 24 24" style="width: 40px; height: 40px;"><path d="M24 22.525H0l12-21.05 12 21.05z" fill="#000"/></svg>
                     <h3 style="font-size: 18px; margin-bottom: 8px;">Vercel</h3>
                     <p style="font-size: 14px; margin: 0;">Deployment platform</p>
                 </div>
-                <div class="card-small">
+                <div class="card-small clickable" onclick="openModal('tailwind')">
                     <svg class="tech-icon" viewBox="0 0 256 154" style="width: 40px; height: 40px;"><defs><linearGradient x1="-2.778%" y1="32%" x2="100%" y2="67.556%" id="tailwind-grad"><stop stop-color="#2298BD" offset="0%"/><stop stop-color="#0ED7B5" offset="100%"/></linearGradient></defs><path d="M128 0C93.867 0 72.533 17.067 64 51.2 76.8 34.133 91.733 27.733 108.8 32c9.737 2.434 16.697 9.499 24.401 17.318C145.751 62.057 160.275 76.8 192 76.8c34.133 0 55.467-17.067 64-51.2-12.8 17.067-27.733 23.467-44.8 19.2-9.737-2.434-16.697-9.499-24.401-17.318C174.249 14.743 159.725 0 128 0ZM64 76.8C29.867 76.8 8.533 93.867 0 128c12.8-17.067 27.733-23.467 44.8-19.2 9.737 2.434 16.697 9.499 24.401 17.318C81.751 138.857 96.275 153.6 128 153.6c34.133 0 55.467-17.067 64-51.2-12.8 17.067-27.733 23.467-44.8 19.2-9.737-2.434-16.697-9.499-24.401-17.318C110.249 91.543 95.725 76.8 64 76.8Z" fill="url(#tailwind-grad)"/></svg>
                     <h3 style="font-size: 18px; margin-bottom: 8px;">Tailwind CSS</h3>
                     <p style="font-size: 14px; margin: 0;">Styling framework</p>
                 </div>
-                <div class="card-small">
+                <div class="card-small clickable" onclick="openModal('rewiring-america')">
                     <svg class="tech-icon" viewBox="0 0 24 24" style="width: 40px; height: 40px;"><circle cx="12" cy="12" r="10" fill="#00A98F"/><text x="12" y="16" text-anchor="middle" fill="white" font-size="12" font-weight="bold">RA</text></svg>
                     <h3 style="font-size: 18px; margin-bottom: 8px;">Rewiring America</h3>
                     <p style="font-size: 14px; margin: 0;">Energy & health data</p>
                 </div>
             </div>
-            <div class="slide-number">5</div>
+            <div class="slide-number">6</div>
         </div>
 
-        <!-- Slide 6: Prerequisites -->
+        <!-- Slide 7: Prerequisites -->
         <div class="slide">
             <h2>Before We Start</h2>
             <div style="flex: 1;">
@@ -514,10 +637,10 @@
                     📝 Make sure these are set up before the workshop starts!
                 </div>
             </div>
-            <div class="slide-number">6</div>
+            <div class="slide-number">7</div>
         </div>
 
-        <!-- Slide 7: Setup Commands -->
+        <!-- Slide 8: Setup Commands -->
         <div class="slide">
             <h2 style="margin-bottom: 20px;">Quick Start Commands</h2>
             <div style="flex: 1;">
@@ -534,12 +657,16 @@ git branch -M main && git push -u origin main</pre>
                 <pre style="margin-bottom: 0;">REWIRING_AMERICA_API_KEY=your_key_here
 NEXT_PUBLIC_API_BASE_URL=http://localhost:3000</pre>
             </div>
-            <div class="slide-number">7</div>
+            <div class="slide-number">8</div>
         </div>
 
-        <!-- Slide 8: Development Workflow -->
+        <!-- Slide 9: Development Workflow -->
         <div class="slide">
-            <h2>The Development Cycle</h2>
+            <h2>
+                The Development Cycle
+                <img src="/git_push_git_deploy.png" alt="Git Workflow" class="thumbnail-icon" onclick="openModal('git-workflow')" title="Click to view Git Push & Deploy workflow">
+                <img src="/app_workflow.png" alt="App Workflow" class="thumbnail-icon" onclick="openModal('app-workflow')" title="Click to view App Development workflow">
+            </h2>
             <div class="two-by-two" style="flex: 1;">
                 <div class="card">
                     <h3 style="color: #4da6ff; font-size: 20px; margin-bottom: 12px;">1. Build Features</h3>
@@ -561,10 +688,10 @@ git push origin main</pre>
                     <p style="margin: 0; font-size: 18px; font-weight: 600;">Vercel detects push → builds → deploys (60 sec)</p>
                 </div>
             </div>
-            <div class="slide-number">8</div>
+            <div class="slide-number">9</div>
         </div>
 
-        <!-- Slide 9: API Overview -->
+        <!-- Slide 10: API Overview -->
         <div class="slide">
             <h2>Rewiring America API</h2>
             <div class="two-col">
@@ -597,10 +724,10 @@ Returns:
   air_quality_metrics</pre>
                 </div>
             </div>
-            <div class="slide-number">9</div>
+            <div class="slide-number">10</div>
         </div>
 
-        <!-- Slide 10: Critical Context -->
+        <!-- Slide 11: Critical Context -->
         <div class="slide">
             <h2>Critical Context: Health Benefits</h2>
             <div style="flex: 1;">
@@ -619,10 +746,10 @@ Returns:
                     <p style="margin: 0; font-size: 18px;"><strong>Primary case for electrification:</strong> Climate mitigation + energy cost savings. Health benefits are welcome co-benefits, not primary justification.</p>
                 </div>
             </div>
-            <div class="slide-number">10</div>
+            <div class="slide-number">11</div>
         </div>
 
-        <!-- Slide 11: Equity Considerations -->
+        <!-- Slide 12: Equity Considerations -->
         <div class="slide">
             <h2>Equity in Electrification Policy</h2>
             <div class="two-col">
@@ -651,10 +778,10 @@ Returns:
                     </ul>
                 </div>
             </div>
-            <div class="slide-number">11</div>
+            <div class="slide-number">12</div>
         </div>
 
-        <!-- Slide 12: Troubleshooting -->
+        <!-- Slide 13: Troubleshooting -->
         <div class="slide">
             <h2 style="margin-bottom: 24px;">Common Issues & Fixes</h2>
             <div style="flex: 1;">
@@ -675,10 +802,10 @@ Returns:
                     <p style="margin: 0; font-size: 15px;">Verify environment variables in Vercel dashboard → Redeploy</p>
                 </div>
             </div>
-            <div class="slide-number">12</div>
+            <div class="slide-number">13</div>
         </div>
 
-        <!-- Slide 13: Let's Build! -->
+        <!-- Slide 14: Let's Build! -->
         <div class="slide">
             <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
                 <h1 style="font-size: 80px; margin-bottom: 32px;">LET'S BUILD!</h1>
@@ -689,10 +816,164 @@ Returns:
                     </div>
                 </a>
             </div>
-            <div class="slide-number">13</div>
+            <div class="slide-number">14</div>
         </div>
 
             </div>
+        </div>
+    </div>
+
+    <!-- Modal Overlays -->
+    <div id="modal-claude-code" class="modal-overlay" onclick="closeModal('claude-code')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal('claude-code')">×</button>
+            <img src="/claude-code.svg" alt="Claude Code" class="modal-icon" style="width: 120px; height: 60px; object-fit: contain;">
+            <h2 class="modal-title">Claude Code</h2>
+            <p style="font-size: 18px; margin-bottom: 16px;"><strong>Agentic AI coding assistant that works through your terminal</strong></p>
+            <ul style="font-size: 18px; margin-bottom: 20px;">
+                <li>Build fully functioning web apps locally or remotely</li>
+                <li>Autonomous coding agent that can plan, write, test, and debug code</li>
+                <li>Works directly in your terminal with your local development environment</li>
+                <li>Understands complex project structures and can make changes across multiple files</li>
+            </ul>
+            <div class="card" style="margin-bottom: 16px;">
+                <p style="font-size: 16px; margin: 0;"><strong>Cost:</strong> $20/month with Claude Pro subscription</p>
+            </div>
+            <p style="font-size: 16px; color: #666;">Claude Code democratizes software development, making it accessible to non-programmers while accelerating experienced developers' workflows.</p>
+        </div>
+    </div>
+
+    <div id="modal-nextjs" class="modal-overlay" onclick="closeModal('nextjs')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal('nextjs')">×</button>
+            <img src="/next.svg" alt="Next.js" class="modal-icon" style="width: 80px; height: 80px; object-fit: contain;">
+            <h2 class="modal-title">Next.js</h2>
+            <p style="font-size: 18px; margin-bottom: 16px;"><strong>React-based web framework for production applications</strong></p>
+            <ul style="font-size: 18px; margin-bottom: 20px;">
+                <li>Server-side rendering and static site generation</li>
+                <li>Built-in API routes for backend functionality</li>
+                <li>Optimized performance with automatic code splitting</li>
+                <li>File-based routing system</li>
+                <li>TypeScript support out of the box</li>
+            </ul>
+            <p style="font-size: 16px; color: #666;">Next.js is built and maintained by Vercel, making it the perfect pairing for modern web development and deployment.</p>
+        </div>
+    </div>
+
+    <div id="modal-github" class="modal-overlay" onclick="closeModal('github')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal('github')">×</button>
+            <svg class="modal-icon" viewBox="0 0 24 24" style="width: 80px; height: 80px;"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+            <h2 class="modal-title">GitHub</h2>
+            <p style="font-size: 18px; margin-bottom: 16px;"><strong>Version control and collaboration platform</strong></p>
+
+            <h3 style="font-size: 20px; margin-bottom: 12px;">What is .git?</h3>
+            <ul style="font-size: 18px; margin-bottom: 20px;">
+                <li>A hidden folder that tracks all changes to your code</li>
+                <li>Creates a complete history of your project</li>
+                <li>Allows you to revert to previous versions</li>
+                <li>Enables branching and merging of different code versions</li>
+            </ul>
+
+            <h3 style="font-size: 20px; margin-bottom: 12px;">What is GitHub?</h3>
+            <ul style="font-size: 18px; margin-bottom: 20px;">
+                <li>Cloud-based hosting service for Git repositories</li>
+                <li>Collaboration platform for teams and open source</li>
+                <li>Backup for your code in the cloud</li>
+                <li>Integrates with deployment services like Vercel</li>
+                <li>Issue tracking, pull requests, and code review tools</li>
+            </ul>
+
+            <p style="font-size: 16px; color: #666;">Git is the tool, GitHub is the platform. Think of Git as Microsoft Word and GitHub as Google Docs.</p>
+        </div>
+    </div>
+
+    <div id="modal-vercel" class="modal-overlay" onclick="closeModal('vercel')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal('vercel')">×</button>
+            <svg class="modal-icon" viewBox="0 0 24 24" style="width: 80px; height: 80px;"><path d="M24 22.525H0l12-21.05 12 21.05z" fill="#000"/></svg>
+            <h2 class="modal-title">Vercel</h2>
+            <p style="font-size: 18px; margin-bottom: 16px;"><strong>Cloud platform for deploying modern web applications</strong></p>
+
+            <h3 style="font-size: 20px; margin-bottom: 12px;">How Vercel Works</h3>
+            <div class="card" style="margin-bottom: 16px;">
+                <p style="font-size: 16px; margin-bottom: 8px;"><strong>1. Connect:</strong> Link your GitHub repository to Vercel</p>
+                <p style="font-size: 16px; margin-bottom: 8px;"><strong>2. Detect:</strong> Vercel automatically detects when you push code</p>
+                <p style="font-size: 16px; margin-bottom: 8px;"><strong>3. Build:</strong> Runs your build process in the cloud</p>
+                <p style="font-size: 16px; margin: 0;"><strong>4. Deploy:</strong> Makes your app live at a public URL (~60 seconds)</p>
+            </div>
+
+            <ul style="font-size: 18px; margin-bottom: 20px;">
+                <li>Automatic HTTPS certificates</li>
+                <li>Global CDN for fast loading worldwide</li>
+                <li>Preview deployments for every pull request</li>
+                <li>Easy environment variable management</li>
+                <li>Built by the creators of Next.js</li>
+            </ul>
+
+            <p style="font-size: 16px; color: #666;">Push to GitHub → Vercel builds and deploys automatically. No server configuration needed.</p>
+        </div>
+    </div>
+
+    <div id="modal-tailwind" class="modal-overlay" onclick="closeModal('tailwind')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal('tailwind')">×</button>
+            <svg class="modal-icon" viewBox="0 0 256 154" style="width: 80px; height: 80px;"><defs><linearGradient x1="-2.778%" y1="32%" x2="100%" y2="67.556%" id="tailwind-grad-modal"><stop stop-color="#2298BD" offset="0%"/><stop stop-color="#0ED7B5" offset="100%"/></linearGradient></defs><path d="M128 0C93.867 0 72.533 17.067 64 51.2 76.8 34.133 91.733 27.733 108.8 32c9.737 2.434 16.697 9.499 24.401 17.318C145.751 62.057 160.275 76.8 192 76.8c34.133 0 55.467-17.067 64-51.2-12.8 17.067-27.733 23.467-44.8 19.2-9.737-2.434-16.697-9.499-24.401-17.318C174.249 14.743 159.725 0 128 0ZM64 76.8C29.867 76.8 8.533 93.867 0 128c12.8-17.067 27.733-23.467 44.8-19.2 9.737 2.434 16.697 9.499 24.401 17.318C81.751 138.857 96.275 153.6 128 153.6c34.133 0 55.467-17.067 64-51.2-12.8 17.067-27.733 23.467-44.8 19.2-9.737-2.434-16.697-9.499-24.401-17.318C110.249 91.543 95.725 76.8 64 76.8Z" fill="url(#tailwind-grad-modal)"/></svg>
+            <h2 class="modal-title">Tailwind CSS</h2>
+            <p style="font-size: 18px; margin-bottom: 16px;"><strong>Utility-first CSS framework for rapid UI development</strong></p>
+            <ul style="font-size: 18px; margin-bottom: 20px;">
+                <li>Write styles directly in your HTML using utility classes</li>
+                <li>No custom CSS files to maintain</li>
+                <li>Responsive design with mobile-first approach</li>
+                <li>Customizable design system</li>
+                <li>Automatic unused CSS removal for tiny production builds</li>
+            </ul>
+            <pre style="margin-bottom: 16px;">&lt;div class="bg-blue-500 text-white p-4 rounded"&gt;
+  Styled Button
+&lt;/div&gt;</pre>
+            <p style="font-size: 16px; color: #666;">Instead of writing custom CSS, use pre-built utility classes. Faster development with consistent, maintainable styling.</p>
+        </div>
+    </div>
+
+    <div id="modal-rewiring-america" class="modal-overlay" onclick="closeModal('rewiring-america')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal('rewiring-america')">×</button>
+            <svg class="modal-icon" viewBox="0 0 24 24" style="width: 80px; height: 80px;"><circle cx="12" cy="12" r="10" fill="#00A98F"/><text x="12" y="16" text-anchor="middle" fill="white" font-size="12" font-weight="bold">RA</text></svg>
+            <h2 class="modal-title">Rewiring America</h2>
+            <p style="font-size: 18px; margin-bottom: 16px;"><strong>Leading electrification nonprofit with comprehensive APIs</strong></p>
+
+            <h3 style="font-size: 20px; margin-bottom: 12px;">Available Data</h3>
+            <ul style="font-size: 18px; margin-bottom: 20px;">
+                <li>Energy savings estimates for electrification upgrades</li>
+                <li>County-level health impact from reduced air pollution</li>
+                <li>IRA tax credit and rebate calculators</li>
+                <li>Equipment recommendations by location</li>
+            </ul>
+
+            <div class="card" style="margin-bottom: 16px;">
+                <p style="font-size: 16px; margin: 0;"><strong>Mission:</strong> Electrify everything in our communities to reduce emissions and save families money</p>
+            </div>
+
+            <p style="font-size: 16px; color: #666;">Free API access for developers, educators, and researchers at docs.rewiringamerica.org</p>
+        </div>
+    </div>
+
+    <!-- Workflow Diagram Modals -->
+    <div id="modal-git-workflow" class="modal-overlay" onclick="closeModal('git-workflow')">
+        <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 90vw; max-height: 90vh; padding: 30px; overflow-y: auto;">
+            <button class="modal-close" onclick="closeModal('git-workflow')">×</button>
+            <h2 class="modal-title" style="font-size: 24px; margin-bottom: 8px;">Git Push → Deploy Workflow</h2>
+            <p style="font-size: 14px; margin-bottom: 10px;">How code goes from your local machine to production</p>
+            <img src="/git_push_git_deploy.png" alt="Git Push and Deploy Workflow" class="workflow-image" style="max-height: none; width: auto; max-width: 100%; display: block; margin: 0 auto;">
+        </div>
+    </div>
+
+    <div id="modal-app-workflow" class="modal-overlay" onclick="closeModal('app-workflow')">
+        <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 90vw; max-height: 90vh; padding: 30px; overflow-y: auto;">
+            <button class="modal-close" onclick="closeModal('app-workflow')">×</button>
+            <h2 class="modal-title" style="font-size: 24px; margin-bottom: 8px;">App Development Workflow</h2>
+            <p style="font-size: 14px; margin-bottom: 10px;">The complete development cycle from coding to deployment</p>
+            <img src="/app_workflow.png" alt="Application Development Workflow" class="workflow-image" style="max-height: none; width: auto; max-width: 100%; display: block; margin: 0 auto;">
         </div>
     </div>
 
@@ -748,6 +1029,36 @@ Returns:
 
         // Initialize
         showSlide(0);
+
+        // Modal functions
+        function openModal(modalId) {
+            const modal = document.getElementById('modal-' + modalId);
+            if (modal) {
+                modal.classList.add('active');
+                // Prevent body scrolling when modal is open
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById('modal-' + modalId);
+            if (modal) {
+                modal.classList.remove('active');
+                // Restore body scrolling
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const activeModal = document.querySelector('.modal-overlay.active');
+                if (activeModal) {
+                    activeModal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            }
+        });
     </script>
 </body>
 </html>

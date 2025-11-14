@@ -128,15 +128,18 @@ describe('/api/health-impacts', () => {
     expect(data.data[1].county).toBe('Jefferson');
   });
 
-  it('should return 500 on API error', async () => {
+  it('should fallback to demo data on API error', async () => {
     axios.post.mockRejectedValue(new Error('API Error'));
 
     const request = new MockNextRequest({ state_fips: '08' }) as any;
     const response = await POST(request);
     const data = await response.json();
 
-    expect(response.status).toBe(500);
-    expect(data.error).toBe('Failed to fetch health impacts data');
+    expect(response.status).toBe(200);
+    expect(data.success).toBe(true);
+    expect(data.isDemo).toBe(true);
+    expect(data.demoMessage).toContain('Health Impacts API requires special access');
+    expect(data.data.length).toBeGreaterThan(0); // Should have demo data for Colorado
   });
 
   it('should handle empty response data', async () => {

@@ -21,6 +21,8 @@ interface UseHealthImpactsReturn {
   loading: boolean;
   error: string;
   showResults: boolean;
+  isDemo: boolean;
+  demoMessage: string;
   fetchHealthImpacts: () => Promise<void>;
   resetResults: () => void;
 }
@@ -32,6 +34,8 @@ export function useHealthImpacts(): UseHealthImpactsReturn {
   const [showResults, setShowResults] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [isDemo, setIsDemo] = useState(false);
+  const [demoMessage, setDemoMessage] = useState('');
 
   const fetchHealthImpacts = async () => {
     setLoading(true);
@@ -45,6 +49,8 @@ export function useHealthImpacts(): UseHealthImpactsReturn {
       });
 
       setHealthData(response.data.data || []);
+      setIsDemo(response.data.isDemo || false);
+      setDemoMessage(response.data.demoMessage || '');
       setShowResults(true);
     } catch (err: any) {
       setError(err.response?.data?.error || 'Failed to fetch health impacts data');
@@ -72,6 +78,8 @@ export function useHealthImpacts(): UseHealthImpactsReturn {
     loading,
     error,
     showResults,
+    isDemo,
+    demoMessage,
     fetchHealthImpacts,
     resetResults,
   };

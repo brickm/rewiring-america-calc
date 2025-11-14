@@ -4,9 +4,11 @@ import { CountyHealthData } from '../../hooks/useHealthImpacts';
 
 interface HealthImpactsResultProps {
   healthData: CountyHealthData[];
+  isDemo?: boolean;
+  demoMessage?: string;
 }
 
-export function HealthImpactsResult({ healthData }: HealthImpactsResultProps) {
+export function HealthImpactsResult({ healthData, isDemo, demoMessage }: HealthImpactsResultProps) {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -35,6 +37,20 @@ export function HealthImpactsResult({ healthData }: HealthImpactsResultProps) {
           : 'opacity-0 translate-y-4'
       }`}
     >
+      {isDemo && demoMessage && (
+        <Card variant="white" shadow="lg" className="p-6 mb-6 border-[3px] border-[#4da6ff]">
+          <div className="flex items-start gap-3">
+            <span className="text-2xl">ℹ️</span>
+            <div>
+              <p className="font-semibold text-[#1a1a1a] mb-1">Demo Mode</p>
+              <p className="text-sm text-[#666666]">
+                {demoMessage} Contact <a href="mailto:api@rewiringamerica.org" className="text-[#4da6ff] underline">api@rewiringamerica.org</a> for full API access.
+              </p>
+            </div>
+          </div>
+        </Card>
+      )}
+
       <Card variant="yellow" shadow="lg" className="p-8 mb-6">
         <h3 className="text-[24px] md:text-[32px] font-mono font-normal leading-[1.1] tracking-tight text-[#1a1a1a] mb-6">
           HEALTH IMPACTS

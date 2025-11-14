@@ -34,6 +34,8 @@ export default function CalculatorPage() {
     loading: healthLoading,
     error: healthError,
     showResults: showHealthResults,
+    isDemo,
+    demoMessage,
     fetchHealthImpacts,
   } = useHealthImpacts();
 
@@ -122,7 +124,7 @@ export default function CalculatorPage() {
 
           {healthError && <ErrorMessage message={healthError} />}
 
-          {showHealthResults && <HealthImpactsResult healthData={healthData} />}
+          {showHealthResults && <HealthImpactsResult healthData={healthData} isDemo={isDemo} demoMessage={demoMessage} />}
         </div>
       </div>
     </div>

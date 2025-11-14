@@ -9,7 +9,10 @@ export interface CountyHealthData {
   mortalityReduction: number;
   noxReduced: number;
   pm25Reduced: number;
+  vocReduced: number;
+  so2Reduced: number;
   households?: number;
+  warnings?: string | null;
 }
 
 interface UseHealthImpactsReturn {

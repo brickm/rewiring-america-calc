@@ -11,6 +11,7 @@ interface HealthImpactRow {
   metric: string;
   value: number;
   units: string;
+  warnings?: string | null;
 }
 
 interface CountyHealthData {
@@ -21,7 +22,10 @@ interface CountyHealthData {
   mortalityReduction: number;
   noxReduced: number;
   pm25Reduced: number;
+  vocReduced: number;
+  so2Reduced: number;
   households?: number;
+  warnings?: string | null;
 }
 
 // Demo data for states when API access is restricted
@@ -65,21 +69,22 @@ export async function POST(request: NextRequest) {
       // Try calling Rewiring America Health Impacts API
       const requestBody: any = {
         metrics: [
+          'avoided_premature_mortality_incidence',
           'nitrogen_oxides',
           'fine_particulate_matter',
-          'avoided_premature_mortality_incidence'
+          'volatile_organic_compounds',
+          'sulfur_dioxide'
         ],
-        upgrade: ['hvac__heat_pump_seer18_hspf10']
+        upgrade: ['hvac__heat_pump_seer18_hspf10'],
+        state_fips: [state_fips]
       };
 
-      // Add state_fips as array
-      if (state_fips) {
-        requestBody.state_fips = [state_fips];
-      }
-
-      // Add county_fips as array if provided
-      if (county_fips && county_fips !== '*') {
-        requestBody.county_fips = [county_fips];
+      // Add county_fips as array
+      // Use "*" to get ALL counties in the state (for choropleth maps)
+      // Use specific code to get one county
+      // Omit to get state-level aggregate
+      if (county_fips) {
+        requestBody.county_fips = county_fips === '*' ? ['*'] : [county_fips];
       }
 
       const response = await axios.post(
@@ -104,7 +109,8 @@ export async function POST(request: NextRequest) {
         households: row.number_of_households,
         metric: row.metric,
         value: row.impact,
-        units: row.units
+        units: row.units,
+        warnings: row.warnings
       }));
     } catch (apiError: any) {
       // If API returns 403 (forbidden) or any error, fall back to demo data
@@ -137,19 +143,32 @@ export async function POST(request: NextRequest) {
           mortalityReduction: 0,
           noxReduced: 0,
           pm25Reduced: 0,
-          households: row.households
+          vocReduced: 0,
+          so2Reduced: 0,
+          households: row.households,
+          warnings: row.warnings
         });
       }
 
       const countyData = countyMap.get(key)!;
 
       // Map metrics to our simplified structure
+      // Note: NOx, PM2.5, VOC, SO2 are in kg/year; mortality is in deaths/year
       if (row.metric === 'avoided_premature_mortality_incidence') {
         countyData.mortalityReduction = row.value;
       } else if (row.metric === 'nitrogen_oxides') {
         countyData.noxReduced = row.value;
       } else if (row.metric === 'fine_particulate_matter') {
         countyData.pm25Reduced = row.value;
+      } else if (row.metric === 'volatile_organic_compounds') {
+        countyData.vocReduced = row.value;
+      } else if (row.metric === 'sulfur_dioxide') {
+        countyData.so2Reduced = row.value;
+      }
+
+      // Update warnings if this row has any (keep first non-null warning)
+      if (row.warnings && !countyData.warnings) {
+        countyData.warnings = row.warnings;
       }
     });
 

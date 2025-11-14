@@ -112,8 +112,8 @@ export default function CalculatorPage() {
                 label="County FIPS Code (Optional)"
                 value={countyFips}
                 onChange={setCountyFips}
-                placeholder="e.g., 031 for Denver County"
-                helpText="Enter the 3-digit county FIPS code. Leave blank to see all counties in the state."
+                placeholder="* for all counties, or 031 for Denver"
+                helpText="Use * to get all counties (for maps), enter a 3-digit code for one county, or leave blank for state aggregate."
               />
 
               <Button type="submit" isLoading={healthLoading} className="w-full">

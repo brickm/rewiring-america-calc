@@ -28,6 +28,11 @@ export function HealthImpactsResult({ healthData, isDemo, demoMessage }: HealthI
   const totalMortality = healthData.reduce((sum, county) => sum + county.mortalityReduction, 0);
   const totalNox = healthData.reduce((sum, county) => sum + county.noxReduced, 0);
   const totalPm25 = healthData.reduce((sum, county) => sum + county.pm25Reduced, 0);
+  const totalVoc = healthData.reduce((sum, county) => sum + county.vocReduced, 0);
+  const totalSo2 = healthData.reduce((sum, county) => sum + county.so2Reduced, 0);
+
+  // Format kg to tons for display (1 ton = 1000 kg)
+  const formatToTons = (kg: number) => (kg / 1000).toFixed(2);
 
   return (
     <div
@@ -56,7 +61,7 @@ export function HealthImpactsResult({ healthData, isDemo, demoMessage }: HealthI
           HEALTH IMPACTS
         </h3>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
           {/* Mortality Reduction */}
           <div className="bg-white border-[3px] border-black p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
             <div className="text-sm font-semibold uppercase tracking-wide text-[#666666] mb-2">
@@ -76,7 +81,7 @@ export function HealthImpactsResult({ healthData, isDemo, demoMessage }: HealthI
               NOx Reduced
             </div>
             <div className="text-[32px] md:text-[40px] font-mono font-normal leading-[1.1] text-[#1a1a1a]">
-              {totalNox.toFixed(1)}
+              {formatToTons(totalNox)}
             </div>
             <div className="text-sm text-[#666666] mt-2">
               tons per year
@@ -89,10 +94,49 @@ export function HealthImpactsResult({ healthData, isDemo, demoMessage }: HealthI
               PM2.5 Reduced
             </div>
             <div className="text-[32px] md:text-[40px] font-mono font-normal leading-[1.1] text-[#1a1a1a]">
-              {totalPm25.toFixed(1)}
+              {formatToTons(totalPm25)}
             </div>
             <div className="text-sm text-[#666666] mt-2">
               tons per year
+            </div>
+          </div>
+
+          {/* VOC Reduction */}
+          <div className="bg-white border-[3px] border-black p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+            <div className="text-sm font-semibold uppercase tracking-wide text-[#666666] mb-2">
+              VOC Reduced
+            </div>
+            <div className="text-[32px] md:text-[40px] font-mono font-normal leading-[1.1] text-[#1a1a1a]">
+              {formatToTons(totalVoc)}
+            </div>
+            <div className="text-sm text-[#666666] mt-2">
+              tons per year
+            </div>
+          </div>
+
+          {/* SO2 Reduction */}
+          <div className="bg-white border-[3px] border-black p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+            <div className="text-sm font-semibold uppercase tracking-wide text-[#666666] mb-2">
+              SO₂ Reduced
+            </div>
+            <div className="text-[32px] md:text-[40px] font-mono font-normal leading-[1.1] text-[#1a1a1a]">
+              {formatToTons(totalSo2)}
+            </div>
+            <div className="text-sm text-[#666666] mt-2">
+              tons per year
+            </div>
+          </div>
+
+          {/* Total Counties */}
+          <div className="bg-[#ffd900] border-[3px] border-black p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+            <div className="text-sm font-semibold uppercase tracking-wide text-[#1a1a1a] mb-2">
+              Counties Analyzed
+            </div>
+            <div className="text-[32px] md:text-[40px] font-mono font-normal leading-[1.1] text-[#1a1a1a]">
+              {healthData.length}
+            </div>
+            <div className="text-sm text-[#1a1a1a] mt-2">
+              in {healthData[0]?.state || 'state'}
             </div>
           </div>
         </div>

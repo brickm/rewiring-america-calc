@@ -710,7 +710,10 @@ Returns:
   estimate_type</pre>
                 </div>
                 <div>
-                    <h3 style="font-size: 22px;">Health Impacts API</h3>
+                    <h3 style="font-size: 22px;">
+                        Health Impacts API
+                        <span onclick="openModal('health-impacts-detail')" style="display: inline-block; margin-left: 8px; background: #4da6ff; color: white; padding: 4px 8px; font-size: 12px; cursor: pointer; border: 2px solid black; font-weight: bold;">📊 DETAILS</span>
+                    </h3>
                     <p style="font-size: 16px;">County-level mortality reduction from electrification</p>
                     <pre>POST /api/v2/etools/
      health-impacts
@@ -725,6 +728,90 @@ Returns:
                 </div>
             </div>
             <div class="slide-number">10</div>
+        </div>
+
+        <!-- Slide 10A: Building Health Impacts Feature -->
+        <div class="slide">
+            <h2>Building Health Impacts - The TDD Way</h2>
+            <div style="flex: 1;">
+                <div class="two-col">
+                    <div>
+                        <h3>1. Write Tests First</h3>
+                        <pre style="font-size: 12px;">it('should return health impacts',
+async () => {
+  const response = await POST({
+    state_fips: '08',
+    county_fips: '031'
+  });
+
+  expect(response.status)
+    .toBe(200);
+  expect(data.mortalityReduction)
+    .toBeGreaterThan(0);
+});</pre>
+                    </div>
+                    <div>
+                        <h3>2. Implement Code</h3>
+                        <pre style="font-size: 12px;">const response = await axios.post(
+  '/api/v2/etools/health-impacts',
+  {
+    state_fips,
+    county_fips,
+    metrics: [
+      'mortality_avoided_nox',
+      'pm25_reduced'
+    ]
+  }
+);</pre>
+                    </div>
+                </div>
+                <div class="card" style="margin-top: 24px;">
+                    <h3 style="font-size: 18px; margin-bottom: 12px;">3. Tests Pass ✅</h3>
+                    <p style="margin: 0; font-family: monospace; font-size: 14px; color: #00A98F;">
+                        ✓ should return 400 if state_fips is missing<br>
+                        ✓ should return health impacts data on successful API call<br>
+                        ✓ should handle multiple counties in state<br>
+                        ✓ should return 500 on API error
+                    </p>
+                </div>
+            </div>
+            <div class="slide-number">11</div>
+        </div>
+
+        <!-- Slide 10B: Health Data in Action -->
+        <div class="slide">
+            <h2>Health Data in Action</h2>
+            <div style="flex: 1;">
+                <div class="three-col" style="margin-bottom: 24px;">
+                    <div class="stat">
+                        <div class="stat-number">2.5</div>
+                        <div class="stat-label">Lives Saved/Year</div>
+                    </div>
+                    <div class="stat" style="background: #4da6ff; color: white;">
+                        <div class="stat-number">150.8</div>
+                        <div class="stat-label">NOx Reduced (tons)</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">12.3</div>
+                        <div class="stat-label">PM2.5 Reduced (tons)</div>
+                    </div>
+                </div>
+
+                <h3>What We Built</h3>
+                <ul style="font-size: 18px;">
+                    <li>Backend API route: <code>/api/health-impacts</code></li>
+                    <li>FIPS code input form for state & county selection</li>
+                    <li>County-level aggregation of health metrics</li>
+                    <li>Visual display of mortality & air quality impacts</li>
+                </ul>
+
+                <div class="card" style="margin-top: 24px;">
+                    <p style="margin: 0; font-size: 16px;">
+                        <strong>Claude Code's Role:</strong> Wrote tests, implemented API route, created UI components, and ensured everything integrates smoothly—all following TDD principles.
+                    </p>
+                </div>
+            </div>
+            <div class="slide-number">12</div>
         </div>
 
         <!-- Slide 11: Critical Context -->
@@ -746,7 +833,7 @@ Returns:
                     <p style="margin: 0; font-size: 18px;"><strong>Primary case for electrification:</strong> Climate mitigation + energy cost savings. Health benefits are welcome co-benefits, not primary justification.</p>
                 </div>
             </div>
-            <div class="slide-number">11</div>
+            <div class="slide-number">13</div>
         </div>
 
         <!-- Slide 12: Equity Considerations -->
@@ -778,7 +865,7 @@ Returns:
                     </ul>
                 </div>
             </div>
-            <div class="slide-number">12</div>
+            <div class="slide-number">14</div>
         </div>
 
         <!-- Slide 13: Troubleshooting -->
@@ -802,7 +889,7 @@ Returns:
                     <p style="margin: 0; font-size: 15px;">Verify environment variables in Vercel dashboard → Redeploy</p>
                 </div>
             </div>
-            <div class="slide-number">13</div>
+            <div class="slide-number">15</div>
         </div>
 
         <!-- Slide 14: Let's Build! -->
@@ -816,7 +903,7 @@ Returns:
                     </div>
                 </a>
             </div>
-            <div class="slide-number">14</div>
+            <div class="slide-number">16</div>
         </div>
 
             </div>
@@ -958,6 +1045,68 @@ Returns:
         </div>
     </div>
 
+    <!-- Health Impacts API Detail Modal -->
+    <div id="modal-health-impacts-detail" class="modal-overlay" onclick="closeModal('health-impacts-detail')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal('health-impacts-detail')">×</button>
+            <h2 class="modal-title">Health Impacts API Details</h2>
+
+            <h3 style="font-size: 20px; margin-bottom: 12px;">Request Example</h3>
+            <pre style="margin-bottom: 20px; font-size: 14px;">POST /api/v2/etools/health-impacts
+
+Headers:
+  Authorization: Bearer YOUR_API_KEY
+  Content-Type: application/json
+
+Body:
+{
+  "state_fips": "08",
+  "county_fips": "031",
+  "metrics": [
+    "mortality_avoided_nox",
+    "mortality_avoided_pm25",
+    "nox_reduced",
+    "pm25_reduced"
+  ],
+  "upgrade": ["hvac__heat_pump_seer24_hspf13"]
+}</pre>
+
+            <h3 style="font-size: 20px; margin-bottom: 12px;">Response Example</h3>
+            <pre style="margin-bottom: 20px; font-size: 14px;">{
+  "data": [
+    {
+      "state": "CO",
+      "state_fips": "08",
+      "county": "Denver",
+      "county_fips": "031",
+      "metric": "mortality_avoided_nox",
+      "value": 2.5,
+      "units": "deaths_per_year"
+    },
+    {
+      "state": "CO",
+      "state_fips": "08",
+      "county": "Denver",
+      "county_fips": "031",
+      "metric": "nox_reduced",
+      "value": 150.8,
+      "units": "tons_per_year"
+    }
+  ]
+}</pre>
+
+            <h3 style="font-size: 20px; margin-bottom: 12px;">FIPS Codes Explained</h3>
+            <div class="card" style="margin-bottom: 16px;">
+                <p style="font-size: 16px; margin-bottom: 8px;"><strong>State FIPS:</strong> 2-digit codes identifying U.S. states</p>
+                <p style="font-size: 14px; margin: 0;">Examples: CA=06, CO=08, NY=36, TX=48, FL=12</p>
+            </div>
+            <div class="card">
+                <p style="font-size: 16px; margin-bottom: 8px;"><strong>County FIPS:</strong> 3-digit codes identifying counties within states</p>
+                <p style="font-size: 14px; margin: 0;">Examples: Denver, CO=031, Los Angeles, CA=037</p>
+            </div>
+        </div>
+    </div>
+
     <!-- Workflow Diagram Modals -->
     <div id="modal-git-workflow" class="modal-overlay" onclick="closeModal('git-workflow')">
         <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 90vw; max-height: 90vh; padding: 30px; overflow-y: auto;">
@@ -993,6 +1142,8 @@ Returns:
             'Setup Commands',
             'Development Cycle',
             'Rewiring America API',
+            'Building Health Impacts - TDD',
+            'Health Data in Action',
             'Critical Context',
             'Equity',
             'Troubleshooting',

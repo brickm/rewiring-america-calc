@@ -5,9 +5,12 @@ import { AddressInput } from '../components/calculator/AddressInput';
 import { FuelSelector } from '../components/calculator/FuelSelector';
 import { ErrorMessage } from '../components/calculator/ErrorMessage';
 import { SavingsResult } from '../components/calculator/SavingsResult';
+import { HealthImpactsResult } from '../components/calculator/HealthImpactsResult';
+import { FipsInput } from '../components/calculator/FipsInput';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
 import { useSavingsCalculator } from '../hooks/useSavingsCalculator';
+import { useHealthImpacts } from '../hooks/useHealthImpacts';
 
 export default function CalculatorPage() {
   const {
@@ -22,9 +25,26 @@ export default function CalculatorPage() {
     calculateSavings,
   } = useSavingsCalculator();
 
+  const {
+    stateFips,
+    setStateFips,
+    countyFips,
+    setCountyFips,
+    healthData,
+    loading: healthLoading,
+    error: healthError,
+    showResults: showHealthResults,
+    fetchHealthImpacts,
+  } = useHealthImpacts();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     await calculateSavings();
+  };
+
+  const handleHealthSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await fetchHealthImpacts();
   };
 
   return (
@@ -65,6 +85,45 @@ export default function CalculatorPage() {
         {error && <ErrorMessage message={error} />}
 
         {showResults && <SavingsResult savings={savings} />}
+
+        {/* Health Impacts Section */}
+        <div className="mt-16 pt-16 border-t-[3px] border-black">
+          <h2 className="text-[40px] md:text-[48px] font-mono font-normal leading-[1.1] tracking-tight text-[#1a1a1a] mb-4">
+            HEALTH IMPACTS
+          </h2>
+          <p className="mb-8 text-[#1a1a1a] text-base leading-relaxed">
+            See the county-level health benefits of residential electrification in your state.
+          </p>
+
+          <Card variant="white" shadow="lg" className="p-8 mb-6">
+            <form onSubmit={handleHealthSubmit}>
+              <FipsInput
+                label="State FIPS Code"
+                value={stateFips}
+                onChange={setStateFips}
+                placeholder="e.g., 08 for Colorado"
+                required
+                helpText="Enter the 2-digit FIPS code for your state. Common codes: CA=06, CO=08, NY=36, TX=48"
+              />
+
+              <FipsInput
+                label="County FIPS Code (Optional)"
+                value={countyFips}
+                onChange={setCountyFips}
+                placeholder="e.g., 031 for Denver County"
+                helpText="Enter the 3-digit county FIPS code. Leave blank to see all counties in the state."
+              />
+
+              <Button type="submit" isLoading={healthLoading} className="w-full">
+                GET HEALTH IMPACTS
+              </Button>
+            </form>
+          </Card>
+
+          {healthError && <ErrorMessage message={healthError} />}
+
+          {showHealthResults && <HealthImpactsResult healthData={healthData} />}
+        </div>
       </div>
     </div>
   );

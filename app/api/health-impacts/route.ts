@@ -27,22 +27,22 @@ interface CountyHealthData {
 // Demo data for states when API access is restricted
 const DEMO_DATA: Record<string, HealthImpactRow[]> = {
   '08': [ // Colorado
-    { state: 'CO', state_fips: '08', county_fips: '031', county: 'Denver', upgrade: 'hvac__heat_pump_seer24_hspf13', metric: 'mortality_avoided_nox', value: 2.5, units: 'deaths_per_year' },
-    { state: 'CO', state_fips: '08', county_fips: '031', county: 'Denver', upgrade: 'hvac__heat_pump_seer24_hspf13', metric: 'nox_reduced', value: 150.8, units: 'tons_per_year' },
-    { state: 'CO', state_fips: '08', county_fips: '031', county: 'Denver', upgrade: 'hvac__heat_pump_seer24_hspf13', metric: 'pm25_reduced', value: 12.3, units: 'tons_per_year' },
-    { state: 'CO', state_fips: '08', county_fips: '059', county: 'Jefferson', upgrade: 'hvac__heat_pump_seer24_hspf13', metric: 'mortality_avoided_nox', value: 1.8, units: 'deaths_per_year' },
-    { state: 'CO', state_fips: '08', county_fips: '059', county: 'Jefferson', upgrade: 'hvac__heat_pump_seer24_hspf13', metric: 'nox_reduced', value: 98.5, units: 'tons_per_year' },
-    { state: 'CO', state_fips: '08', county_fips: '059', county: 'Jefferson', upgrade: 'hvac__heat_pump_seer24_hspf13', metric: 'pm25_reduced', value: 8.7, units: 'tons_per_year' }
+    { state: 'CO', state_fips: '08', county_fips: '031', county: 'Denver', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'avoided_premature_mortality_incidence', value: 2.5, units: 'deaths_per_year' },
+    { state: 'CO', state_fips: '08', county_fips: '031', county: 'Denver', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'nitrogen_oxides', value: 150.8, units: 'tons_per_year' },
+    { state: 'CO', state_fips: '08', county_fips: '031', county: 'Denver', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'fine_particulate_matter', value: 12.3, units: 'tons_per_year' },
+    { state: 'CO', state_fips: '08', county_fips: '059', county: 'Jefferson', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'avoided_premature_mortality_incidence', value: 1.8, units: 'deaths_per_year' },
+    { state: 'CO', state_fips: '08', county_fips: '059', county: 'Jefferson', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'nitrogen_oxides', value: 98.5, units: 'tons_per_year' },
+    { state: 'CO', state_fips: '08', county_fips: '059', county: 'Jefferson', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'fine_particulate_matter', value: 8.7, units: 'tons_per_year' }
   ],
   '06': [ // California
-    { state: 'CA', state_fips: '06', county_fips: '037', county: 'Los Angeles', upgrade: 'hvac__heat_pump_seer24_hspf13', metric: 'mortality_avoided_nox', value: 15.4, units: 'deaths_per_year' },
-    { state: 'CA', state_fips: '06', county_fips: '037', county: 'Los Angeles', upgrade: 'hvac__heat_pump_seer24_hspf13', metric: 'nox_reduced', value: 892.3, units: 'tons_per_year' },
-    { state: 'CA', state_fips: '06', county_fips: '037', county: 'Los Angeles', upgrade: 'hvac__heat_pump_seer24_hspf13', metric: 'pm25_reduced', value: 78.9, units: 'tons_per_year' }
+    { state: 'CA', state_fips: '06', county_fips: '037', county: 'Los Angeles', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'avoided_premature_mortality_incidence', value: 15.4, units: 'deaths_per_year' },
+    { state: 'CA', state_fips: '06', county_fips: '037', county: 'Los Angeles', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'nitrogen_oxides', value: 892.3, units: 'tons_per_year' },
+    { state: 'CA', state_fips: '06', county_fips: '037', county: 'Los Angeles', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'fine_particulate_matter', value: 78.9, units: 'tons_per_year' }
   ],
   '36': [ // New York
-    { state: 'NY', state_fips: '36', county_fips: '061', county: 'New York', upgrade: 'hvac__heat_pump_seer24_hspf13', metric: 'mortality_avoided_nox', value: 8.3, units: 'deaths_per_year' },
-    { state: 'NY', state_fips: '36', county_fips: '061', county: 'New York', upgrade: 'hvac__heat_pump_seer24_hspf13', metric: 'nox_reduced', value: 456.7, units: 'tons_per_year' },
-    { state: 'NY', state_fips: '36', county_fips: '061', county: 'New York', upgrade: 'hvac__heat_pump_seer24_hspf13', metric: 'pm25_reduced', value: 42.1, units: 'tons_per_year' }
+    { state: 'NY', state_fips: '36', county_fips: '061', county: 'New York', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'avoided_premature_mortality_incidence', value: 8.3, units: 'deaths_per_year' },
+    { state: 'NY', state_fips: '36', county_fips: '061', county: 'New York', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'nitrogen_oxides', value: 456.7, units: 'tons_per_year' },
+    { state: 'NY', state_fips: '36', county_fips: '061', county: 'New York', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'fine_particulate_matter', value: 42.1, units: 'tons_per_year' }
   ]
 };
 
@@ -63,19 +63,28 @@ export async function POST(request: NextRequest) {
 
     try {
       // Try calling Rewiring America Health Impacts API
+      const requestBody: any = {
+        metrics: [
+          'nitrogen_oxides',
+          'fine_particulate_matter',
+          'avoided_premature_mortality_incidence'
+        ],
+        upgrade: ['hvac__heat_pump_seer18_hspf10']
+      };
+
+      // Add state_fips as array
+      if (state_fips) {
+        requestBody.state_fips = [state_fips];
+      }
+
+      // Add county_fips as array if provided
+      if (county_fips && county_fips !== '*') {
+        requestBody.county_fips = [county_fips];
+      }
+
       const response = await axios.post(
         'https://api.rewiringamerica.org/api/v2/etools/health-impacts',
-        {
-          state_fips: state_fips,
-          county_fips: county_fips || '*', // '*' returns all counties in state
-          metrics: [
-            'mortality_avoided_nox',
-            'mortality_avoided_pm25',
-            'nox_reduced',
-            'pm25_reduced'
-          ],
-          upgrade: ['hvac__heat_pump_seer24_hspf13']
-        },
+        requestBody,
         {
           headers: {
             Authorization: `Bearer ${process.env.REWIRING_AMERICA_API_KEY}`,
@@ -84,7 +93,19 @@ export async function POST(request: NextRequest) {
         }
       );
 
-      rawData = response.data.data || [];
+      // Map API response to our format
+      const apiData = response.data.data || [];
+      rawData = apiData.map((row: any) => ({
+        state: row.state_abbreviation,
+        state_fips: state_fips,
+        county_fips: row.county_fips,
+        county: row.county_name,
+        upgrade: row.upgrade_option,
+        households: row.number_of_households,
+        metric: row.metric,
+        value: row.impact,
+        units: row.units
+      }));
     } catch (apiError: any) {
       // If API returns 403 (forbidden) or any error, fall back to demo data
       console.warn('Health Impacts API unavailable, using demo data:', apiError.response?.status);
@@ -123,11 +144,11 @@ export async function POST(request: NextRequest) {
       const countyData = countyMap.get(key)!;
 
       // Map metrics to our simplified structure
-      if (row.metric === 'mortality_avoided_nox' || row.metric === 'mortality_avoided_pm25') {
-        countyData.mortalityReduction += row.value;
-      } else if (row.metric === 'nox_reduced') {
+      if (row.metric === 'avoided_premature_mortality_incidence') {
+        countyData.mortalityReduction = row.value;
+      } else if (row.metric === 'nitrogen_oxides') {
         countyData.noxReduced = row.value;
-      } else if (row.metric === 'pm25_reduced') {
+      } else if (row.metric === 'fine_particulate_matter') {
         countyData.pm25Reduced = row.value;
       }
     });

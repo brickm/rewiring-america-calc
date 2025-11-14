@@ -37,36 +37,33 @@ describe('/api/health-impacts', () => {
       data: {
         data: [
           {
-            state: 'CO',
-            state_fips: '08',
+            state_abbreviation: 'CO',
             county_fips: '031',
-            county: 'Denver',
-            upgrade: 'hvac__heat_pump_seer24_hspf13',
-            households: 100000,
-            metric: 'mortality_avoided_nox',
-            value: 2.5,
+            county_name: 'Denver',
+            upgrade_option: 'hvac__heat_pump_seer18_hspf10',
+            number_of_households: 100000,
+            metric: 'avoided_premature_mortality_incidence',
+            impact: 2.5,
             units: 'deaths_per_year'
           },
           {
-            state: 'CO',
-            state_fips: '08',
+            state_abbreviation: 'CO',
             county_fips: '031',
-            county: 'Denver',
-            upgrade: 'hvac__heat_pump_seer24_hspf13',
-            households: 100000,
-            metric: 'nox_reduced',
-            value: 150.8,
+            county_name: 'Denver',
+            upgrade_option: 'hvac__heat_pump_seer18_hspf10',
+            number_of_households: 100000,
+            metric: 'nitrogen_oxides',
+            impact: 150.8,
             units: 'tons_per_year'
           },
           {
-            state: 'CO',
-            state_fips: '08',
+            state_abbreviation: 'CO',
             county_fips: '031',
-            county: 'Denver',
-            upgrade: 'hvac__heat_pump_seer24_hspf13',
-            households: 100000,
-            metric: 'pm25_reduced',
-            value: 12.3,
+            county_name: 'Denver',
+            upgrade_option: 'hvac__heat_pump_seer18_hspf10',
+            number_of_households: 100000,
+            metric: 'fine_particulate_matter',
+            impact: 12.3,
             units: 'tons_per_year'
           }
         ]
@@ -93,23 +90,21 @@ describe('/api/health-impacts', () => {
       data: {
         data: [
           {
-            state: 'CO',
-            state_fips: '08',
+            state_abbreviation: 'CO',
             county_fips: '031',
-            county: 'Denver',
-            upgrade: 'hvac__heat_pump_seer24_hspf13',
-            metric: 'mortality_avoided_nox',
-            value: 2.5,
+            county_name: 'Denver',
+            upgrade_option: 'hvac__heat_pump_seer18_hspf10',
+            metric: 'avoided_premature_mortality_incidence',
+            impact: 2.5,
             units: 'deaths_per_year'
           },
           {
-            state: 'CO',
-            state_fips: '08',
+            state_abbreviation: 'CO',
             county_fips: '059',
-            county: 'Jefferson',
-            upgrade: 'hvac__heat_pump_seer24_hspf13',
-            metric: 'mortality_avoided_nox',
-            value: 1.8,
+            county_name: 'Jefferson',
+            upgrade_option: 'hvac__heat_pump_seer18_hspf10',
+            metric: 'avoided_premature_mortality_incidence',
+            impact: 1.8,
             units: 'deaths_per_year'
           }
         ]

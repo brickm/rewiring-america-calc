@@ -32,21 +32,48 @@ interface CountyHealthData {
 const DEMO_DATA: Record<string, HealthImpactRow[]> = {
   '08': [ // Colorado
     { state: 'CO', state_fips: '08', county_fips: '031', county: 'Denver', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'avoided_premature_mortality_incidence', value: 2.5, units: 'deaths_per_year' },
-    { state: 'CO', state_fips: '08', county_fips: '031', county: 'Denver', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'nitrogen_oxides', value: 150.8, units: 'tons_per_year' },
-    { state: 'CO', state_fips: '08', county_fips: '031', county: 'Denver', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'fine_particulate_matter', value: 12.3, units: 'tons_per_year' },
+    { state: 'CO', state_fips: '08', county_fips: '031', county: 'Denver', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'nitrogen_oxides', value: 150800, units: 'kg_per_year' },
+    { state: 'CO', state_fips: '08', county_fips: '031', county: 'Denver', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'fine_particulate_matter', value: 12300, units: 'kg_per_year' },
+    { state: 'CO', state_fips: '08', county_fips: '031', county: 'Denver', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'volatile_organic_compounds', value: 28500, units: 'kg_per_year' },
+    { state: 'CO', state_fips: '08', county_fips: '031', county: 'Denver', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'sulfur_dioxide', value: -8200, units: 'kg_per_year' },
     { state: 'CO', state_fips: '08', county_fips: '059', county: 'Jefferson', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'avoided_premature_mortality_incidence', value: 1.8, units: 'deaths_per_year' },
-    { state: 'CO', state_fips: '08', county_fips: '059', county: 'Jefferson', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'nitrogen_oxides', value: 98.5, units: 'tons_per_year' },
-    { state: 'CO', state_fips: '08', county_fips: '059', county: 'Jefferson', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'fine_particulate_matter', value: 8.7, units: 'tons_per_year' }
+    { state: 'CO', state_fips: '08', county_fips: '059', county: 'Jefferson', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'nitrogen_oxides', value: 98500, units: 'kg_per_year' },
+    { state: 'CO', state_fips: '08', county_fips: '059', county: 'Jefferson', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'fine_particulate_matter', value: 8700, units: 'kg_per_year' },
+    { state: 'CO', state_fips: '08', county_fips: '059', county: 'Jefferson', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'volatile_organic_compounds', value: 19500, units: 'kg_per_year' },
+    { state: 'CO', state_fips: '08', county_fips: '059', county: 'Jefferson', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'sulfur_dioxide', value: -5400, units: 'kg_per_year' }
   ],
   '06': [ // California
     { state: 'CA', state_fips: '06', county_fips: '037', county: 'Los Angeles', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'avoided_premature_mortality_incidence', value: 15.4, units: 'deaths_per_year' },
-    { state: 'CA', state_fips: '06', county_fips: '037', county: 'Los Angeles', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'nitrogen_oxides', value: 892.3, units: 'tons_per_year' },
-    { state: 'CA', state_fips: '06', county_fips: '037', county: 'Los Angeles', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'fine_particulate_matter', value: 78.9, units: 'tons_per_year' }
+    { state: 'CA', state_fips: '06', county_fips: '037', county: 'Los Angeles', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'nitrogen_oxides', value: 892300, units: 'kg_per_year' },
+    { state: 'CA', state_fips: '06', county_fips: '037', county: 'Los Angeles', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'fine_particulate_matter', value: 78900, units: 'kg_per_year' },
+    { state: 'CA', state_fips: '06', county_fips: '037', county: 'Los Angeles', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'volatile_organic_compounds', value: 185000, units: 'kg_per_year' },
+    { state: 'CA', state_fips: '06', county_fips: '037', county: 'Los Angeles', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'sulfur_dioxide', value: -42000, units: 'kg_per_year' }
   ],
   '36': [ // New York
     { state: 'NY', state_fips: '36', county_fips: '061', county: 'New York', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'avoided_premature_mortality_incidence', value: 8.3, units: 'deaths_per_year' },
-    { state: 'NY', state_fips: '36', county_fips: '061', county: 'New York', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'nitrogen_oxides', value: 456.7, units: 'tons_per_year' },
-    { state: 'NY', state_fips: '36', county_fips: '061', county: 'New York', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'fine_particulate_matter', value: 42.1, units: 'tons_per_year' }
+    { state: 'NY', state_fips: '36', county_fips: '061', county: 'New York', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'nitrogen_oxides', value: 456700, units: 'kg_per_year' },
+    { state: 'NY', state_fips: '36', county_fips: '061', county: 'New York', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'fine_particulate_matter', value: 42100, units: 'kg_per_year' },
+    { state: 'NY', state_fips: '36', county_fips: '061', county: 'New York', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'volatile_organic_compounds', value: 95000, units: 'kg_per_year' },
+    { state: 'NY', state_fips: '36', county_fips: '061', county: 'New York', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'sulfur_dioxide', value: -45000, units: 'kg_per_year' }
+  ],
+  '53': [ // Washington
+    { state: 'WA', state_fips: '53', county_fips: '033', county: 'King', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'avoided_premature_mortality_incidence', value: 3.2, units: 'deaths_per_year' },
+    { state: 'WA', state_fips: '53', county_fips: '033', county: 'King', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'nitrogen_oxides', value: 175000, units: 'kg_per_year' },
+    { state: 'WA', state_fips: '53', county_fips: '033', county: 'King', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'fine_particulate_matter', value: 18500, units: 'kg_per_year' },
+    { state: 'WA', state_fips: '53', county_fips: '033', county: 'King', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'volatile_organic_compounds', value: 42000, units: 'kg_per_year' },
+    { state: 'WA', state_fips: '53', county_fips: '033', county: 'King', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'sulfur_dioxide', value: -12000, units: 'kg_per_year' },
+    { state: 'WA', state_fips: '53', county_fips: '061', county: 'Snohomish', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'avoided_premature_mortality_incidence', value: 1.8, units: 'deaths_per_year' },
+    { state: 'WA', state_fips: '53', county_fips: '061', county: 'Snohomish', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'nitrogen_oxides', value: 92000, units: 'kg_per_year' },
+    { state: 'WA', state_fips: '53', county_fips: '061', county: 'Snohomish', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'fine_particulate_matter', value: 9800, units: 'kg_per_year' },
+    { state: 'WA', state_fips: '53', county_fips: '061', county: 'Snohomish', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'volatile_organic_compounds', value: 22000, units: 'kg_per_year' },
+    { state: 'WA', state_fips: '53', county_fips: '061', county: 'Snohomish', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'sulfur_dioxide', value: -6500, units: 'kg_per_year' }
+  ],
+  '48': [ // Texas
+    { state: 'TX', state_fips: '48', county_fips: '201', county: 'Harris', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'avoided_premature_mortality_incidence', value: 12.4, units: 'deaths_per_year' },
+    { state: 'TX', state_fips: '48', county_fips: '201', county: 'Harris', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'nitrogen_oxides', value: 620000, units: 'kg_per_year' },
+    { state: 'TX', state_fips: '48', county_fips: '201', county: 'Harris', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'fine_particulate_matter', value: 58000, units: 'kg_per_year' },
+    { state: 'TX', state_fips: '48', county_fips: '201', county: 'Harris', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'volatile_organic_compounds', value: 135000, units: 'kg_per_year' },
+    { state: 'TX', state_fips: '48', county_fips: '201', county: 'Harris', upgrade: 'hvac__heat_pump_seer18_hspf10', metric: 'sulfur_dioxide', value: -28000, units: 'kg_per_year' }
   ]
 };
 
@@ -87,6 +114,13 @@ export async function POST(request: NextRequest) {
         requestBody.county_fips = county_fips === '*' ? ['*'] : [county_fips];
       }
 
+      console.log('Health Impacts API Request:', {
+        url: 'https://api.rewiringamerica.org/api/v2/etools/health-impacts',
+        body: requestBody,
+        hasApiKey: !!process.env.REWIRING_AMERICA_API_KEY,
+        apiKeyPrefix: process.env.REWIRING_AMERICA_API_KEY?.substring(0, 10) + '...'
+      });
+
       const response = await axios.post(
         'https://api.rewiringamerica.org/api/v2/etools/health-impacts',
         requestBody,
@@ -114,6 +148,12 @@ export async function POST(request: NextRequest) {
       }));
     } catch (apiError: any) {
       // If API returns 403 (forbidden) or any error, fall back to demo data
+      console.error('Health Impacts API Error Details:', {
+        status: apiError.response?.status,
+        statusText: apiError.response?.statusText,
+        data: apiError.response?.data,
+        message: apiError.message
+      });
       console.warn('Health Impacts API unavailable, using demo data:', apiError.response?.status);
 
       const stateData = DEMO_DATA[state_fips] || [];

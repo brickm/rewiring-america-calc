@@ -80,7 +80,7 @@ export function HeatPumpSelector({
               disabled={comparisonMode}
               className="sr-only"
             />
-            <div className="flex items-start justify-between">
+            <div className="flex items-center justify-between">
               <div className="flex-1">
                 <div className="font-semibold text-[#1a1a1a] text-base mb-1">
                   {option.name}
@@ -93,8 +93,8 @@ export function HeatPumpSelector({
                 </div>
               </div>
               {selectedUpgrade === option.id && (
-                <div className="ml-4">
-                  <span className="inline-block w-6 h-6 bg-[#4da6ff] rounded-full flex items-center justify-center">
+                <div className="ml-4 flex-shrink-0">
+                  <span className="w-6 h-6 bg-[#4da6ff] rounded-full flex items-center justify-center">
                     <svg
                       className="w-4 h-4 text-white"
                       fill="none"

@@ -483,7 +483,7 @@
                     <div class="timeline-time">25 min</div>
                     <div class="timeline-content">
                         <h3>Core Features</h3>
-                        <p>Adding Health Impact API integration & interactive elements</p>
+                        <p>Adding Heat Pump Efficiency Comparison & enhanced metrics</p>
                     </div>
                 </div>
                 <div class="timeline-item">
@@ -510,10 +510,10 @@
             <div style="flex: 1;">
                 <p style="font-size: 24px; margin-bottom: 32px;">An interactive <span class="highlight">Home Electrification Impact Calculator</span></p>
                 <ul style="font-size: 22px;">
-                    <li>Annual cost savings estimates</li>
-                    <li>Indoor air quality improvements</li>
-                    <li>Carbon footprint reductions</li>
-                    <li>County-level health impact maps</li>
+                    <li>Annual cost savings estimates with percentile ranges</li>
+                    <li>Compare three heat pump efficiency levels (SEER 15/18/24)</li>
+                    <li>Side-by-side cost & emissions analysis</li>
+                    <li>Best value recommendations based on your location</li>
                 </ul>
                 <div class="card" style="margin-top: 32px;">
                     <p style="font-size: 18px; margin-bottom: 0;"><strong>From concept → deployed web app in 75 minutes</strong></p>
@@ -693,150 +693,125 @@ git push origin main</pre>
 
         <!-- Slide 10: API Overview -->
         <div class="slide">
-            <h2>Rewiring America API</h2>
-            <div class="two-col">
-                <div>
-                    <h3 style="font-size: 22px;">Energy Savings API</h3>
-                    <p style="font-size: 16px;">Calculate cost savings for electrification upgrades</p>
-                    <pre>GET /api/v1/rem/address
+            <h2>Rewiring America Energy Savings API</h2>
+            <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+                <p style="font-size: 20px; margin-bottom: 24px;">Calculate cost savings and energy impacts for electrification upgrades</p>
+                <pre style="font-size: 15px;">GET /api/v1/rem/address
 
 Params:
-  address
-  heating_fuel
-  upgrade
+  address           String   "1234 Main St, Denver, CO"
+  heating_fuel      String   "fuel_oil" | "natural_gas" | "propane" | "electric"
+  upgrade           String   "hvac__heat_pump_seer15_hspf9"
+                             "hvac__heat_pump_seer18_hspf10"
+                             "hvac__heat_pump_seer24_hspf13"
 
 Returns:
-  annual_savings
-  estimate_type</pre>
-                </div>
-                <div>
-                    <h3 style="font-size: 22px;">
-                        Health Impacts API
-                        <span onclick="openModal('health-impacts-detail')" style="display: inline-block; margin-left: 8px; background: #4da6ff; color: white; padding: 4px 8px; font-size: 12px; cursor: pointer; border: 2px solid black; font-weight: bold;">📊 DETAILS</span>
-                    </h3>
-                    <p style="font-size: 16px;">County-level mortality reduction from electrification</p>
-                    <pre>POST /api/v2/etools/
-     health-impacts
-
-Params:
-  state_fips
-  county_fips
-
-Returns:
-  mortality_reduction
-  air_quality_metrics</pre>
+  annual_savings    Object   { mean, median, percentile20, percentile80 }
+  monthly_savings   Object   { mean, median, percentile20, percentile80 }
+  energy_change     Object   { mean } (kWh per year)
+  emissions_reduction Object { mean } (kg CO₂e per year)
+  estimate_type     String   "address_level" | "puma_level"</pre>
+                <div class="card" style="margin-top: 24px;">
+                    <p style="margin: 0; font-size: 16px;"><strong>Key Feature:</strong> API returns percentile ranges (20th-80th) for uncertainty bounds, not just point estimates. We use parallel API calls to compare all three heat pump efficiency levels.</p>
                 </div>
             </div>
             <div class="slide-number">10</div>
         </div>
 
-        <!-- Slide 10A: Building Health Impacts Feature -->
+        <!-- Slide 10A: Building Heat Pump Comparison Feature -->
         <div class="slide">
-            <h2>Building Health Impacts - The TDD Way</h2>
+            <h2>Building Heat Pump Comparison - The TDD Way</h2>
             <div style="flex: 1;">
                 <div class="two-col">
                     <div>
                         <h3>1. Write Tests First</h3>
-                        <pre style="font-size: 12px;">it('should return health impacts',
+                        <pre style="font-size: 11px;">it('should accept upgrade param',
 async () => {
-  const response = await POST({
-    state_fips: '08',
-    county_fips: '031'
+  const res = await GET({
+    params: {
+      address: '123 Main, Denver',
+      heating_fuel: 'natural_gas',
+      upgrade: 'hvac__heat_pump_seer24_hspf13'
+    }
   });
 
-  expect(response.status)
-    .toBe(200);
-  expect(data.mortalityReduction)
-    .toBeGreaterThan(0);
+  expect(res.status).toBe(200);
+  expect(res.data.upgrade)
+    .toBe('hvac__heat_pump_seer24_hspf13');
 });</pre>
                     </div>
                     <div>
-                        <h3>2. Implement Code</h3>
-                        <pre style="font-size: 12px;">const response = await axios.post(
-  '/api/v2/etools/health-impacts',
-  {
-    state_fips,
-    county_fips,
-    metrics: [
-      'mortality_avoided_nox',
-      'pm25_reduced'
-    ]
-  }
-);</pre>
+                        <h3>2. Implement Parallel API Calls</h3>
+                        <pre style="font-size: 11px;">const upgrades = [
+  'hvac__heat_pump_seer15_hspf9',
+  'hvac__heat_pump_seer18_hspf10',
+  'hvac__heat_pump_seer24_hspf13'
+];
+
+const responses = await Promise.all(
+  upgrades.map(upgrade =>
+    axios.get('/api/savings', {
+      params: { address, heating_fuel, upgrade }
+    })
+  )
+);
+setComparisonData(responses.map(r => r.data));</pre>
                     </div>
                 </div>
-                <div class="card" style="margin-top: 24px;">
-                    <h3 style="font-size: 18px; margin-bottom: 12px;">3. Tests Pass ✅</h3>
-                    <p style="margin: 0; font-family: monospace; font-size: 14px; color: #00A98F;">
-                        ✓ should return 400 if state_fips is missing<br>
-                        ✓ should return health impacts data on successful API call<br>
-                        ✓ should handle multiple counties in state<br>
-                        ✓ should return 500 on API error
+                <div class="card" style="margin-top: 20px;">
+                    <h3 style="font-size: 18px; margin-bottom: 12px;">3. All Tests Pass ✅</h3>
+                    <p style="margin: 0; font-family: monospace; font-size: 13px; color: #00A98F;">
+                        ✓ should return 400 if address is missing<br>
+                        ✓ should return savings data with upgrade parameter<br>
+                        ✓ should handle different SEER ratings correctly<br>
+                        ✓ should return percentile ranges for uncertainty<br>
+                        ✓ calculator page should render without crashing
                     </p>
                 </div>
             </div>
             <div class="slide-number">11</div>
         </div>
 
-        <!-- Slide 10B: Health Data in Action -->
+        <!-- Slide 10B: Heat Pump Comparison in Action -->
         <div class="slide">
-            <h2>Health Data in Action</h2>
+            <h2>Heat Pump Comparison in Action</h2>
             <div style="flex: 1;">
                 <div class="three-col" style="margin-bottom: 24px;">
                     <div class="stat">
-                        <div class="stat-number">2.5</div>
-                        <div class="stat-label">Lives Saved/Year</div>
+                        <div class="stat-number" style="font-size: 32px;">SEER 15</div>
+                        <div class="stat-label">Standard Efficiency</div>
+                        <div style="font-size: 14px; margin-top: 8px;">$842/year savings</div>
                     </div>
                     <div class="stat" style="background: #4da6ff; color: white;">
-                        <div class="stat-number">150.8</div>
-                        <div class="stat-label">NOx Reduced (tons)</div>
+                        <div class="stat-number" style="font-size: 32px;">SEER 18</div>
+                        <div class="stat-label">High Efficiency</div>
+                        <div style="font-size: 14px; margin-top: 8px;">$851/year savings ⭐</div>
                     </div>
                     <div class="stat">
-                        <div class="stat-number">12.3</div>
-                        <div class="stat-label">PM2.5 Reduced (tons)</div>
+                        <div class="stat-number" style="font-size: 32px;">SEER 24</div>
+                        <div class="stat-label">Premium Efficiency</div>
+                        <div style="font-size: 14px; margin-top: 8px;">$848/year savings</div>
                     </div>
                 </div>
 
                 <h3>What We Built</h3>
                 <ul style="font-size: 18px;">
-                    <li>Backend API route: <code>/api/health-impacts</code></li>
-                    <li>FIPS code input form for state & county selection</li>
-                    <li>County-level aggregation of health metrics</li>
-                    <li>Visual display of mortality & air quality impacts</li>
+                    <li><strong>HeatPumpSelector:</strong> Radio buttons for 3 efficiency levels with comparison mode toggle</li>
+                    <li><strong>ComparisonView:</strong> Side-by-side display with "Best Value" badge</li>
+                    <li><strong>Parallel API calls:</strong> Promise.all to fetch all three options simultaneously</li>
+                    <li><strong>Enhanced metrics:</strong> Percentile ranges, monthly savings, energy change, CO₂ reduction</li>
                 </ul>
 
-                <div class="card" style="margin-top: 24px;">
+                <div class="card" style="margin-top: 20px;">
                     <p style="margin: 0; font-size: 16px;">
-                        <strong>Claude Code's Role:</strong> Wrote tests, implemented API route, created UI components, and ensured everything integrates smoothly—all following TDD principles.
+                        <strong>Claude Code's Role:</strong> Wrote tests, built UI components, implemented comparison logic, created parallel API calls, and ensured proper state management—all following TDD principles.
                     </p>
                 </div>
             </div>
             <div class="slide-number">12</div>
         </div>
 
-        <!-- Slide 11: Critical Context -->
-        <div class="slide">
-            <h2>Critical Context: Health Benefits</h2>
-            <div style="flex: 1;">
-                <div class="warning" style="margin-bottom: 24px;">
-                    ⚠️ Important: Health benefits are REAL but MODEST compared to other interventions
-                </div>
-                <h3>Cost-Effectiveness Comparison</h3>
-                <ul style="font-size: 18px;">
-                    <li>Substance use treatment: <strong>$10K-25K per life saved</strong></li>
-                    <li>Violence intervention: <strong>$20K-50K per life saved</strong></li>
-                    <li>Food assistance: <strong>$30K-100K per life saved</strong></li>
-                    <li>Rental assistance: <strong>$50K-150K per life saved</strong></li>
-                    <li>Home electrification: <strong>$200K-600K per life saved</strong></li>
-                </ul>
-                <div class="card" style="margin-top: 24px;">
-                    <p style="margin: 0; font-size: 18px;"><strong>Primary case for electrification:</strong> Climate mitigation + energy cost savings. Health benefits are welcome co-benefits, not primary justification.</p>
-                </div>
-            </div>
-            <div class="slide-number">13</div>
-        </div>
-
-        <!-- Slide 12: Equity Considerations -->
+        <!-- Slide 11: Equity Considerations -->
         <div class="slide">
             <h2>Equity in Electrification Policy</h2>
             <div class="two-col">
@@ -865,10 +840,10 @@ async () => {
                     </ul>
                 </div>
             </div>
-            <div class="slide-number">14</div>
+            <div class="slide-number">13</div>
         </div>
 
-        <!-- Slide 13: Troubleshooting -->
+        <!-- Slide 12: Troubleshooting -->
         <div class="slide">
             <h2 style="margin-bottom: 24px;">Common Issues & Fixes</h2>
             <div style="flex: 1;">
@@ -889,10 +864,10 @@ async () => {
                     <p style="margin: 0; font-size: 15px;">Verify environment variables in Vercel dashboard → Redeploy</p>
                 </div>
             </div>
-            <div class="slide-number">15</div>
+            <div class="slide-number">14</div>
         </div>
 
-        <!-- Slide 14: Let's Build! -->
+        <!-- Slide 13: Let's Build! -->
         <div class="slide">
             <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
                 <h1 style="font-size: 80px; margin-bottom: 32px;">LET'S BUILD!</h1>
@@ -903,7 +878,7 @@ async () => {
                     </div>
                 </a>
             </div>
-            <div class="slide-number">16</div>
+            <div class="slide-number">15</div>
         </div>
 
             </div>
@@ -1045,68 +1020,6 @@ async () => {
         </div>
     </div>
 
-    <!-- Health Impacts API Detail Modal -->
-    <div id="modal-health-impacts-detail" class="modal-overlay" onclick="closeModal('health-impacts-detail')">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <button class="modal-close" onclick="closeModal('health-impacts-detail')">×</button>
-            <h2 class="modal-title">Health Impacts API Details</h2>
-
-            <h3 style="font-size: 20px; margin-bottom: 12px;">Request Example</h3>
-            <pre style="margin-bottom: 20px; font-size: 14px;">POST /api/v2/etools/health-impacts
-
-Headers:
-  Authorization: Bearer YOUR_API_KEY
-  Content-Type: application/json
-
-Body:
-{
-  "state_fips": "08",
-  "county_fips": "031",
-  "metrics": [
-    "mortality_avoided_nox",
-    "mortality_avoided_pm25",
-    "nox_reduced",
-    "pm25_reduced"
-  ],
-  "upgrade": ["hvac__heat_pump_seer24_hspf13"]
-}</pre>
-
-            <h3 style="font-size: 20px; margin-bottom: 12px;">Response Example</h3>
-            <pre style="margin-bottom: 20px; font-size: 14px;">{
-  "data": [
-    {
-      "state": "CO",
-      "state_fips": "08",
-      "county": "Denver",
-      "county_fips": "031",
-      "metric": "mortality_avoided_nox",
-      "value": 2.5,
-      "units": "deaths_per_year"
-    },
-    {
-      "state": "CO",
-      "state_fips": "08",
-      "county": "Denver",
-      "county_fips": "031",
-      "metric": "nox_reduced",
-      "value": 150.8,
-      "units": "tons_per_year"
-    }
-  ]
-}</pre>
-
-            <h3 style="font-size: 20px; margin-bottom: 12px;">FIPS Codes Explained</h3>
-            <div class="card" style="margin-bottom: 16px;">
-                <p style="font-size: 16px; margin-bottom: 8px;"><strong>State FIPS:</strong> 2-digit codes identifying U.S. states</p>
-                <p style="font-size: 14px; margin: 0;">Examples: CA=06, CO=08, NY=36, TX=48, FL=12</p>
-            </div>
-            <div class="card">
-                <p style="font-size: 16px; margin-bottom: 8px;"><strong>County FIPS:</strong> 3-digit codes identifying counties within states</p>
-                <p style="font-size: 14px; margin: 0;">Examples: Denver, CO=031, Los Angeles, CA=037</p>
-            </div>
-        </div>
-    </div>
-
     <!-- Workflow Diagram Modals -->
     <div id="modal-git-workflow" class="modal-overlay" onclick="closeModal('git-workflow')">
         <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 90vw; max-height: 90vh; padding: 30px; overflow-y: auto;">
@@ -1141,10 +1054,9 @@ Body:
             'Prerequisites',
             'Setup Commands',
             'Development Cycle',
-            'Rewiring America API',
-            'Building Health Impacts - TDD',
-            'Health Data in Action',
-            'Critical Context',
+            'Energy Savings API',
+            'Heat Pump Comparison - TDD',
+            'Heat Pump Comparison in Action',
             'Equity',
             'Troubleshooting',
             'Let\'s Build!'

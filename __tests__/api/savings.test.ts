@@ -114,4 +114,95 @@ describe('/api/savings', () => {
     expect(response.status).toBe(200);
     expect(data.savings).toBe('$0.00');
   });
+
+  it('should return percentile ranges and median values', async () => {
+    const mockApiResponse = {
+      data: {
+        fuel_results: {
+          total: {
+            delta: {
+              cost: {
+                mean: { value: -1200 },
+                median: { value: -1150 },
+                percentile_20: { value: -800 },
+                percentile_80: { value: -1500 }
+              }
+            }
+          }
+        },
+        estimate_type: 'address_level'
+      }
+    };
+
+    axios.get.mockResolvedValue(mockApiResponse);
+
+    const request = new MockNextRequest('http://localhost:3000/api/savings?address=Denver,CO&heating_fuel=natural_gas') as any;
+    const response = await GET(request);
+    const data = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(data.annualSavings.mean).toBe(1200);
+    expect(data.annualSavings.median).toBe(1150);
+    expect(data.annualSavings.percentile20).toBe(800);
+    expect(data.annualSavings.percentile80).toBe(1500);
+  });
+
+  it('should return monthly savings breakdown', async () => {
+    const mockApiResponse = {
+      data: {
+        fuel_results: {
+          total: {
+            delta: {
+              cost: {
+                mean: { value: -1200 }
+              }
+            }
+          }
+        },
+        estimate_type: 'address_level'
+      }
+    };
+
+    axios.get.mockResolvedValue(mockApiResponse);
+
+    const request = new MockNextRequest('http://localhost:3000/api/savings?address=Denver,CO&heating_fuel=natural_gas') as any;
+    const response = await GET(request);
+    const data = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(data.monthlySavings.mean).toBe(100);
+  });
+
+  it('should return energy consumption and emissions data', async () => {
+    const mockApiResponse = {
+      data: {
+        fuel_results: {
+          total: {
+            delta: {
+              cost: {
+                mean: { value: -1200 }
+              },
+              energy: {
+                mean: { value: -15000 }
+              },
+              co2e: {
+                mean: { value: -5000 }
+              }
+            }
+          }
+        },
+        estimate_type: 'address_level'
+      }
+    };
+
+    axios.get.mockResolvedValue(mockApiResponse);
+
+    const request = new MockNextRequest('http://localhost:3000/api/savings?address=Denver,CO&heating_fuel=natural_gas') as any;
+    const response = await GET(request);
+    const data = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(data.energyChange.mean).toBe(-15000); // kWh reduction
+    expect(data.emissionsReduction.mean).toBe(5000); // kg CO2e reduction
+  });
 });

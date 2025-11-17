@@ -5,12 +5,11 @@ import { AddressInput } from '../components/calculator/AddressInput';
 import { FuelSelector } from '../components/calculator/FuelSelector';
 import { ErrorMessage } from '../components/calculator/ErrorMessage';
 import { SavingsResult } from '../components/calculator/SavingsResult';
-import { HealthImpactsResult } from '../components/calculator/HealthImpactsResult';
-import { FipsInput } from '../components/calculator/FipsInput';
+import { HeatPumpSelector } from '../components/calculator/HeatPumpSelector';
+import { ComparisonView } from '../components/calculator/ComparisonView';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
 import { useSavingsCalculator } from '../hooks/useSavingsCalculator';
-import { useHealthImpacts } from '../hooks/useHealthImpacts';
 
 export default function CalculatorPage() {
   const {
@@ -18,6 +17,12 @@ export default function CalculatorPage() {
     setAddress,
     currentFuel,
     setCurrentFuel,
+    selectedUpgrade,
+    setSelectedUpgrade,
+    comparisonMode,
+    setComparisonMode,
+    savingsData,
+    comparisonData,
     savings,
     loading,
     error,
@@ -25,28 +30,9 @@ export default function CalculatorPage() {
     calculateSavings,
   } = useSavingsCalculator();
 
-  const {
-    stateFips,
-    setStateFips,
-    countyFips,
-    setCountyFips,
-    healthData,
-    loading: healthLoading,
-    error: healthError,
-    showResults: showHealthResults,
-    isDemo,
-    demoMessage,
-    fetchHealthImpacts,
-  } = useHealthImpacts();
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     await calculateSavings();
-  };
-
-  const handleHealthSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    await fetchHealthImpacts();
   };
 
   return (
@@ -67,7 +53,12 @@ export default function CalculatorPage() {
 
       <div className="max-w-[800px] mx-auto px-8 py-12 md:py-16">
         <div className="mb-12 text-[#1a1a1a] text-base leading-relaxed">
-          Enter your address and select the fuel you currently use to heat your home. We'll tell you how much you can save by switching to a heat pump!
+          <p className="mb-3">
+            Enter your address and select the fuel you <strong>currently</strong> use to heat your home.
+          </p>
+          <p>
+            Then choose a heat pump efficiency level to see your potential savings, or compare all three efficiency levels side-by-side!
+          </p>
         </div>
 
         <Card variant="white" shadow="lg" className="p-8 mb-6">
@@ -78,54 +69,36 @@ export default function CalculatorPage() {
 
             <FuelSelector value={currentFuel} onChange={setCurrentFuel} />
 
+            <HeatPumpSelector
+              selectedUpgrade={selectedUpgrade}
+              onChange={setSelectedUpgrade}
+              comparisonMode={comparisonMode}
+              onComparisonToggle={() => setComparisonMode(!comparisonMode)}
+            />
+
             <Button type="submit" isLoading={loading} className="w-full">
-              CALCULATE SAVINGS
+              {comparisonMode ? 'COMPARE ALL OPTIONS' : 'CALCULATE SAVINGS'}
             </Button>
           </form>
         </Card>
 
         {error && <ErrorMessage message={error} />}
 
-        {showResults && <SavingsResult savings={savings} />}
+        {showResults && comparisonMode && comparisonData.length > 0 && (
+          <ComparisonView comparisonData={comparisonData} />
+        )}
 
-        {/* Health Impacts Section */}
-        <div className="mt-16 pt-16 border-t-[3px] border-black">
-          <h2 className="text-[40px] md:text-[48px] font-mono font-normal leading-[1.1] tracking-tight text-[#1a1a1a] mb-4">
-            HEALTH IMPACTS
-          </h2>
-          <p className="mb-8 text-[#1a1a1a] text-base leading-relaxed">
-            See the county-level health benefits of residential electrification in your state.
-          </p>
-
-          <Card variant="white" shadow="lg" className="p-8 mb-6">
-            <form onSubmit={handleHealthSubmit}>
-              <FipsInput
-                label="State FIPS Code"
-                value={stateFips}
-                onChange={setStateFips}
-                placeholder="e.g., 08 for Colorado"
-                required
-                helpText="Enter the 2-digit FIPS code for your state. Common codes: CA=06, CO=08, NY=36, TX=48"
-              />
-
-              <FipsInput
-                label="County FIPS Code (Optional)"
-                value={countyFips}
-                onChange={setCountyFips}
-                placeholder="* for all counties, or 031 for Denver"
-                helpText="Use * to get all counties (for maps), enter a 3-digit code for one county, or leave blank for state aggregate."
-              />
-
-              <Button type="submit" isLoading={healthLoading} className="w-full">
-                GET HEALTH IMPACTS
-              </Button>
-            </form>
-          </Card>
-
-          {healthError && <ErrorMessage message={healthError} />}
-
-          {showHealthResults && <HealthImpactsResult healthData={healthData} isDemo={isDemo} demoMessage={demoMessage} />}
-        </div>
+        {showResults && !comparisonMode && savingsData && (
+          <SavingsResult
+            savings={savings}
+            annualSavings={savingsData.annualSavings}
+            monthlySavings={savingsData.monthlySavings}
+            energyChange={savingsData.energyChange}
+            emissionsReduction={savingsData.emissionsReduction}
+            estimateType={savingsData.estimateType}
+            upgrade={savingsData.upgrade}
+          />
+        )}
       </div>
     </div>
   );

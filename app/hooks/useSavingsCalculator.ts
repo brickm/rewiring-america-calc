@@ -28,7 +28,7 @@ interface UseSavingsCalculatorReturn {
   loading: boolean;
   error: string;
   showResults: boolean;
-  calculateSavings: () => Promise<void>;
+  calculateSavings: (upgrade?: string) => Promise<void>;
   resetResults: () => void;
 }
 
@@ -40,7 +40,7 @@ export function useSavingsCalculator(): UseSavingsCalculatorReturn {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const calculateSavings = async () => {
+  const calculateSavings = async (upgrade: string = 'hvac__heat_pump_seer18_hspf10') => {
     setLoading(true);
     setError('');
     setShowResults(false);
@@ -50,7 +50,7 @@ export function useSavingsCalculator(): UseSavingsCalculatorReturn {
         params: {
           address,
           heating_fuel: currentFuel,
-          upgrade: 'hvac__heat_pump_seer18_hspf10'
+          upgrade
         }
       });
 

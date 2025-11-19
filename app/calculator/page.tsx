@@ -5,8 +5,6 @@ import { AddressInput } from '../components/calculator/AddressInput';
 import { FuelSelector } from '../components/calculator/FuelSelector';
 import { ErrorMessage } from '../components/calculator/ErrorMessage';
 import { SavingsResult } from '../components/calculator/SavingsResult';
-import { HeatPumpSelector } from '../components/calculator/HeatPumpSelector';
-import { ComparisonView } from '../components/calculator/ComparisonView';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
 import { useSavingsCalculator } from '../hooks/useSavingsCalculator';
@@ -17,12 +15,7 @@ export default function CalculatorPage() {
     setAddress,
     currentFuel,
     setCurrentFuel,
-    selectedUpgrade,
-    setSelectedUpgrade,
-    comparisonMode,
-    setComparisonMode,
     savingsData,
-    comparisonData,
     savings,
     loading,
     error,
@@ -57,7 +50,7 @@ export default function CalculatorPage() {
             Enter your address and select the fuel you <strong>currently</strong> use to heat your home.
           </p>
           <p>
-            Then choose a heat pump efficiency level to see your potential savings, or compare all three efficiency levels side-by-side!
+            We'll calculate your potential annual savings by switching to a heat pump!
           </p>
         </div>
 
@@ -69,26 +62,15 @@ export default function CalculatorPage() {
 
             <FuelSelector value={currentFuel} onChange={setCurrentFuel} />
 
-            <HeatPumpSelector
-              selectedUpgrade={selectedUpgrade}
-              onChange={setSelectedUpgrade}
-              comparisonMode={comparisonMode}
-              onComparisonToggle={() => setComparisonMode(!comparisonMode)}
-            />
-
             <Button type="submit" isLoading={loading} className="w-full">
-              {comparisonMode ? 'COMPARE ALL OPTIONS' : 'CALCULATE SAVINGS'}
+              CALCULATE SAVINGS
             </Button>
           </form>
         </Card>
 
         {error && <ErrorMessage message={error} />}
 
-        {showResults && comparisonMode && comparisonData.length > 0 && (
-          <ComparisonView comparisonData={comparisonData} />
-        )}
-
-        {showResults && !comparisonMode && savingsData && (
+        {showResults && savingsData && (
           <SavingsResult
             savings={savings}
             annualSavings={savingsData.annualSavings}

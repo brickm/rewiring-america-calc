@@ -23,13 +23,8 @@ interface UseSavingsCalculatorReturn {
   setAddress: (address: string) => void;
   currentFuel: string;
   setCurrentFuel: (fuel: string) => void;
-  selectedUpgrade: string;
-  setSelectedUpgrade: (upgrade: string) => void;
-  comparisonMode: boolean;
-  setComparisonMode: (mode: boolean) => void;
   savingsData: SavingsResponse | null;
-  comparisonData: SavingsResponse[];
-  savings: string; // Legacy field for backward compatibility
+  savings: string;
   loading: boolean;
   error: string;
   showResults: boolean;
@@ -40,10 +35,7 @@ interface UseSavingsCalculatorReturn {
 export function useSavingsCalculator(): UseSavingsCalculatorReturn {
   const [address, setAddress] = useState('');
   const [currentFuel, setCurrentFuel] = useState('natural_gas');
-  const [selectedUpgrade, setSelectedUpgrade] = useState('hvac__heat_pump_seer18_hspf10');
-  const [comparisonMode, setComparisonMode] = useState(false);
   const [savingsData, setSavingsData] = useState<SavingsResponse | null>(null);
-  const [comparisonData, setComparisonData] = useState<SavingsResponse[]>([]);
   const [showResults, setShowResults] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -54,42 +46,15 @@ export function useSavingsCalculator(): UseSavingsCalculatorReturn {
     setShowResults(false);
 
     try {
-      if (comparisonMode) {
-        // Fetch all three heat pump types
-        const upgrades = [
-          'hvac__heat_pump_seer15_hspf9',
-          'hvac__heat_pump_seer18_hspf10',
-          'hvac__heat_pump_seer24_hspf13'
-        ];
+      const response = await axios.get('/api/savings', {
+        params: {
+          address,
+          heating_fuel: currentFuel,
+          upgrade: 'hvac__heat_pump_seer18_hspf10'
+        }
+      });
 
-        const responses = await Promise.all(
-          upgrades.map(upgrade =>
-            axios.get('/api/savings', {
-              params: {
-                address,
-                heating_fuel: currentFuel,
-                upgrade
-              }
-            })
-          )
-        );
-
-        setComparisonData(responses.map(r => r.data));
-        setSavingsData(null);
-      } else {
-        // Fetch single selected upgrade
-        const response = await axios.get('/api/savings', {
-          params: {
-            address,
-            heating_fuel: currentFuel,
-            upgrade: selectedUpgrade
-          }
-        });
-
-        setSavingsData(response.data);
-        setComparisonData([]);
-      }
-
+      setSavingsData(response.data);
       setShowResults(true);
     } catch (err: any) {
       setError(err.response?.data?.error || 'Failed to calculate savings');
@@ -113,19 +78,8 @@ export function useSavingsCalculator(): UseSavingsCalculatorReturn {
       setCurrentFuel(value);
       resetResults();
     },
-    selectedUpgrade,
-    setSelectedUpgrade: (value: string) => {
-      setSelectedUpgrade(value);
-      resetResults();
-    },
-    comparisonMode,
-    setComparisonMode: (value: boolean) => {
-      setComparisonMode(value);
-      resetResults();
-    },
     savingsData,
-    comparisonData,
-    savings: savingsData?.savings || '', // Legacy field
+    savings: savingsData?.savings || '',
     loading,
     error,
     showResults,

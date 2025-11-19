@@ -640,7 +640,60 @@
             <div class="slide-number">7</div>
         </div>
 
-        <!-- Slide 8: Setup Commands -->
+        <!-- Slide 8: Claude Code Pricing -->
+        <div class="slide">
+            <h2>Claude Code Pricing</h2>
+            <div style="flex: 1;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 15px; margin-bottom: 24px;">
+                    <thead>
+                        <tr style="background: #1a1a1a; color: white;">
+                            <th style="padding: 12px; border: 3px solid black; text-align: left;">Plan</th>
+                            <th style="padding: 12px; border: 3px solid black; text-align: left;">Monthly Cost</th>
+                            <th style="padding: 12px; border: 3px solid black; text-align: left;">Prompts/5hr</th>
+                            <th style="padding: 12px; border: 3px solid black; text-align: left;">Best For</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background: #f5f5f5;">
+                            <td style="padding: 12px; border: 3px solid black;"><strong>Free</strong></td>
+                            <td style="padding: 12px; border: 3px solid black;">$0</td>
+                            <td style="padding: 12px; border: 3px solid black;">No Claude Code</td>
+                            <td style="padding: 12px; border: 3px solid black;">Personal/curiosity</td>
+                        </tr>
+                        <tr style="background: #ffd900;">
+                            <td style="padding: 12px; border: 3px solid black;"><strong>Pro</strong> ⭐</td>
+                            <td style="padding: 12px; border: 3px solid black;">$20/mo<br><span style="font-size: 13px;">($17/mo annual)</span></td>
+                            <td style="padding: 12px; border: 3px solid black;">10-40</td>
+                            <td style="padding: 12px; border: 3px solid black;"><strong>Individual devs, learners</strong></td>
+                        </tr>
+                        <tr style="background: #f5f5f5;">
+                            <td style="padding: 12px; border: 3px solid black;"><strong>Max $100</strong></td>
+                            <td style="padding: 12px; border: 3px solid black;">$100/mo</td>
+                            <td style="padding: 12px; border: 3px solid black;">50-200</td>
+                            <td style="padding: 12px; border: 3px solid black;">Power users, teams</td>
+                        </tr>
+                        <tr style="background: #f5f5f5;">
+                            <td style="padding: 12px; border: 3px solid black;"><strong>Max $200</strong></td>
+                            <td style="padding: 12px; border: 3px solid black;">$200/mo</td>
+                            <td style="padding: 12px; border: 3px solid black;">200-800</td>
+                            <td style="padding: 12px; border: 3px solid black;">Teams, pro workflows</td>
+                        </tr>
+                        <tr style="background: #f5f5f5;">
+                            <td style="padding: 12px; border: 3px solid black;"><strong>API</strong></td>
+                            <td style="padding: 12px; border: 3px solid black;">Pay-per-use</td>
+                            <td style="padding: 12px; border: 3px solid black;">Unlimited</td>
+                            <td style="padding: 12px; border: 3px solid black;">Scale, automation</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="warning">
+                    💡 For this workshop: <strong>Pro tier ($20/mo)</strong> recommended - includes Sonnet 4.5 + enough prompts for daily development
+                </div>
+            </div>
+            <div class="slide-number">8</div>
+        </div>
+
+        <!-- Slide 9: Setup Commands -->
         <div class="slide">
             <h2 style="margin-bottom: 20px;">Quick Start Commands</h2>
             <div style="flex: 1;">
@@ -657,10 +710,10 @@ git branch -M main && git push -u origin main</pre>
                 <pre style="margin-bottom: 0;">REWIRING_AMERICA_API_KEY=your_key_here
 NEXT_PUBLIC_API_BASE_URL=http://localhost:3000</pre>
             </div>
-            <div class="slide-number">8</div>
+            <div class="slide-number">9</div>
         </div>
 
-        <!-- Slide 9: Development Workflow -->
+        <!-- Slide 10: Development Workflow -->
         <div class="slide">
             <h2>
                 The Development Cycle
@@ -688,127 +741,7 @@ git push origin main</pre>
                     <p style="margin: 0; font-size: 18px; font-weight: 600;">Vercel detects push → builds → deploys (60 sec)</p>
                 </div>
             </div>
-            <div class="slide-number">9</div>
-        </div>
-
-        <!-- Slide 10: API Overview -->
-        <div class="slide">
-            <h2>Rewiring America Energy Savings API</h2>
-            <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
-                <p style="font-size: 20px; margin-bottom: 24px;">Calculate cost savings and energy impacts for electrification upgrades</p>
-                <pre style="font-size: 15px;">GET /api/v1/rem/address
-
-Params:
-  address           String   "1234 Main St, Denver, CO"
-  heating_fuel      String   "fuel_oil" | "natural_gas" | "propane" | "electric"
-  upgrade           String   "hvac__heat_pump_seer15_hspf9"
-                             "hvac__heat_pump_seer18_hspf10"
-                             "hvac__heat_pump_seer24_hspf13"
-
-Returns:
-  annual_savings    Object   { mean, median, percentile20, percentile80 }
-  monthly_savings   Object   { mean, median, percentile20, percentile80 }
-  energy_change     Object   { mean } (kWh per year)
-  emissions_reduction Object { mean } (kg CO₂e per year)
-  estimate_type     String   "address_level" | "puma_level"</pre>
-                <div class="card" style="margin-top: 24px;">
-                    <p style="margin: 0; font-size: 16px;"><strong>Key Feature:</strong> API returns percentile ranges (20th-80th) for uncertainty bounds, not just point estimates. We use parallel API calls to compare all three heat pump efficiency levels.</p>
-                </div>
-            </div>
             <div class="slide-number">10</div>
-        </div>
-
-        <!-- Slide 10A: Building Heat Pump Comparison Feature -->
-        <div class="slide">
-            <h2>Building Heat Pump Comparison - The TDD Way</h2>
-            <div style="flex: 1;">
-                <div class="two-col">
-                    <div>
-                        <h3>1. Write Tests First</h3>
-                        <pre style="font-size: 11px;">it('should accept upgrade param',
-async () => {
-  const res = await GET({
-    params: {
-      address: '123 Main, Denver',
-      heating_fuel: 'natural_gas',
-      upgrade: 'hvac__heat_pump_seer24_hspf13'
-    }
-  });
-
-  expect(res.status).toBe(200);
-  expect(res.data.upgrade)
-    .toBe('hvac__heat_pump_seer24_hspf13');
-});</pre>
-                    </div>
-                    <div>
-                        <h3>2. Implement Parallel API Calls</h3>
-                        <pre style="font-size: 11px;">const upgrades = [
-  'hvac__heat_pump_seer15_hspf9',
-  'hvac__heat_pump_seer18_hspf10',
-  'hvac__heat_pump_seer24_hspf13'
-];
-
-const responses = await Promise.all(
-  upgrades.map(upgrade =>
-    axios.get('/api/savings', {
-      params: { address, heating_fuel, upgrade }
-    })
-  )
-);
-setComparisonData(responses.map(r => r.data));</pre>
-                    </div>
-                </div>
-                <div class="card" style="margin-top: 20px;">
-                    <h3 style="font-size: 18px; margin-bottom: 12px;">3. All Tests Pass ✅</h3>
-                    <p style="margin: 0; font-family: monospace; font-size: 13px; color: #00A98F;">
-                        ✓ should return 400 if address is missing<br>
-                        ✓ should return savings data with upgrade parameter<br>
-                        ✓ should handle different SEER ratings correctly<br>
-                        ✓ should return percentile ranges for uncertainty<br>
-                        ✓ calculator page should render without crashing
-                    </p>
-                </div>
-            </div>
-            <div class="slide-number">11</div>
-        </div>
-
-        <!-- Slide 10B: Heat Pump Comparison in Action -->
-        <div class="slide">
-            <h2>Heat Pump Comparison in Action</h2>
-            <div style="flex: 1;">
-                <div class="three-col" style="margin-bottom: 24px;">
-                    <div class="stat">
-                        <div class="stat-number" style="font-size: 32px;">SEER 15</div>
-                        <div class="stat-label">Standard Efficiency</div>
-                        <div style="font-size: 14px; margin-top: 8px;">$842/year savings</div>
-                    </div>
-                    <div class="stat" style="background: #4da6ff; color: white;">
-                        <div class="stat-number" style="font-size: 32px;">SEER 18</div>
-                        <div class="stat-label">High Efficiency</div>
-                        <div style="font-size: 14px; margin-top: 8px;">$851/year savings ⭐</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-number" style="font-size: 32px;">SEER 24</div>
-                        <div class="stat-label">Premium Efficiency</div>
-                        <div style="font-size: 14px; margin-top: 8px;">$848/year savings</div>
-                    </div>
-                </div>
-
-                <h3>What We Built</h3>
-                <ul style="font-size: 18px;">
-                    <li><strong>HeatPumpSelector:</strong> Radio buttons for 3 efficiency levels with comparison mode toggle</li>
-                    <li><strong>ComparisonView:</strong> Side-by-side display with "Best Value" badge</li>
-                    <li><strong>Parallel API calls:</strong> Promise.all to fetch all three options simultaneously</li>
-                    <li><strong>Enhanced metrics:</strong> Percentile ranges, monthly savings, energy change, CO₂ reduction</li>
-                </ul>
-
-                <div class="card" style="margin-top: 20px;">
-                    <p style="margin: 0; font-size: 16px;">
-                        <strong>Claude Code's Role:</strong> Wrote tests, built UI components, implemented comparison logic, created parallel API calls, and ensured proper state management—all following TDD principles.
-                    </p>
-                </div>
-            </div>
-            <div class="slide-number">12</div>
         </div>
 
         <!-- Slide 11: Equity Considerations -->
@@ -840,10 +773,83 @@ setComparisonData(responses.map(r => r.data));</pre>
                     </ul>
                 </div>
             </div>
+            <div class="slide-number">11</div>
+        </div>
+
+        <!-- Slide 12: API Overview -->
+        <div class="slide">
+            <h2>Rewiring America Energy Savings API</h2>
+            <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+                <p style="font-size: 20px; margin-bottom: 24px;">Calculate cost savings and energy impacts for electrification upgrades</p>
+                <pre style="font-size: 15px;">GET /api/v1/rem/address
+
+Params:
+  address           String   "1234 Main St, Denver, CO"
+  heating_fuel      String   "fuel_oil" | "natural_gas" | "propane" | "electric"
+  upgrade           String   "hvac__heat_pump_seer15_hspf9"
+                             "hvac__heat_pump_seer18_hspf10"
+                             "hvac__heat_pump_seer24_hspf13"
+
+Returns:
+  annual_savings    Object   { mean, median, percentile20, percentile80 }
+  monthly_savings   Object   { mean, median, percentile20, percentile80 }
+  energy_change     Object   { mean } (kWh per year)
+  emissions_reduction Object { mean } (kg CO₂e per year)
+  estimate_type     String   "address_level" | "puma_level"</pre>
+                <div class="card" style="margin-top: 24px;">
+                    <p style="margin: 0; font-size: 16px;"><strong>Key Feature:</strong> API returns percentile ranges (20th-80th) for uncertainty bounds, not just point estimates. We use parallel API calls to compare all three heat pump efficiency levels.</p>
+                </div>
+            </div>
+            <div class="slide-number">12</div>
+        </div>
+
+        <!-- Slide 13: Building Together - Heat Pump Comparison -->
+        <div class="slide">
+            <h2>What We'll Build Together</h2>
+            <div style="flex: 1;">
+                <p style="font-size: 22px; margin-bottom: 32px;">Let's extend the basic calculator to compare multiple heat pump efficiency levels!</p>
+
+                <div class="two-col" style="margin-bottom: 24px;">
+                    <div>
+                        <h3>Current State (Basic Calculator)</h3>
+                        <ul style="font-size: 18px;">
+                            <li>Single heat pump option (SEER 18)</li>
+                            <li>Shows annual savings only</li>
+                            <li>One API call per calculation</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>What We'll Add</h3>
+                        <ul style="font-size: 18px;">
+                            <li>Compare 3 efficiency levels (SEER 15, 18, 24)</li>
+                            <li>Side-by-side comparison view</li>
+                            <li>Parallel API calls with Promise.all</li>
+                            <li>"Best Value" badge logic</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card" style="background: #ffd900; margin-bottom: 16px;">
+                    <h3 style="font-size: 20px; margin-bottom: 12px;">The TDD Approach</h3>
+                    <p style="margin: 0; font-size: 18px;">
+                        1. Write tests for comparison feature<br>
+                        2. Add HeatPumpSelector component<br>
+                        3. Implement parallel API calls<br>
+                        4. Create ComparisonView UI<br>
+                        5. All tests pass ✅
+                    </p>
+                </div>
+
+                <div class="card">
+                    <p style="margin: 0; font-size: 16px;">
+                        <strong>Claude Code will help us:</strong> Generate tests, scaffold components, implement comparison logic, and ensure everything follows TDD principles—all in ~25 minutes!
+                    </p>
+                </div>
+            </div>
             <div class="slide-number">13</div>
         </div>
 
-        <!-- Slide 12: Troubleshooting -->
+        <!-- Slide 14: Troubleshooting -->
         <div class="slide">
             <h2 style="margin-bottom: 24px;">Common Issues & Fixes</h2>
             <div style="flex: 1;">
@@ -1052,12 +1058,12 @@ setComparisonData(responses.map(r => r.data));</pre>
             'What You\'ll Learn',
             'Technology Stack',
             'Prerequisites',
+            'Claude Code Pricing',
             'Setup Commands',
             'Development Cycle',
-            'Energy Savings API',
-            'Heat Pump Comparison - TDD',
-            'Heat Pump Comparison in Action',
             'Equity',
+            'Energy Savings API',
+            'What We\'ll Build Together',
             'Troubleshooting',
             'Let\'s Build!'
         ];

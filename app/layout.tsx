@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Electrification Nation - Heat Pump Calculator",
-  description: "Calculate your annual savings by switching to a heat pump with Rewiring America",
+  title: "Claude Code for Learning Designers",
+  description: "Why specification is the new superpower — a workshop for instructional designers and L&D leaders",
 };
 
 export default function RootLayout({

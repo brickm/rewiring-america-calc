@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building Climate Tools with AI - Workshop Presentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: #e8e4dc;
+            color: #1a1a1a;
+            overflow: hidden;
+        }
+
+        .slide-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 40px;
+            gap: 40px;
+        }
+
+        .slide {
+            display: none;
+            width: 100%;
+            max-width: 1200px;
+            height: 100%;
+            max-height: 700px;
+            background: white;
+            border: 3px solid black;
+            box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 1);
+            padding: 50px;
+            position: relative;
+            overflow-y: auto;
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-family: "SF Mono", "Monaco", "Inconsolata", "Fira Mono", monospace;
+            font-size: 64px;
+            font-weight: 400;
+            line-height: 1.1;
+            letter-spacing: -1px;
+            margin-bottom: 24px;
+            text-transform: uppercase;
+        }
+
+        h2 {
+            font-family: "SF Mono", "Monaco", "Inconsolata", "Fira Mono", monospace;
+            font-size: 48px;
+            font-weight: 400;
+            line-height: 1.1;
+            letter-spacing: -1px;
+            margin-bottom: 32px;
+            text-transform: uppercase;
+        }
+
+        h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        p {
+            font-size: 20px;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        ul {
+            list-style: none;
+            margin-bottom: 24px;
+        }
+
+        li {
+            font-size: 20px;
+            line-height: 1.8;
+            padding-left: 32px;
+            position: relative;
+            margin-bottom: 12px;
+        }
+
+        li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #4da6ff;
+            font-weight: bold;
+        }
+
+        .highlight {
+            background: #ffd900;
+            padding: 4px 8px;
+            border: 2px solid black;
+        }
+
+        .card {
+            background: white;
+            border: 3px solid black;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 1);
+        }
+
+        .card-small {
+            background: white;
+            border: 3px solid black;
+            padding: 16px;
+            margin-bottom: 12px;
+            box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 1);
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            flex: 1;
+        }
+
+        .three-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 24px;
+            flex: 1;
+        }
+
+        .two-by-two {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .tech-icon {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 12px;
+        }
+
+        .slide-number {
+            position: absolute;
+            bottom: 24px;
+            right: 24px;
+            font-family: "SF Mono", "Monaco", monospace;
+            font-size: 16px;
+            color: #666;
+        }
+
+        .controls {
+            display: none;
+        }
+
+        .back-home {
+            position: fixed;
+            top: 40px;
+            left: 40px;
+            z-index: 1001;
+        }
+
+        .slide-nav {
+            background: white;
+            border: 3px solid black;
+            box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 1);
+            padding: 12px;
+            width: 280px;
+            max-height: 700px;
+            overflow-y: auto;
+            flex-shrink: 0;
+        }
+
+        .slide-nav-item {
+            padding: 8px 12px;
+            margin: 4px 0;
+            border: 2px solid black;
+            background: white;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .slide-nav-item:hover {
+            background: #4da6ff;
+            color: white;
+        }
+
+        .slide-nav-item.active {
+            background: #ffd900;
+            border-width: 3px;
+        }
+
+        button {
+            background: #4da6ff;
+            color: white;
+            border: 3px solid black;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            text-transform: uppercase;
+            cursor: pointer;
+            box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 1);
+            transition: all 0.2s;
+        }
+
+        button:hover {
+            background: #3d96ef;
+            box-shadow: 6px 6px 0px 0px rgba(0, 0, 0, 1);
+        }
+
+        button:active {
+            transform: translate(2px, 2px);
+            box-shadow: none;
+        }
+
+        button:disabled {
+            background: #d0ccc4;
+            color: #666;
+            cursor: not-allowed;
+        }
+
+        code {
+            background: #1a1a1a;
+            color: #ffd900;
+            padding: 2px 6px;
+            font-family: "SF Mono", monospace;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        pre {
+            background: #1a1a1a;
+            color: #ffd900;
+            padding: 20px;
+            border: 3px solid black;
+            font-family: "SF Mono", monospace;
+            font-size: 16px;
+            font-weight: 600;
+            overflow-x: auto;
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+
+        .warning {
+            background: #ffd900;
+            border: 3px solid black;
+            padding: 20px;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .timeline-time {
+            font-family: "SF Mono", monospace;
+            font-size: 18px;
+            font-weight: 600;
+            color: #4da6ff;
+            min-width: 80px;
+        }
+
+        .timeline-content {
+            flex: 1;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 24px;
+            border: 3px solid black;
+            background: #ffd900;
+        }
+
+        .stat-number {
+            font-family: "SF Mono", monospace;
+            font-size: 56px;
+            font-weight: 400;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-content {
+            background: white;
+            border: 3px solid black;
+            box-shadow: 8px 8px 0px 0px rgba(0, 0, 0, 1);
+            padding: 40px;
+            max-width: 700px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                transform: translateY(-30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #1a1a1a;
+            color: white;
+            border: 2px solid black;
+            width: 36px;
+            height: 36px;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .modal-close:hover {
+            background: #ff4444;
+        }
+
+        .modal-title {
+            font-family: "SF Mono", "Monaco", "Inconsolata", "Fira Mono", monospace;
+            font-size: 36px;
+            font-weight: 400;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .modal-icon {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+        }
+
+        .card-small.clickable {
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .card-small.clickable:hover {
+            background: #f0f0f0;
+            transform: translateY(-2px);
+            box-shadow: 6px 6px 0px 0px rgba(0, 0, 0, 1);
+        }
+
+        /* Thumbnail styles */
+        .thumbnail-icon {
+            height: 40px;
+            width: auto;
+            margin-left: 16px;
+            border: 2px solid black;
+            cursor: pointer;
+            transition: all 0.2s;
+            vertical-align: middle;
+            display: inline-block;
+        }
+
+        .thumbnail-icon:hover {
+            transform: scale(1.1);
+            border-color: #4da6ff;
+            box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 1);
+        }
+
+        .modal-content img.workflow-image {
+            width: 100%;
+            height: auto;
+            border: 2px solid black;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="back-home">
+        <button style="font-size: 14px; padding: 10px 16px; background: #4da6ff; color: white; border: 3px solid black; box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 1); cursor: pointer; font-weight: 600; text-transform: uppercase;">← HOME</button>
+    </a>
+
+    <div class="slide-container">
+        <div class="slide-nav" id="slideNav">
+            <!-- Will be populated by JavaScript -->
+        </div>
+
+        <div style="flex: 1; display: flex; align-items: center; justify-content: center; max-width: 1200px;">
+            <div style="width: 100%; position: relative;">
+
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <h1>FROM VISION TO REALITY</h1>
+            <h2 style="color: #4da6ff; margin-bottom: 48px;">Building Climate Tools with AI</h2>
+            <p style="font-size: 24px; margin-bottom: 32px;">A 75-minute workshop on AI-assisted development for climate solutions</p>
+            <div style="margin-top: auto;">
+                <p style="font-size: 18px; color: #666;">No coding experience necessary</p>
+            </div>
+            <div class="slide-number">1</div>
+        </div>
+
+        <!-- Slide 2: Workshop Timeline -->
+        <div class="slide">
+            <h2>Workshop Timeline</h2>
+            <div style="flex: 1;">
+                <div class="timeline-item">
+                    <div class="timeline-time">10 min</div>
+                    <div class="timeline-content">
+                        <h3>Introduction</h3>
+                        <p>Claude Code setup & Rewiring America API overview</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">15 min</div>
+                    <div class="timeline-content">
+                        <h3>Foundation</h3>
+                        <p>Extending the basic React demo with visual home model</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">25 min</div>
+                    <div class="timeline-content">
+                        <h3>Core Features</h3>
+                        <p>Adding Heat Pump Efficiency Comparison & enhanced metrics</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">20 min</div>
+                    <div class="timeline-content">
+                        <h3>Polish & Deploy</h3>
+                        <p>Maps, git workflow, Vercel deployment</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">5 min</div>
+                    <div class="timeline-content">
+                        <h3>Live Demo</h3>
+                        <p>Make a change, commit, watch it go live</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-number">2</div>
+        </div>
+
+        <!-- Slide 3: What We're Building -->
+        <div class="slide">
+            <h2>What We're Building Today</h2>
+            <div style="flex: 1;">
+                <p style="font-size: 24px; margin-bottom: 32px;">An interactive <span class="highlight">Home Electrification Impact Calculator</span></p>
+                <ul style="font-size: 22px;">
+                    <li>Annual cost savings estimates with percentile ranges</li>
+                    <li>Compare three heat pump efficiency levels (SEER 15/18/24)</li>
+                    <li>Side-by-side cost & emissions analysis</li>
+                    <li>Best value recommendations based on your location</li>
+                </ul>
+                <div class="card" style="margin-top: 32px;">
+                    <p style="font-size: 18px; margin-bottom: 0;"><strong>From concept → deployed web app in 75 minutes</strong></p>
+                </div>
+            </div>
+            <div class="slide-number">3</div>
+        </div>
+
+        <!-- Slide 4: Who This Is For -->
+        <div class="slide">
+            <h2>Who Should Attend</h2>
+            <div class="two-col">
+                <div>
+                    <h3>Professionals</h3>
+                    <ul>
+                        <li>Climate advocates</li>
+                        <li>Policy makers</li>
+                        <li>Clean energy contractors</li>
+                        <li>Program administrators</li>
+                        <li>Educators</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Anyone Curious About</h3>
+                    <ul>
+                        <li>AI-assisted development</li>
+                        <li>Building climate tools</li>
+                        <li>Modern web workflows</li>
+                        <li>No-code/low-code solutions</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="warning">
+                ⚠️ No coding background required!
+            </div>
+            <div class="slide-number">4</div>
+        </div>
+
+        <!-- Slide 5: What You'll Learn -->
+        <div class="slide">
+            <h2>What You'll Learn Today</h2>
+            <div class="two-col">
+                <div>
+                    <h3>Technical Skills</h3>
+                    <ul>
+                        <li>AI-assisted development with Claude Code</li>
+                        <li>Working with climate APIs</li>
+                        <li>Building interactive visualizations</li>
+                        <li>Git version control basics</li>
+                        <li>Modern deployment workflows</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Conceptual Understanding</h3>
+                    <ul>
+                        <li>How AI democratizes development</li>
+                        <li>Component-based architecture</li>
+                        <li>API integration patterns</li>
+                        <li>Honest policy communication</li>
+                        <li>Equity-centered design</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="slide-number">5</div>
+        </div>
+
+        <!-- Slide 6: Technology Stack -->
+        <div class="slide">
+            <h2 style="margin-bottom: 20px;">Technologies We'll Use</h2>
+            <div class="two-by-two" style="flex: 1;">
+                <div class="card-small clickable" onclick="openModal('claude-code')">
+                    <img src="/claude-code.svg" alt="Claude Code" style="width: 80px; height: 40px; object-fit: contain; margin-bottom: 12px;">
+                    <h3 style="font-size: 18px; margin-bottom: 8px;">Claude Code</h3>
+                    <p style="font-size: 14px; margin: 0;">AI coding assistant</p>
+                </div>
+                <div class="card-small clickable" onclick="openModal('nextjs')">
+                    <img src="/next.svg" alt="Next.js" style="width: 40px; height: 40px; object-fit: contain; margin-bottom: 12px;">
+                    <h3 style="font-size: 18px; margin-bottom: 8px;">Next.js</h3>
+                    <p style="font-size: 14px; margin: 0;">React web framework</p>
+                </div>
+                <div class="card-small clickable" onclick="openModal('github')">
+                    <svg class="tech-icon" viewBox="0 0 24 24" style="width: 40px; height: 40px;"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                    <h3 style="font-size: 18px; margin-bottom: 8px;">GitHub</h3>
+                    <p style="font-size: 14px; margin: 0;">Version control</p>
+                </div>
+                <div class="card-small clickable" onclick="openModal('vercel')">
+                    <svg class="tech-icon" viewBox="0 0 24 24" style="width: 40px; height: 40px;"><path d="M24 22.525H0l12-21.05 12 21.05z" fill="#000"/></svg>
+                    <h3 style="font-size: 18px; margin-bottom: 8px;">Vercel</h3>
+                    <p style="font-size: 14px; margin: 0;">Deployment platform</p>
+                </div>
+                <div class="card-small clickable" onclick="openModal('tailwind')">
+                    <svg class="tech-icon" viewBox="0 0 256 154" style="width: 40px; height: 40px;"><defs><linearGradient x1="-2.778%" y1="32%" x2="100%" y2="67.556%" id="tailwind-grad"><stop stop-color="#2298BD" offset="0%"/><stop stop-color="#0ED7B5" offset="100%"/></linearGradient></defs><path d="M128 0C93.867 0 72.533 17.067 64 51.2 76.8 34.133 91.733 27.733 108.8 32c9.737 2.434 16.697 9.499 24.401 17.318C145.751 62.057 160.275 76.8 192 76.8c34.133 0 55.467-17.067 64-51.2-12.8 17.067-27.733 23.467-44.8 19.2-9.737-2.434-16.697-9.499-24.401-17.318C174.249 14.743 159.725 0 128 0ZM64 76.8C29.867 76.8 8.533 93.867 0 128c12.8-17.067 27.733-23.467 44.8-19.2 9.737 2.434 16.697 9.499 24.401 17.318C81.751 138.857 96.275 153.6 128 153.6c34.133 0 55.467-17.067 64-51.2-12.8 17.067-27.733 23.467-44.8 19.2-9.737-2.434-16.697-9.499-24.401-17.318C110.249 91.543 95.725 76.8 64 76.8Z" fill="url(#tailwind-grad)"/></svg>
+                    <h3 style="font-size: 18px; margin-bottom: 8px;">Tailwind CSS</h3>
+                    <p style="font-size: 14px; margin: 0;">Styling framework</p>
+                </div>
+                <div class="card-small clickable" onclick="openModal('rewiring-america')">
+                    <svg class="tech-icon" viewBox="0 0 24 24" style="width: 40px; height: 40px;"><circle cx="12" cy="12" r="10" fill="#00A98F"/><text x="12" y="16" text-anchor="middle" fill="white" font-size="12" font-weight="bold">RA</text></svg>
+                    <h3 style="font-size: 18px; margin-bottom: 8px;">Rewiring America</h3>
+                    <p style="font-size: 14px; margin: 0;">Energy & health data</p>
+                </div>
+            </div>
+            <div class="slide-number">6</div>
+        </div>
+
+        <!-- Slide 7: Prerequisites -->
+        <div class="slide">
+            <h2>Before We Start</h2>
+            <div style="flex: 1;">
+                <h3>Required Accounts (Free)</h3>
+                <ul>
+                    <li>GitHub account → <code>github.com/signup</code></li>
+                    <li>Vercel account → <code>vercel.com/signup</code></li>
+                    <li>Rewiring America API key → <code>docs.rewiringamerica.org/signin</code></li>
+                </ul>
+                <h3 style="margin-top: 32px;">Required Software</h3>
+                <ul>
+                    <li>Node.js 20+ → <code>nodejs.org</code></li>
+                    <li>Git → <code>git-scm.com</code></li>
+                </ul>
+                <div class="warning" style="margin-top: 32px;">
+                    📝 Make sure these are set up before the workshop starts!
+                </div>
+            </div>
+            <div class="slide-number">7</div>
+        </div>
+
+        <!-- Slide 8: Claude Code Pricing -->
+        <div class="slide">
+            <h2>Claude Code Pricing</h2>
+            <div style="flex: 1;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 15px; margin-bottom: 24px;">
+                    <thead>
+                        <tr style="background: #1a1a1a; color: white;">
+                            <th style="padding: 12px; border: 3px solid black; text-align: left;">Plan</th>
+                            <th style="padding: 12px; border: 3px solid black; text-align: left;">Monthly Cost</th>
+                            <th style="padding: 12px; border: 3px solid black; text-align: left;">Prompts/5hr</th>
+                            <th style="padding: 12px; border: 3px solid black; text-align: left;">Best For</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background: #f5f5f5;">
+                            <td style="padding: 12px; border: 3px solid black;"><strong>Free</strong></td>
+                            <td style="padding: 12px; border: 3px solid black;">$0</td>
+                            <td style="padding: 12px; border: 3px solid black;">No Claude Code</td>
+                            <td style="padding: 12px; border: 3px solid black;">Personal/curiosity</td>
+                        </tr>
+                        <tr style="background: #ffd900;">
+                            <td style="padding: 12px; border: 3px solid black;"><strong>Pro</strong> ⭐</td>
+                            <td style="padding: 12px; border: 3px solid black;">$20/mo<br><span style="font-size: 13px;">($17/mo annual)</span></td>
+                            <td style="padding: 12px; border: 3px solid black;">10-40</td>
+                            <td style="padding: 12px; border: 3px solid black;"><strong>Individual devs, learners</strong></td>
+                        </tr>
+                        <tr style="background: #f5f5f5;">
+                            <td style="padding: 12px; border: 3px solid black;"><strong>Max $100</strong></td>
+                            <td style="padding: 12px; border: 3px solid black;">$100/mo</td>
+                            <td style="padding: 12px; border: 3px solid black;">50-200</td>
+                            <td style="padding: 12px; border: 3px solid black;">Power users, teams</td>
+                        </tr>
+                        <tr style="background: #f5f5f5;">
+                            <td style="padding: 12px; border: 3px solid black;"><strong>Max $200</strong></td>
+                            <td style="padding: 12px; border: 3px solid black;">$200/mo</td>
+                            <td style="padding: 12px; border: 3px solid black;">200-800</td>
+                            <td style="padding: 12px; border: 3px solid black;">Teams, pro workflows</td>
+                        </tr>
+                        <tr style="background: #f5f5f5;">
+                            <td style="padding: 12px; border: 3px solid black;"><strong>API</strong></td>
+                            <td style="padding: 12px; border: 3px solid black;">Pay-per-use</td>
+                            <td style="padding: 12px; border: 3px solid black;">Unlimited</td>
+                            <td style="padding: 12px; border: 3px solid black;">Scale, automation</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="warning">
+                    💡 For this workshop: <strong>Pro tier ($20/mo)</strong> recommended - includes Sonnet 4.5 + enough prompts for daily development
+                </div>
+            </div>
+            <div class="slide-number">8</div>
+        </div>
+
+        <!-- Slide 9: Setup Commands -->
+        <div class="slide">
+            <h2 style="margin-bottom: 20px;">Quick Start Commands</h2>
+            <div style="flex: 1;">
+                <h3 style="font-size: 20px; margin-bottom: 12px;">Create Application</h3>
+                <pre>npx create-next-app@latest rewiring-america-calc \
+  --typescript --tailwind --app --use-npm
+cd rewiring-america-calc && npm install axios</pre>
+
+                <h3 style="font-size: 20px; margin-bottom: 12px;">Connect to GitHub</h3>
+                <pre>git remote add origin https://github.com/USERNAME/REPO.git
+git branch -M main && git push -u origin main</pre>
+
+                <h3 style="font-size: 20px; margin-bottom: 12px;">Environment Variables (.env.local)</h3>
+                <pre style="margin-bottom: 0;">REWIRING_AMERICA_API_KEY=your_key_here
+NEXT_PUBLIC_API_BASE_URL=http://localhost:3000</pre>
+            </div>
+            <div class="slide-number">9</div>
+        </div>
+
+        <!-- Slide 10: Development Workflow -->
+        <div class="slide">
+            <h2>
+                The Development Cycle
+                <img src="/git_push_git_deploy.png" alt="Git Workflow" class="thumbnail-icon" onclick="openModal('git-workflow')" title="Click to view Git Push & Deploy workflow">
+                <img src="/app_workflow.png" alt="App Workflow" class="thumbnail-icon" onclick="openModal('app-workflow')" title="Click to view App Development workflow">
+            </h2>
+            <div class="two-by-two" style="flex: 1;">
+                <div class="card">
+                    <h3 style="color: #4da6ff; font-size: 20px; margin-bottom: 12px;">1. Build Features</h3>
+                    <pre style="margin: 0;">npm run dev
+# Visit http://localhost:3000</pre>
+                </div>
+                <div class="card">
+                    <h3 style="color: #4da6ff; font-size: 20px; margin-bottom: 12px;">2. Test Build</h3>
+                    <pre style="margin: 0;">npm run build</pre>
+                </div>
+                <div class="card">
+                    <h3 style="color: #4da6ff; font-size: 20px; margin-bottom: 12px;">3. Commit Changes</h3>
+                    <pre style="margin: 0;">git add .
+git commit -m "message"
+git push origin main</pre>
+                </div>
+                <div class="card">
+                    <h3 style="color: #4da6ff; font-size: 20px; margin-bottom: 12px;">4. Auto-Deploy</h3>
+                    <p style="margin: 0; font-size: 18px; font-weight: 600;">Vercel detects push → builds → deploys (60 sec)</p>
+                </div>
+            </div>
+            <div class="slide-number">10</div>
+        </div>
+
+        <!-- Slide 11: Equity Considerations -->
+        <div class="slide">
+            <h2>Equity in Electrification Policy</h2>
+            <div class="two-col">
+                <div>
+                    <h3>Who Benefits Most?</h3>
+                    <div class="card">
+                        <p><strong>Homeowners</strong></p>
+                        <p style="font-size: 16px;">More likely white, middle/upper class</p>
+                    </div>
+                    <div class="card">
+                        <p><strong>Those with upfront capital</strong></p>
+                        <p style="font-size: 16px;">Can afford installations even with rebates</p>
+                    </div>
+                    <div class="card">
+                        <p><strong>Stable housing</strong></p>
+                        <p style="font-size: 16px;">Not facing eviction or instability</p>
+                    </div>
+                </div>
+                <div>
+                    <h3>Equity-Centered Priorities</h3>
+                    <ul style="font-size: 18px;">
+                        <li>Multi-family buildings (high aggregate impact)</li>
+                        <li>Environmental justice areas (worst baseline air quality)</li>
+                        <li>Lower-income housing types (mobile homes, small units)</li>
+                        <li>Total community impact, not just per-household metrics</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="slide-number">11</div>
+        </div>
+
+        <!-- Slide 12: API Overview -->
+        <div class="slide">
+            <h2>Rewiring America Energy Savings API</h2>
+            <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+                <p style="font-size: 20px; margin-bottom: 24px;">Calculate cost savings and energy impacts for electrification upgrades</p>
+                <pre style="font-size: 15px;">GET /api/v1/rem/address
+
+Params:
+  address           String   "1234 Main St, Denver, CO"
+  heating_fuel      String   "fuel_oil" | "natural_gas" | "propane" | "electric"
+  upgrade           String   "hvac__heat_pump_seer15_hspf9"
+                             "hvac__heat_pump_seer18_hspf10"
+                             "hvac__heat_pump_seer24_hspf13"
+
+Returns:
+  annual_savings    Object   { mean, median, percentile20, percentile80 }
+  monthly_savings   Object   { mean, median, percentile20, percentile80 }
+  energy_change     Object   { mean } (kWh per year)
+  emissions_reduction Object { mean } (kg CO₂e per year)
+  estimate_type     String   "address_level" | "puma_level"</pre>
+                <div class="card" style="margin-top: 24px;">
+                    <p style="margin: 0; font-size: 16px;"><strong>Key Feature:</strong> API returns percentile ranges (20th-80th) for uncertainty bounds, not just point estimates. We use parallel API calls to compare all three heat pump efficiency levels.</p>
+                </div>
+            </div>
+            <div class="slide-number">12</div>
+        </div>
+
+        <!-- Slide 13: Building Together - Heat Pump Comparison -->
+        <div class="slide">
+            <h2>What We'll Build Together</h2>
+            <div style="flex: 1;">
+                <p style="font-size: 22px; margin-bottom: 32px;">Let's extend the basic calculator to compare multiple heat pump efficiency levels!</p>
+
+                <div class="two-col" style="margin-bottom: 24px;">
+                    <div>
+                        <h3>Current State (Basic Calculator)</h3>
+                        <ul style="font-size: 18px;">
+                            <li>Single heat pump option (SEER 18)</li>
+                            <li>Shows annual savings only</li>
+                            <li>One API call per calculation</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>What We'll Add</h3>
+                        <ul style="font-size: 18px;">
+                            <li>Compare 3 efficiency levels (SEER 15, 18, 24)</li>
+                            <li>Side-by-side comparison view</li>
+                            <li>Parallel API calls with Promise.all</li>
+                            <li>"Best Value" badge logic</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card" style="background: #ffd900; margin-bottom: 16px;">
+                    <h3 style="font-size: 20px; margin-bottom: 12px;">The TDD Approach</h3>
+                    <p style="margin: 0; font-size: 18px;">
+                        1. Write tests for comparison feature<br>
+                        2. Add HeatPumpSelector component<br>
+                        3. Implement parallel API calls<br>
+                        4. Create ComparisonView UI<br>
+                        5. All tests pass ✅
+                    </p>
+                </div>
+
+                <div class="card">
+                    <p style="margin: 0; font-size: 16px;">
+                        <strong>Claude Code will help us:</strong> Generate tests, scaffold components, implement comparison logic, and ensure everything follows TDD principles—all in ~25 minutes!
+                    </p>
+                </div>
+            </div>
+            <div class="slide-number">13</div>
+        </div>
+
+        <!-- Slide 14: Troubleshooting -->
+        <div class="slide">
+            <h2 style="margin-bottom: 24px;">Common Issues & Fixes</h2>
+            <div style="flex: 1;">
+                <div class="card" style="margin-bottom: 12px;">
+                    <h3 style="font-size: 18px;">Cannot find module axios</h3>
+                    <pre style="margin: 0; font-size: 13px;">npm install axios</pre>
+                </div>
+                <div class="card" style="margin-bottom: 12px;">
+                    <h3 style="font-size: 18px;">Missing API key</h3>
+                    <p style="margin: 0; font-size: 15px;">Check <code>.env.local</code> exists and restart dev server</p>
+                </div>
+                <div class="card" style="margin-bottom: 12px;">
+                    <h3 style="font-size: 18px;">Port 3000 already in use</h3>
+                    <pre style="margin: 0; font-size: 13px;">npx kill-port 3000</pre>
+                </div>
+                <div class="card">
+                    <h3 style="font-size: 18px;">Vercel deployment fails</h3>
+                    <p style="margin: 0; font-size: 15px;">Verify environment variables in Vercel dashboard → Redeploy</p>
+                </div>
+            </div>
+            <div class="slide-number">14</div>
+        </div>
+
+        <!-- Slide 13: Let's Build! -->
+        <div class="slide">
+            <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+                <h1 style="font-size: 80px; margin-bottom: 32px;">LET'S BUILD!</h1>
+                <p style="font-size: 28px; margin-bottom: 48px;">From zero to deployed in 75 minutes</p>
+                <a href="/calculator" style="text-decoration: none;">
+                    <div style="background: #4da6ff; color: white; padding: 24px 48px; border: 3px solid black; box-shadow: 8px 8px 0px 0px rgba(0,0,0,1); font-size: 24px; font-weight: 600; text-transform: uppercase; cursor: pointer; transition: all 0.2s;">
+                        Start Calculator →
+                    </div>
+                </a>
+            </div>
+            <div class="slide-number">15</div>
+        </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Overlays -->
+    <div id="modal-claude-code" class="modal-overlay" onclick="closeModal('claude-code')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal('claude-code')">×</button>
+            <img src="/claude-code.svg" alt="Claude Code" class="modal-icon" style="width: 120px; height: 60px; object-fit: contain;">
+            <h2 class="modal-title">Claude Code</h2>
+            <p style="font-size: 18px; margin-bottom: 16px;"><strong>Agentic AI coding assistant that works through your terminal</strong></p>
+            <ul style="font-size: 18px; margin-bottom: 20px;">
+                <li>Build fully functioning web apps locally or remotely</li>
+                <li>Autonomous coding agent that can plan, write, test, and debug code</li>
+                <li>Works directly in your terminal with your local development environment</li>
+                <li>Understands complex project structures and can make changes across multiple files</li>
+            </ul>
+            <div class="card" style="margin-bottom: 16px;">
+                <p style="font-size: 16px; margin: 0;"><strong>Cost:</strong> $20/month with Claude Pro subscription</p>
+            </div>
+            <p style="font-size: 16px; color: #666;">Claude Code democratizes software development, making it accessible to non-programmers while accelerating experienced developers' workflows.</p>
+        </div>
+    </div>
+
+    <div id="modal-nextjs" class="modal-overlay" onclick="closeModal('nextjs')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal('nextjs')">×</button>
+            <img src="/next.svg" alt="Next.js" class="modal-icon" style="width: 80px; height: 80px; object-fit: contain;">
+            <h2 class="modal-title">Next.js</h2>
+            <p style="font-size: 18px; margin-bottom: 16px;"><strong>React-based web framework for production applications</strong></p>
+            <ul style="font-size: 18px; margin-bottom: 20px;">
+                <li>Server-side rendering and static site generation</li>
+                <li>Built-in API routes for backend functionality</li>
+                <li>Optimized performance with automatic code splitting</li>
+                <li>File-based routing system</li>
+                <li>TypeScript support out of the box</li>
+            </ul>
+            <p style="font-size: 16px; color: #666;">Next.js is built and maintained by Vercel, making it the perfect pairing for modern web development and deployment.</p>
+        </div>
+    </div>
+
+    <div id="modal-github" class="modal-overlay" onclick="closeModal('github')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal('github')">×</button>
+            <svg class="modal-icon" viewBox="0 0 24 24" style="width: 80px; height: 80px;"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+            <h2 class="modal-title">GitHub</h2>
+            <p style="font-size: 18px; margin-bottom: 16px;"><strong>Version control and collaboration platform</strong></p>
+
+            <h3 style="font-size: 20px; margin-bottom: 12px;">What is .git?</h3>
+            <ul style="font-size: 18px; margin-bottom: 20px;">
+                <li>A hidden folder that tracks all changes to your code</li>
+                <li>Creates a complete history of your project</li>
+                <li>Allows you to revert to previous versions</li>
+                <li>Enables branching and merging of different code versions</li>
+            </ul>
+
+            <h3 style="font-size: 20px; margin-bottom: 12px;">What is GitHub?</h3>
+            <ul style="font-size: 18px; margin-bottom: 20px;">
+                <li>Cloud-based hosting service for Git repositories</li>
+                <li>Collaboration platform for teams and open source</li>
+                <li>Backup for your code in the cloud</li>
+                <li>Integrates with deployment services like Vercel</li>
+                <li>Issue tracking, pull requests, and code review tools</li>
+            </ul>
+
+            <p style="font-size: 16px; color: #666;">Git is the tool, GitHub is the platform. Think of Git as Microsoft Word and GitHub as Google Docs.</p>
+        </div>
+    </div>
+
+    <div id="modal-vercel" class="modal-overlay" onclick="closeModal('vercel')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal('vercel')">×</button>
+            <svg class="modal-icon" viewBox="0 0 24 24" style="width: 80px; height: 80px;"><path d="M24 22.525H0l12-21.05 12 21.05z" fill="#000"/></svg>
+            <h2 class="modal-title">Vercel</h2>
+            <p style="font-size: 18px; margin-bottom: 16px;"><strong>Cloud platform for deploying modern web applications</strong></p>
+
+            <h3 style="font-size: 20px; margin-bottom: 12px;">How Vercel Works</h3>
+            <div class="card" style="margin-bottom: 16px;">
+                <p style="font-size: 16px; margin-bottom: 8px;"><strong>1. Connect:</strong> Link your GitHub repository to Vercel</p>
+                <p style="font-size: 16px; margin-bottom: 8px;"><strong>2. Detect:</strong> Vercel automatically detects when you push code</p>
+                <p style="font-size: 16px; margin-bottom: 8px;"><strong>3. Build:</strong> Runs your build process in the cloud</p>
+                <p style="font-size: 16px; margin: 0;"><strong>4. Deploy:</strong> Makes your app live at a public URL (~60 seconds)</p>
+            </div>
+
+            <ul style="font-size: 18px; margin-bottom: 20px;">
+                <li>Automatic HTTPS certificates</li>
+                <li>Global CDN for fast loading worldwide</li>
+                <li>Preview deployments for every pull request</li>
+                <li>Easy environment variable management</li>
+                <li>Built by the creators of Next.js</li>
+            </ul>
+
+            <p style="font-size: 16px; color: #666;">Push to GitHub → Vercel builds and deploys automatically. No server configuration needed.</p>
+        </div>
+    </div>
+
+    <div id="modal-tailwind" class="modal-overlay" onclick="closeModal('tailwind')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal('tailwind')">×</button>
+            <svg class="modal-icon" viewBox="0 0 256 154" style="width: 80px; height: 80px;"><defs><linearGradient x1="-2.778%" y1="32%" x2="100%" y2="67.556%" id="tailwind-grad-modal"><stop stop-color="#2298BD" offset="0%"/><stop stop-color="#0ED7B5" offset="100%"/></linearGradient></defs><path d="M128 0C93.867 0 72.533 17.067 64 51.2 76.8 34.133 91.733 27.733 108.8 32c9.737 2.434 16.697 9.499 24.401 17.318C145.751 62.057 160.275 76.8 192 76.8c34.133 0 55.467-17.067 64-51.2-12.8 17.067-27.733 23.467-44.8 19.2-9.737-2.434-16.697-9.499-24.401-17.318C174.249 14.743 159.725 0 128 0ZM64 76.8C29.867 76.8 8.533 93.867 0 128c12.8-17.067 27.733-23.467 44.8-19.2 9.737 2.434 16.697 9.499 24.401 17.318C81.751 138.857 96.275 153.6 128 153.6c34.133 0 55.467-17.067 64-51.2-12.8 17.067-27.733 23.467-44.8 19.2-9.737-2.434-16.697-9.499-24.401-17.318C110.249 91.543 95.725 76.8 64 76.8Z" fill="url(#tailwind-grad-modal)"/></svg>
+            <h2 class="modal-title">Tailwind CSS</h2>
+            <p style="font-size: 18px; margin-bottom: 16px;"><strong>Utility-first CSS framework for rapid UI development</strong></p>
+            <ul style="font-size: 18px; margin-bottom: 20px;">
+                <li>Write styles directly in your HTML using utility classes</li>
+                <li>No custom CSS files to maintain</li>
+                <li>Responsive design with mobile-first approach</li>
+                <li>Customizable design system</li>
+                <li>Automatic unused CSS removal for tiny production builds</li>
+            </ul>
+            <pre style="margin-bottom: 16px;">&lt;div class="bg-blue-500 text-white p-4 rounded"&gt;
+  Styled Button
+&lt;/div&gt;</pre>
+            <p style="font-size: 16px; color: #666;">Instead of writing custom CSS, use pre-built utility classes. Faster development with consistent, maintainable styling.</p>
+        </div>
+    </div>
+
+    <div id="modal-rewiring-america" class="modal-overlay" onclick="closeModal('rewiring-america')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal('rewiring-america')">×</button>
+            <svg class="modal-icon" viewBox="0 0 24 24" style="width: 80px; height: 80px;"><circle cx="12" cy="12" r="10" fill="#00A98F"/><text x="12" y="16" text-anchor="middle" fill="white" font-size="12" font-weight="bold">RA</text></svg>
+            <h2 class="modal-title">Rewiring America</h2>
+            <p style="font-size: 18px; margin-bottom: 16px;"><strong>Leading electrification nonprofit with comprehensive APIs</strong></p>
+
+            <h3 style="font-size: 20px; margin-bottom: 12px;">Available Data</h3>
+            <ul style="font-size: 18px; margin-bottom: 20px;">
+                <li>Energy savings estimates for electrification upgrades</li>
+                <li>County-level health impact from reduced air pollution</li>
+                <li>IRA tax credit and rebate calculators</li>
+                <li>Equipment recommendations by location</li>
+            </ul>
+
+            <div class="card" style="margin-bottom: 16px;">
+                <p style="font-size: 16px; margin: 0;"><strong>Mission:</strong> Electrify everything in our communities to reduce emissions and save families money</p>
+            </div>
+
+            <p style="font-size: 16px; color: #666;">Free API access for developers, educators, and researchers at docs.rewiringamerica.org</p>
+        </div>
+    </div>
+
+    <!-- Workflow Diagram Modals -->
+    <div id="modal-git-workflow" class="modal-overlay" onclick="closeModal('git-workflow')">
+        <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 90vw; max-height: 90vh; padding: 30px; overflow-y: auto;">
+            <button class="modal-close" onclick="closeModal('git-workflow')">×</button>
+            <h2 class="modal-title" style="font-size: 24px; margin-bottom: 8px;">Git Push → Deploy Workflow</h2>
+            <p style="font-size: 14px; margin-bottom: 10px;">How code goes from your local machine to production</p>
+            <img src="/git_push_git_deploy.png" alt="Git Push and Deploy Workflow" class="workflow-image" style="max-height: none; width: auto; max-width: 100%; display: block; margin: 0 auto;">
+        </div>
+    </div>
+
+    <div id="modal-app-workflow" class="modal-overlay" onclick="closeModal('app-workflow')">
+        <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 90vw; max-height: 90vh; padding: 30px; overflow-y: auto;">
+            <button class="modal-close" onclick="closeModal('app-workflow')">×</button>
+            <h2 class="modal-title" style="font-size: 24px; margin-bottom: 8px;">App Development Workflow</h2>
+            <p style="font-size: 14px; margin-bottom: 10px;">The complete development cycle from coding to deployment</p>
+            <img src="/app_workflow.png" alt="Application Development Workflow" class="workflow-image" style="max-height: none; width: auto; max-width: 100%; display: block; margin: 0 auto;">
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const slideNav = document.getElementById('slideNav');
+
+        const slideNames = [
+            'Title',
+            'Workshop Timeline',
+            'What We\'re Building',
+            'Who Should Attend',
+            'What You\'ll Learn',
+            'Technology Stack',
+            'Prerequisites',
+            'Claude Code Pricing',
+            'Setup Commands',
+            'Development Cycle',
+            'Equity',
+            'Energy Savings API',
+            'What We\'ll Build Together',
+            'Troubleshooting',
+            'Let\'s Build!'
+        ];
+
+        // Populate slide navigator
+        slideNames.forEach((name, index) => {
+            const navItem = document.createElement('div');
+            navItem.className = 'slide-nav-item';
+            navItem.textContent = `${index + 1}. ${name}`;
+            navItem.onclick = () => showSlide(index);
+            slideNav.appendChild(navItem);
+        });
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            document.querySelectorAll('.slide-nav-item')[currentSlide].classList.remove('active');
+
+            currentSlide = (n + slides.length) % slides.length;
+
+            slides[currentSlide].classList.add('active');
+            document.querySelectorAll('.slide-nav-item')[currentSlide].classList.add('active');
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft' && currentSlide > 0) {
+                showSlide(currentSlide - 1);
+            } else if (e.key === 'ArrowRight' && currentSlide < slides.length - 1) {
+                showSlide(currentSlide + 1);
+            }
+        });
+
+        // Initialize
+        showSlide(0);
+
+        // Modal functions
+        function openModal(modalId) {
+            const modal = document.getElementById('modal-' + modalId);
+            if (modal) {
+                modal.classList.add('active');
+                // Prevent body scrolling when modal is open
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById('modal-' + modalId);
+            if (modal) {
+                modal.classList.remove('active');
+                // Restore body scrolling
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const activeModal = document.querySelector('.modal-overlay.active');
+                if (activeModal) {
+                    activeModal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

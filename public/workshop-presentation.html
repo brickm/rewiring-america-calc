@@ -156,6 +156,35 @@
             gap: 20px;
         }
 
+        .agenda-table tr:hover {
+            background: #ffd900 !important;
+        }
+        .agenda-table tr:hover td {
+            color: #1a1a1a !important;
+        }
+
+        .translation-table tbody tr {
+            transition: background 0.15s;
+            cursor: pointer;
+        }
+        .translation-table tbody tr:hover {
+            background: #ffd900 !important;
+        }
+        .translation-table tbody tr:hover td {
+            color: #1a1a1a !important;
+        }
+
+        .slide li {
+            padding: 4px 8px;
+            margin-left: -8px;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .slide li:hover {
+            background: #ffd900;
+            color: #1a1a1a;
+        }
+
         .slide-number {
             position: absolute;
             bottom: 24px;
@@ -416,9 +445,9 @@
             background: white;
             border: 3px solid black;
             box-shadow: 8px 8px 0px 0px rgba(0, 0, 0, 1);
-            padding: 40px;
-            max-width: 800px;
-            max-height: 80vh;
+            padding: 20px;
+            max-width: 90vw;
+            max-height: 90vh;
             overflow-y: auto;
             position: relative;
             animation: modalSlideIn 0.3s ease-out;
@@ -496,8 +525,7 @@
 
         <!-- Slide 1: Title -->
         <div class="slide active">
-            <h1>USING CLAUDE CODE TO BUILD YOUR TOOLS</h1>
-            <h2 style="color: #4da6ff; margin-bottom: 48px;">Specification Is the New Leverage</h2>
+            <h1>CLAUDE CODE FOR LEARNING PROFESSIONALS</h1>
             <p style="font-size: 24px; margin-bottom: 32px;">A 75-minute webinar for instructional designers and L&amp;D leaders</p>
             <div style="margin-top: auto;">
                 <p style="font-size: 18px; color: #666;">Brick Maier | Director of Enterprise Learning and Development | March 2026</p>
@@ -506,7 +534,42 @@
             <div class="slide-number">1</div>
         </div>
 
-        <!-- Slide 2: The Cost Shift -->
+        <!-- Slide 2: Agenda -->
+        <div class="slide">
+            <h2>Agenda</h2>
+            <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 18px;" class="agenda-table">
+                    <tr style="border-bottom: 2px solid #eee; cursor: pointer; transition: background 0.15s;">
+                        <td style="padding: 14px 16px; font-weight: 600; width: 100px;">~8 min</td>
+                        <td style="padding: 14px 16px; font-weight: 600;">Context</td>
+                        <td style="padding: 14px 16px; color: #666;">The cost shift, what's already happening in L&D</td>
+                    </tr>
+                    <tr style="border-bottom: 2px solid #eee; cursor: pointer; transition: background 0.15s;">
+                        <td style="padding: 14px 16px; font-weight: 600;">~20 min</td>
+                        <td style="padding: 14px 16px; font-weight: 600;">Claude Code</td>
+                        <td style="padding: 14px 16px; color: #666;">What it is, the ecosystem, tool stack, dev cycle, pricing, CLAUDE.md</td>
+                    </tr>
+                    <tr style="border-bottom: 2px solid #eee; cursor: pointer; transition: background 0.15s;">
+                        <td style="padding: 14px 16px; font-weight: 600;">~25 min</td>
+                        <td style="padding: 14px 16px; font-weight: 600;">Live Demos</td>
+                        <td style="padding: 14px 16px; color: #666;">Video Maker, Rewiring America Calculator, HeatSpring Production</td>
+                    </tr>
+                    <tr style="border-bottom: 2px solid #eee; cursor: pointer; transition: background 0.15s;">
+                        <td style="padding: 14px 16px; font-weight: 600;">~12 min</td>
+                        <td style="padding: 14px 16px; font-weight: 600;">Framework</td>
+                        <td style="padding: 14px 16px; color: #666;">TDD, vocabulary mapping, SaaS vs personal software, flotilla model</td>
+                    </tr>
+                    <tr style="cursor: pointer; transition: background 0.15s;">
+                        <td style="padding: 14px 16px; font-weight: 600;">~10 min</td>
+                        <td style="padding: 14px 16px; font-weight: 600;">Closing + Q&A</td>
+                        <td style="padding: 14px 16px; color: #666;">First steps, resources, open discussion</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="slide-number">2</div>
+        </div>
+
+        <!-- Slide 3: The Cost Shift -->
         <div class="slide">
             <h2>The Cost Shift</h2>
             <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
@@ -522,7 +585,7 @@
                 </div>
                 <p style="font-size: 20px;">The cost moved from dollars and tokens to time and rework. The people who write clear specs avoid the rework.</p>
             </div>
-            <div class="slide-number">2</div>
+            <div class="slide-number">3</div>
         </div>
 
         <!-- Slide 3: Already Happening in L&D -->
@@ -533,14 +596,13 @@
                     <li><strong>LinkedIn</strong> scrapped its Associate Product Manager programme &rarr; replaced with <span class="highlight">Associate Product Builder</span> (Dec 2025) &mdash; fusing product, design, and engineering into one role</li>
                     <li><strong>PwC Learning Collective</strong>: continuous, embedded, AI-native development across 364,000 people</li>
                     <li><strong>Rolls-Royce</strong>: piloting AI "thinking partners" &rarr; creating "full-stack HR people"</li>
-                    <li><strong>Google / EPAM</strong>: IDs evolving into "AI content architecture and enablement" roles</li>
                     <li><strong>Sana</strong> acquired by Workday for $1.1B &mdash; LMS, LXP, authoring, and AI tutoring in one AI-native environment</li>
                 </ul>
                 <div class="card" style="background: #ffd900;">
                     <p style="margin: 0; font-size: 16px;">Dr. Philippa Hardman's Substack piece <a href="https://substack.com/@drphilippahardman/p-188904212" style="color: #4da6ff;"><em>"The Rise of the Full-Stack LXD"</em></a> maps this shift in detail &mdash; worth reading after this session.</p>
                 </div>
             </div>
-            <div class="slide-number">3</div>
+            <div class="slide-number">4</div>
         </div>
 
         <!-- ============================================================ -->
@@ -561,10 +623,13 @@
                             <li>It writes code, runs tests, commits changes</li>
                             <li>You review and iterate</li>
                         </ul>
+                        <div class="card" style="background: #1a1a1a; color: #ffd900; margin-top: 12px;">
+                            <p style="font-size: 16px; margin: 0; font-family: 'SF Mono', monospace;">CLAUDE.md = your standing instructions. Loaded into every conversation. Defines rules, constraints, project context.</p>
+                        </div>
                     </div>
                     <div>
                         <h3 style="font-size: 18px;">How It's Different</h3>
-                        <table class="translation-table" style="font-size: 14px;" onclick="openModal('claude-code')">
+                        <table class="translation-table" style="font-size: 14px;">
                             <tr><td><strong>ChatGPT</strong></td><td>You copy/paste code</td></tr>
                             <tr><td><strong>Copilot</strong></td><td>Autocompletes as you type</td></tr>
                             <tr><td><strong>Claude Code</strong></td><td>An <span class="highlight">agent</span> that acts on your codebase</td></tr>
@@ -572,12 +637,8 @@
                         <img src="/claude_code_cli.png" alt="Claude Code CLI" onclick="openModal('claude-code-cli')" style="width: 100%; margin-top: 12px; border: 3px solid black; box-shadow: 4px 4px 0px 0px rgba(0,0,0,1); cursor: pointer;" title="Click to enlarge">
                     </div>
                 </div>
-                <div class="card" style="background: #1a1a1a; color: #ffd900;">
-                    <p style="font-size: 16px; margin: 0; font-family: 'SF Mono', monospace;">CLAUDE.md = your standing instructions. Loaded into every conversation. Defines rules, constraints, project context.</p>
-                </div>
             </div>
-            <p style="font-size: 14px; color: #666; cursor: pointer;" onclick="openModal('claude-code')">Click for more details &rarr;</p>
-            <div class="slide-number">4</div>
+            <div class="slide-number">5</div>
         </div>
 
         <!-- Slide 5: The Claude Ecosystem -->
@@ -589,7 +650,7 @@
                     <h3 style="font-size: 18px; color: #666;">Claude &mdash; Browser</h3>
                     <p style="font-size: 15px;">The chat interface at claude.ai. You type a prompt, Claude responds. Good for writing, research, analysis, brainstorming. No access to your local files.</p>
                     <div class="card" style="background: #f5f5f5; margin-bottom: 0; padding: 12px;">
-                        <p style="font-size: 13px; margin: 0;"><strong>Access:</strong> Browser tab. Point and click.</p>
+                        <p style="font-size: 13px; margin: 0;"><strong>Access:</strong> Browser tab. Chat based with in-browser asset creation.</p>
                     </div>
                 </div>
                 <div class="card" style="border-color: #ccc; border-width: 3px;">
@@ -610,7 +671,7 @@
             <div class="card" style="background: #ffd900; margin-top: 12px;">
                 <p style="margin: 0; font-size: 15px;"><strong>This session focuses on Claude Code.</strong> CLI tools are faster because every action is a direct instruction &mdash; no clicking through menus, no dragging files, no waiting for interfaces to load. That efficiency compounds across a full build session.</p>
             </div>
-            <div class="slide-number">5</div>
+            <div class="slide-number">6</div>
         </div>
 
         <!-- Slide 6: The Tool Stack -->
@@ -632,14 +693,14 @@
                     <p style="font-size: 14px; margin: 0;">Deployment &mdash; push code to GitHub, Vercel puts it live in 60 seconds</p>
                 </div>
                 <div class="card-small clickable" onclick="openModal('nextjs')">
-                    <h3 style="font-size: 18px; margin-bottom: 8px;">Next.js + Tailwind</h3>
-                    <p style="font-size: 14px; margin: 0;">Web framework + styling &mdash; what Claude Code uses to build the actual app</p>
+                    <h3 style="font-size: 18px; margin-bottom: 8px;">Next.js</h3>
+                    <p style="font-size: 14px; margin: 0;">Web framework &mdash; what Claude Code uses to build the actual app</p>
                 </div>
             </div>
             <div class="card" style="background: #ffd900; margin-top: 12px;">
                 <p style="font-size: 15px; margin: 0;">You don't need to memorize this stack. Claude Code handles the technical details. You need to understand what each piece does so you can steer.</p>
             </div>
-            <div class="slide-number">6</div>
+            <div class="slide-number">7</div>
         </div>
 
         <!-- Slide 6: The Development Cycle -->
@@ -673,7 +734,7 @@ git push origin main</pre>
                 </div>
             </div>
             <p style="font-size: 14px; color: #666;">Click the thumbnails above to see the full workflow diagrams.</p>
-            <div class="slide-number">7</div>
+            <div class="slide-number">8</div>
         </div>
 
         <!-- Slide 8: The Conversation -->
@@ -695,7 +756,7 @@ git push origin main</pre>
                     <p style="margin: 0; font-size: 18px;"><strong>You steer, Claude Code builds.</strong> It proposes an approach, you approve before it writes anything.</p>
                 </div>
             </div>
-            <div class="slide-number">8</div>
+            <div class="slide-number">9</div>
         </div>
 
         <!-- Slide 9: Pricing & Getting Started -->
@@ -740,7 +801,7 @@ git push origin main</pre>
                     To get started: <strong>Pro at $20/mo</strong> gives you full Claude Code access with Sonnet 4.6 and Opus 4.6.
                 </div>
             </div>
-            <div class="slide-number">9</div>
+            <div class="slide-number">10</div>
         </div>
 
         <!-- Slide 8: The CLAUDE.md -->
@@ -750,7 +811,7 @@ git push origin main</pre>
                 <p style="font-size: 20px; margin-bottom: 20px;">The planning document Claude Code reads before it writes a single line. This is where the real design work happens.</p>
                 <div class="two-col">
                     <div class="card">
-                        <h3 style="font-size: 16px;">Rewiring America CLAUDE.md</h3>
+                        <h3 style="font-size: 16px;"><a href="/claude.md" target="_blank" style="color: #1a1a1a; text-decoration: underline; text-decoration-color: #4da6ff;">Rewiring America CLAUDE.md</a></h3>
                         <p style="font-size: 13px; color: #666; margin-bottom: 8px;">Next.js + Vercel &mdash; deployed web app</p>
                         <ul style="font-size: 15px; margin-bottom: 0;">
                             <li>Test-driven rules</li>
@@ -776,7 +837,7 @@ git push origin main</pre>
                     <p style="margin: 0; font-size: 16px;"><strong>Claude Code is only as good as the brief you give it.</strong> A vague CLAUDE.md produces vague software. A precise one produces exactly what you asked for.</p>
                 </div>
             </div>
-            <div class="slide-number">10</div>
+            <div class="slide-number">11</div>
         </div>
 
         <!-- ============================================================ -->
@@ -787,22 +848,27 @@ git push origin main</pre>
         <div class="slide">
             <h2 style="font-size: 36px;">Demo: The 2026 Video Maker</h2>
             <p style="font-size: 18px; color: #4da6ff; margin-bottom: 16px; text-transform: uppercase; font-weight: 600;">Local Personal Software</p>
-            <div style="flex: 1;">
-                <div class="card" style="margin-bottom: 16px;">
-                    <h3 style="font-size: 16px;">The Pipeline</h3>
-                    <p style="font-size: 17px; margin: 0;">Canva PNGs &rarr; Claude script generation &rarr; ElevenLabs TTS &rarr; FFmpeg video assembly &rarr; Final MP4</p>
+            <div style="flex: 1; display: flex; gap: 24px;">
+                <div style="flex: 1;">
+                    <div class="card" style="margin-bottom: 12px;">
+                        <h3 style="font-size: 16px;">The Pipeline</h3>
+                        <p style="font-size: 15px; margin: 0;">Canva PNGs &rarr; Claude script &rarr; ElevenLabs TTS &rarr; FFmpeg assembly &rarr; MP4</p>
+                    </div>
+                    <ul style="font-size: 16px; margin-bottom: 12px;">
+                        <li>Runs locally at <code>localhost:5001</code></li>
+                        <li>Replaces: scriptwriter + voice talent + video editor + production coordinator</li>
+                        <li>Built in an afternoon with Claude Code</li>
+                        <li>No subscription, no SaaS</li>
+                    </ul>
+                    <div class="card" style="background: #ffd900;">
+                        <p style="margin: 0; font-size: 15px;"><strong>Personal software.</strong> One person's workflow. No deployment.</p>
+                    </div>
                 </div>
-                <ul style="font-size: 18px; margin-bottom: 16px;">
-                    <li>Runs on my local machine at <code>localhost:5001</code></li>
-                    <li>Replaces: scriptwriter + voice talent + video editor + production coordinator</li>
-                    <li>Built in an afternoon with Claude Code + some API calls</li>
-                    <li>No subscription, no SaaS, no features I don't use</li>
-                </ul>
-                <div class="card" style="background: #ffd900;">
-                    <p style="margin: 0; font-size: 16px;"><strong>Personal software.</strong> One person's workflow. No deployment. The planning document is the product spec.</p>
+                <div style="flex: 1; display: flex; align-items: flex-start;">
+                    <img src="/video-maker-workbench.png" alt="Video Maker Workbench" style="width: 100%; border: 3px solid black; box-shadow: 4px 4px 0px 0px rgba(0,0,0,1);">
                 </div>
             </div>
-            <div class="slide-number">11</div>
+            <div class="slide-number">12</div>
         </div>
 
         <!-- Slide 10: Demo - Rewiring Calculator -->
@@ -829,7 +895,7 @@ git push origin main</pre>
                     </div>
                 </div>
             </div>
-            <div class="slide-number">12</div>
+            <div class="slide-number">13</div>
         </div>
 
         <!-- Slide 13: Demo - HeatSpring Production -->
@@ -857,7 +923,7 @@ git push origin main</pre>
                     <p style="margin: 0; font-size: 16px;"><strong>Live tab switch.</strong> This demo walks through the actual HeatSpring platform &mdash; not a slide deck, not a mockup.</p>
                 </div>
             </div>
-            <div class="slide-number">13</div>
+            <div class="slide-number">14</div>
         </div>
 
         <!-- Slide 14: TDD Safety Net -->
@@ -890,7 +956,7 @@ test('calculates savings for valid address', async () => {
   expect(data.annualSavings.mean).toBeGreaterThan(0);
 });</pre>
             </div>
-            <div class="slide-number">14</div>
+            <div class="slide-number">15</div>
         </div>
 
         <!-- ============================================================ -->
@@ -931,7 +997,7 @@ test('calculates savings for valid address', async () => {
             <div class="card" style="background: #ffd900;">
                 <p style="margin: 0; font-size: 18px;"><strong>The specification skills that steer AI development are the skills you practice every day. The gap is tooling, not ability.</strong></p>
             </div>
-            <div class="slide-number">15</div>
+            <div class="slide-number">16</div>
         </div>
 
         <!-- Slide 14: SaaS vs. Personal Software -->
@@ -967,12 +1033,14 @@ test('calculates savings for valid address', async () => {
                     <p style="font-size: 14px; margin: 0;">Lives on the web. If it's public, you're the support team. Higher responsibility. (e.g., Rewiring Calculator)</p>
                 </div>
             </div>
-            <div class="slide-number">16</div>
+            <div class="slide-number">17</div>
         </div>
 
         <!-- Slide 15: Flotilla Mental Model -->
         <div class="slide">
-            <h2 style="font-size: 36px;">The Flotilla Mental Model</h2>
+            <h2 style="font-size: 36px;">The Flotilla Mental Model
+                <img src="/sprawl.png" alt="Tool Sprawl" onclick="openModal('sprawl')" title="Click to view tool sprawl" style="height: 40px; width: auto; margin-left: 16px; border: 2px solid black; cursor: pointer; vertical-align: middle;">
+            </h2>
             <div style="flex: 1; display: flex; flex-direction: column;">
                 <div style="width: 100%; margin-bottom: 20px; cursor: pointer;" onclick="openModal('flotilla')">
                     <img src="/flotilla.png" alt="Flotilla Diagram" style="width: 100%; max-height: 300px; object-fit: contain; border: 3px solid black; box-shadow: 4px 4px 0px 0px rgba(0,0,0,1);">
@@ -991,12 +1059,12 @@ test('calculates savings for valid address', async () => {
                         <ul style="font-size: 15px;">
                             <li>Purpose-built tools, zero waste</li>
                             <li>Each tool does exactly one thing</li>
-                            <li>Your LMS is still the Rig &mdash; personal tools are Hydrofoils</li>
+                            <li>Your LMS is still the Rig &mdash; personal tools are smaller, faster boats</li>
                         </ul>
                     </div>
                 </div>
             </div>
-            <div class="slide-number">17</div>
+            <div class="slide-number">18</div>
         </div>
 
         <!-- ============================================================ -->
@@ -1028,7 +1096,7 @@ test('calculates savings for valid address', async () => {
                     </ul>
                 </div>
             </div>
-            <div class="slide-number">18</div>
+            <div class="slide-number">19</div>
         </div>
 
         <!-- Slide 17: Q&A -->
@@ -1046,7 +1114,7 @@ test('calculates savings for valid address', async () => {
                     </div>
                 </a>
             </div>
-            <div class="slide-number">19</div>
+            <div class="slide-number">20</div>
         </div>
 
             </div>
@@ -1129,7 +1197,7 @@ test('calculates savings for valid address', async () => {
 
     <!-- Modal: Flotilla Comparison (Full Visual) -->
     <div id="modal-flotilla" class="modal-overlay" onclick="closeModal('flotilla')">
-        <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 900px;">
+        <div class="modal-content" onclick="event.stopPropagation()">
             <button class="modal-close" onclick="closeModal('flotilla')">&#215;</button>
             <h2 class="modal-title" style="font-size: 28px;">Cruise Ship vs. Flotilla</h2>
             <img src="/flotilla.png" alt="Flotilla Diagram" style="width: 100%; max-height: 50vh; object-fit: contain; border: 3px solid black; margin-bottom: 20px;">
@@ -1138,7 +1206,7 @@ test('calculates savings for valid address', async () => {
 Cruise Ship                     Scientific Flotilla
 (Articulate + LMS + team)       (Claude Code + you)
 
-Tender Boats                    Hydrofoils
+Tender Boats                    Smaller, Faster Boats
 (vendor integrations)           (purpose-built personal software)
 
 Trapped as passenger            Harbor Master
@@ -1153,9 +1221,9 @@ don't use)                      one thing)
             <div style="margin-top: 16px;">
                 <h3 style="font-size: 18px;">The Fleet Components</h3>
                 <ul style="font-size: 16px;">
-                    <li><strong>Hydrofoils</strong> &mdash; Personal software built in an afternoon. Skims the surface, delivers exactly what is needed, zero waste.</li>
+                    <li><strong>Smaller, faster boats</strong> &mdash; Personal software built in an afternoon. Purpose-built, delivers exactly what is needed, zero waste.</li>
                     <li><strong>Swarm Tugboats</strong> &mdash; Multi-agent orchestration. 20 small, powerful tugboats working in perfect silence. Precision a single Captain could never achieve.</li>
-                    <li><strong>Stationary Rig</strong> &mdash; System of record (your LMS, your database). Data anchored to bedrock. Hydrofoils dock and retrieve resources.</li>
+                    <li><strong>Stationary Rig</strong> &mdash; System of record (your LMS, your database). Data anchored to bedrock. Smaller boats dock and retrieve resources.</li>
                     <li><strong>Harbor Pilot</strong> &mdash; The specification / test suite. No boat enters the harbor without a Pilot. Vague orders = engine shutdown.</li>
                     <li><strong>Hull Inspector</strong> &mdash; Active security. Autonomous diving bell finding rust (zero-day vulnerabilities) that human inspectors missed.</li>
                 </ul>
@@ -1165,7 +1233,7 @@ don't use)                      one thing)
 
     <!-- Modal: Bifurcation Framework -->
     <div id="modal-bifurcation" class="modal-overlay" onclick="closeModal('bifurcation')">
-        <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 900px;">
+        <div class="modal-content" onclick="event.stopPropagation()">
             <button class="modal-close" onclick="closeModal('bifurcation')">&#215;</button>
             <h2 class="modal-title" style="font-size: 28px;">The Bifurcation Framework</h2>
             <div class="two-col" style="margin-bottom: 24px;">
@@ -1248,15 +1316,15 @@ don't use)                      one thing)
     <div id="modal-nextjs" class="modal-overlay" onclick="closeModal('nextjs')">
         <div class="modal-content" onclick="event.stopPropagation()">
             <button class="modal-close" onclick="closeModal('nextjs')">&#215;</button>
-            <h2 class="modal-title">Next.js + Tailwind</h2>
-            <p style="font-size: 18px; margin-bottom: 16px;"><strong>Next.js</strong> is a React-based web framework. <strong>Tailwind CSS</strong> is a utility-first styling framework.</p>
+            <h2 class="modal-title">Next.js</h2>
+            <p style="font-size: 18px; margin-bottom: 16px;"><strong>Next.js</strong> is a React-based web framework for building full-stack web applications.</p>
             <ul style="font-size: 18px; margin-bottom: 20px;">
                 <li>Server-side rendering and built-in API routes</li>
                 <li>TypeScript support out of the box</li>
                 <li>Styles written directly in HTML using utility classes</li>
                 <li>Built by the same team that makes Vercel</li>
             </ul>
-            <p style="font-size: 16px; color: #666;">You won't need to learn these. Claude Code writes the Next.js and Tailwind code for you. But it helps to know what they are when Claude Code mentions them.</p>
+            <p style="font-size: 16px; color: #666;">You won't need to learn this. Claude Code writes the Next.js code for you. But it helps to know what it is when Claude Code mentions it.</p>
         </div>
     </div>
 
@@ -1325,9 +1393,18 @@ don't use)                      one thing)
         </div>
     </div>
 
+    <!-- Modal: Tool Sprawl -->
+    <div id="modal-sprawl" class="modal-overlay" onclick="closeModal('sprawl')">
+        <div class="modal-content" onclick="event.stopPropagation()" style="display: flex; flex-direction: column; align-items: center;">
+            <button class="modal-close" onclick="closeModal('sprawl')">&#215;</button>
+            <h2 class="modal-title">Tool Sprawl</h2>
+            <img src="/sprawl.png" alt="Tool Sprawl" style="width: 100%; max-height: 85vh; object-fit: contain;">
+        </div>
+    </div>
+
     <!-- Modal: Claude Code CLI Screenshot -->
     <div id="modal-claude-code-cli" class="modal-overlay" onclick="closeModal('claude-code-cli')">
-        <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 1000px; display: flex; flex-direction: column; align-items: center;">
+        <div class="modal-content" onclick="event.stopPropagation()" style="display: flex; flex-direction: column; align-items: center;">
             <button class="modal-close" onclick="closeModal('claude-code-cli')">&#215;</button>
             <h2 class="modal-title">Claude Code CLI</h2>
             <img src="/claude_code_cli.png" alt="Claude Code CLI" style="width: 100%; max-height: 70vh; object-fit: contain;">
@@ -1336,7 +1413,7 @@ don't use)                      one thing)
 
     <!-- Modal: TDD Skeptics -->
     <div id="modal-tdd-skeptics" class="modal-overlay" onclick="closeModal('tdd-skeptics')">
-        <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 900px;">
+        <div class="modal-content" onclick="event.stopPropagation()">
             <button class="modal-close" onclick="closeModal('tdd-skeptics')">&#215;</button>
             <h2 class="modal-title">Reward Hacking &amp; TDD with AI</h2>
 
@@ -1369,6 +1446,7 @@ don't use)                      one thing)
 
         const slideNames = [
             'Title',
+            'Agenda',
             'The Cost Shift',
             'Already Happening in L&D',
             'What Claude Code Is',
@@ -1391,10 +1469,10 @@ don't use)                      one thing)
 
         const actDividers = {
             0: 'Context',
-            3: 'Claude Code',
-            10: 'Live Demos',
-            14: 'Framework',
-            17: 'Closing'
+            4: 'Claude Code',
+            11: 'Live Demos',
+            15: 'Framework',
+            18: 'Closing'
         };
 
         // Populate slide navigator with act dividers

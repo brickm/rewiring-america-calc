@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Card } from '../ui/Card';
+import { MonthlySavingsChart } from './MonthlySavingsChart';
 
 interface SavingsData {
   mean: number;
@@ -132,6 +133,11 @@ export function SavingsResult({
               </div>
             )}
           </div>
+        )}
+
+        {/* Monthly Savings Bar Chart */}
+        {annualSavings && (
+          <MonthlySavingsChart annualSavings={annualSavings.mean} />
         )}
 
         {/* Estimate Type Info */}

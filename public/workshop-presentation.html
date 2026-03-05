@@ -894,6 +894,10 @@ git push origin main</pre>
                         </p>
                     </div>
                 </div>
+                <div class="card" style="background: #1a1a1a; color: white; font-family: 'SF Mono', monospace; font-size: 13px; cursor: pointer;" onclick="navigator.clipboard.writeText(this.querySelector('.demo-prompt').textContent).then(() => { this.querySelector('.copy-label').textContent = 'Copied!'; setTimeout(() => this.querySelector('.copy-label').textContent = 'Click to copy prompt', 1500); })">
+                    <p style="margin: 0 0 8px 0; font-size: 11px; color: #4da6ff; text-transform: uppercase; font-weight: 600;" class="copy-label">Click to copy prompt</p>
+                    <p style="margin: 0; color: #eee;" class="demo-prompt">Add a monthly savings breakdown below the annual savings result. Show a 12-month bar chart using simple HTML/CSS (no chart library) where each bar represents one month's savings (annual / 12). Include month labels (Jan-Dec) below each bar. The bars should be yellow (#ffd900) with black borders matching the app's neo-brutalist style. Write the test first.</p>
+                </div>
             </div>
             <div class="slide-number">13</div>
         </div>
